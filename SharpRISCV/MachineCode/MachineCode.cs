@@ -14,7 +14,22 @@ namespace SharpRISCV.MachineCode
             this.Code = Convert.ToInt32(code, 2);
         }
 
-        public int Code { get; }
+        private int Code { get; }
+
+        public string Hex { get { return $"0x{Code.ToString("X8")}"; } }
+        public int Decimal { get { return Code; }}
+        public byte[] Data { get {
+                string str = Code.ToString("X8");
+                byte[] val = new byte[str.Length / 2];
+                for (int i = 0; i < val.Length; i++)
+                {
+                    int index = i * 2;
+                    int j = Convert.ToInt32(str.Substring(index, 2), 16);
+                    val[i] = (byte)j;
+                }
+                return val;
+
+            } }
 
         public override string ToString()
         {

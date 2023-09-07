@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using SharpRISCV.Elf;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
 
 class Program
@@ -23,10 +24,11 @@ class Program
         {
             var instruction = RiscVAssembler.IdentifyInstructionType(assemblyLine);
 
-            var machineCode = RiscVAssembler.InstructionParser(assemblyLine, instruction);
-            Console.WriteLine($"{machineCode.MachineCode()}  # {assemblyLine}");
+            var riscVInstruction = RiscVAssembler.InstructionParser(assemblyLine, instruction);
+            var machineCode = riscVInstruction.MachineCode();
+            Console.WriteLine($"{machineCode} {machineCode.Hex} # {assemblyLine}");
         }
-        Console.ReadLine();
 
+        Console.ReadLine();
     }
 }
