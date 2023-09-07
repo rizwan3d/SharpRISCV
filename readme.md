@@ -2,13 +2,22 @@
 SharpRISCV is an implementation of RISC-V assembly in C#.
 
 ## Supported Instruction
-1. R Type
-1. U Type
-1. I Type
-1. B Type
-1. I Type
-1. S Type
-1. J Type
+1. [X] R Type
+1. [X] U Type
+1. [X] I Type
+1. [X] B Type
+1. [X] I Type
+1. [X] S Type
+1. [X] J Type
+
+
+## To Do
+1. [X] Gererate Console output.
+1. [ ] Read form file (*.s).
+1. [ ] Generate Xilinx
+1. [ ] Generate Altera
+1. [ ] Generate Verilog
+1. [ ] Generate ELF
 
 
 # UesFull links:
