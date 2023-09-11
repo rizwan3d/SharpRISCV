@@ -12,13 +12,14 @@ namespace SharpRISCV
 
         public static void Assamble(string[] code)
         {
+            code = RemoveComments(code);
             ProcessLables(code);
             Address.Reset();
             foreach (var assemblyLine in code)
             {
                 var instructionType = IdentifyInstructionType(assemblyLine);
                 if (instructionType == InstructionType.EmptyLine) continue;
-                var riscVInstruction = InstructionParser(assemblyLine, instructionType);
+                var riscVInstruction = InstructionParser(assemblyLine.Trim(), instructionType);
                 instruction.Add(riscVInstruction);
             }
         }
@@ -33,6 +34,19 @@ namespace SharpRISCV
             }
 
             return mc;
+        }
+
+        static string[] RemoveComments(string[] lines)
+        {
+            // Regular expression to match comments starting with '#' and everything after
+            string pattern = @"#.*$";
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = Regex.Replace(lines[i], pattern, string.Empty);
+            }
+
+            return lines;
         }
 
         public static void ProcessLables(string[] code)
