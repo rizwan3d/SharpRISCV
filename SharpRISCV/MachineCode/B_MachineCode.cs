@@ -29,6 +29,10 @@ namespace SharpRISCV.MachineCode
             if (!Address.Labels.ContainsKey(instruction.Label)) throw new Exception("Invalid Lable");
 
             string imm = value.ToBinary(12);
+            if (imm.Length > 12)
+            {
+                imm = imm.Substring(imm.Length - 12, 12);
+            }
             string imm11 = imm.Substring(1,1);
             string imm4_1 = imm.Substring(imm.Length-5,4);
             string func3 = ((int)instruction.Funct3).ToBinary(3);

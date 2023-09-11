@@ -15,6 +15,11 @@ namespace SharpRISCV.MachineCode
 
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
             string imm = int.Parse(instruction.Immediate).ToBinary(12);
+            if (imm.Length > 12)
+            {
+                imm = imm.Substring(imm.Length - 12, 12);
+            }
+
             string imm4_0 = imm.Substring(imm.Length-5);
             string func3 = ((int)instruction.Funct3).ToBinary(3);
             string rs1Binary = Convert.ToString(int.Parse(instruction.Rs1.Substring(1)), 2).PadLeft(5, '0');

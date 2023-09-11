@@ -31,6 +31,10 @@ namespace SharpRISCV.MachineCode
 
             string rdBinary = Convert.ToString(int.Parse(instruction.Rd.Substring(1)), 2).PadLeft(5, '0');
             string imm = value.ToBinary(20);
+            if(imm.Length > 20)
+            {
+                imm = imm.Substring(imm.Length - 20, 20);
+            }
             string imm20 = imm.Substring(0, 1);
             string imm19_12 = imm.Substring(1, 8);
             string imm10_1 = imm.Substring(9, 10);
