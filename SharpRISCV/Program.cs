@@ -24,9 +24,21 @@ class Program
         };
 
         RiscVAssembler.Assamble(assemblyLines);
-        foreach (var machineCode in RiscVAssembler.MachineCode)
+        Console.WriteLine($"-------------------------------------------------------------------------");
+        Console.WriteLine($" Address \t|\tHex Code\t|\tInstruction");
+        Console.WriteLine($"-------------------------------------------------------------------------");
+
+        foreach (var instruction in RiscVAssembler.Instruction)
         {
-            Console.WriteLine($"0x{machineCode.Address:X8} {machineCode.Hex} # {machineCode.Instruction}");
+            if(instruction.InstructionType== InstructionType.Lable)
+            {
+                Console.WriteLine($"-------------------------------------------------------------------------");
+                Console.WriteLine($" \t{instruction.Instruction}");
+                continue;
+            }
+            var machineCode = instruction.MachineCode();
+            Console.WriteLine($" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}");
         }
+        Console.WriteLine($"-------------------------------------------------------------------------");
     }
 }

@@ -12,8 +12,9 @@ namespace SharpRISCV.MachineCode
         public MachineCode(string code,string instruction)
         {
             this.Code = Convert.ToInt32(code, 2);
-            this.Address = SharpRISCV.Address.GetAndIncreseAddress();
             this.Instruction = instruction;
+            if(!instruction.Trim().EndsWith(":"))
+            this.Address = SharpRISCV.Address.GetAndIncreseAddress();
         }
 
         private int Code { get; }

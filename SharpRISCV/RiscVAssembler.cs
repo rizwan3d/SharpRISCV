@@ -5,9 +5,9 @@ namespace SharpRISCV
 {
     class RiscVAssembler
     {
-        private static List<MachineCode.MachineCode> mc = new List<MachineCode.MachineCode>();
+        private static List<RiscVInstruction> instruction = new List<RiscVInstruction>();
 
-        public static List<MachineCode.MachineCode> MachineCode { get { return mc; } }
+        public static List<RiscVInstruction> Instruction { get { return instruction; } }
 
 
         public static void Assamble(string[] code)
@@ -16,13 +16,23 @@ namespace SharpRISCV
             Address.Reset();
             foreach (var assemblyLine in code)
             {
-                var instruction = IdentifyInstructionType(assemblyLine);
-                if (instruction == InstructionType.EmptyLine ||
-                    instruction == InstructionType.Lable) continue;
-                var riscVInstruction = InstructionParser(assemblyLine, instruction);
-                mc.Add(riscVInstruction.MachineCode());
-
+                var instructionType = IdentifyInstructionType(assemblyLine);
+                if (instructionType == InstructionType.EmptyLine) continue;
+                var riscVInstruction = InstructionParser(assemblyLine, instructionType);
+                instruction.Add(riscVInstruction);
             }
+        }
+
+        public static List<MachineCode.MachineCode> MachineCode()
+        {
+            List<MachineCode.MachineCode> mc = new List<MachineCode.MachineCode>();
+
+            foreach (var instruction in Instruction)
+            {
+                mc.Add(instruction.MachineCode());
+            }
+
+            return mc;
         }
 
         public static void ProcessLables(string[] code)
@@ -89,6 +99,8 @@ namespace SharpRISCV
                     return (new U_Parser()).Parse(instruction);
                 case InstructionType.J:
                     return (new J_Parser()).Parse(instruction);
+                case InstructionType.Lable:
+                    return (new Lable_Parser()).Parse(instruction);
                 default:
                     return null;
             }
