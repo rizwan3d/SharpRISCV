@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SharpRISCV": {
+      "commandName": "Project",
+      "commandLineArgs": "-i test.s"
+    }
+  }
+}

@@ -1,44 +1,77 @@
 ﻿using SharpRISCV;
 
-class Program
+partial class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        string[] assemblyLines =
-        {
-            "sub x3, x1, x2",
-            "xor x3, x1, x2",
-            "doit:",
-            "add x3, x1, x2",
-            "addi x1, x2, 8",
-            "sb x2, 3(x7)",
-            "beq  x3, x4, doit",
-            "bne  x1, x2, doit2",
-            "add x3, x1, x2",
-            "add x3, x1, x2",
-            "doit2:",
-            "add x3, x1, x2",
-        //    "auipc x2, 0x8000",
-        //    "lui x1, 0x42",
-            "jal x2, doit",
-        };
 
-        RiscVAssembler.Assamble(assemblyLines);
-        Console.WriteLine($"-------------------------------------------------------------------------");
-        Console.WriteLine($" Address \t|\tHex Code\t|\tInstruction");
-        Console.WriteLine($"-------------------------------------------------------------------------");
+        string inputFile = null;
+        string outputFile = "console";
+        RegisterSize? registerSize = RegisterSize.R32;
 
-        foreach (var instruction in RiscVAssembler.Instruction)
+        // Parse command-line arguments
+        for (int i = 0; i < args.Length; i++)
         {
-            if(instruction.InstructionType== InstructionType.Lable)
+            if (args[i] == "-i" && i + 1 < args.Length)
+            {
+                inputFile = args[i + 1];
+                i++;
+            }
+            else if (args[i] == "-o" && i + 1 < args.Length)
+            {
+                outputFile = args[i + 1];
+                i++;
+            }
+            else if (args[i] == "-r" && i + 1 < args.Length)
+            {
+                if (int.TryParse(args[i + 1], out int aValue) && (aValue == 32 || aValue == 64 || aValue == 128))
+                {
+                    registerSize = (RegisterSize)aValue;
+                    i++;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid value for -r. Please use 32, 64, or 128. (Default:32)");
+                    return;
+                }
+            }
+        }
+
+        // Check if required arguments are provided
+        if (inputFile == null)
+        {
+            Console.WriteLine("Usage: -i [input file] -o [output file](Default:console) -r [32|64|128](Default:32)");
+            return;
+        }
+
+        try
+        {
+            string[] assemblyLines = File.ReadAllLines(inputFile);
+            RiscVAssembler.Assamble(assemblyLines);
+
+            if (outputFile == "console")
             {
                 Console.WriteLine($"-------------------------------------------------------------------------");
-                Console.WriteLine($" \t{instruction.Instruction}");
-                continue;
+                Console.WriteLine($" Address \t|\tHex Code\t|\tInstruction");
+                Console.WriteLine($"-------------------------------------------------------------------------");
+
+                foreach (var instruction in RiscVAssembler.Instruction)
+                {
+                    if (instruction.InstructionType == InstructionType.Lable)
+                    {
+                        Console.WriteLine($"-------------------------------------------------------------------------");
+                        Console.WriteLine($" \t{instruction.Instruction}");
+                        continue;
+                    }
+                    var machineCode = instruction.MachineCode();
+                    Console.WriteLine($" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}");
+                }
+                Console.WriteLine($"-------------------------------------------------------------------------");
             }
-            var machineCode = instruction.MachineCode();
-            Console.WriteLine($" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}");
         }
-        Console.WriteLine($"-------------------------------------------------------------------------");
-    }
+        catch (IOException e)
+        {
+            Console.WriteLine($"An error occurred: {e.Message}");
+        }
+    }   
 }
