@@ -10,6 +10,7 @@ class B_Parser : IParser
         {
             return new RiscVInstruction
             {
+                Instruction = instruction,
                 Opcode = bTypeMatch.Groups[1].Value,
                 Rs1 = bTypeMatch.Groups[2].Value,
                 Rs2 = bTypeMatch.Groups[3].Value,

@@ -50,6 +50,7 @@ class RiscVInstruction
     public string Rs2 { get; set; }
     public string Immediate { get; set; }
     public string Label { get; internal set; }
+    public string Instruction { get; internal set; }
 
     public MachineCode MachineCode()
     {

@@ -13,7 +13,6 @@ namespace SharpRISCV.MachineCode
 
         public MachineCode Generate(RiscVInstruction instruction)
         {
-
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
             string rdBinary = Convert.ToString(int.Parse(instruction.Rd.Substring(1)), 2).PadLeft(5, '0');
             string func3 = ((int)instruction.Funct3).ToBinary(3);
@@ -21,7 +20,7 @@ namespace SharpRISCV.MachineCode
             string rs2Binary = Convert.ToString(int.Parse(instruction.Rs2.Substring(1)), 2).PadLeft(5, '0');
             string func7 = ((int)instruction.Funct7).ToBinary(7);
 
-            return new MachineCode($"{func7}{rs2Binary}{rs1Binary}{func3}{rdBinary}{opcode}");
+            return new MachineCode($"{func7}{rs2Binary}{rs1Binary}{func3}{rdBinary}{opcode}",instruction.Instruction);
         }
     }
 }

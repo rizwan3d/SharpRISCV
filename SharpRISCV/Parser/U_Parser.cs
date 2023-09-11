@@ -10,6 +10,7 @@ class U_Parser : IParser
         {
             return new RiscVInstruction
             {
+                Instruction = instruction,
                 Opcode = uTypeMatch.Groups[1].Value,
                 Rd = uTypeMatch.Groups[2].Value,
                 Immediate = uTypeMatch.Groups[3].Value,

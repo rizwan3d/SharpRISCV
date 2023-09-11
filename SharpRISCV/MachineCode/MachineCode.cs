@@ -9,12 +9,17 @@ namespace SharpRISCV.MachineCode
 {
     public class MachineCode
     {
-        public MachineCode(string code)
+        public MachineCode(string code,string instruction)
         {
             this.Code = Convert.ToInt32(code, 2);
+            this.Address = SharpRISCV.Address.GetAndIncreseAddress();
+            this.Instruction = instruction;
         }
 
         private int Code { get; }
+
+        public int Address { get; }
+        public string Instruction { get; }
 
         public string Hex { get { return $"0x{Code.ToString("X8")}"; } }
         public int Decimal { get { return Code; }}

@@ -20,7 +20,7 @@ namespace SharpRISCV.MachineCode
             string rs1Binary = Convert.ToString(int.Parse(instruction.Rs1.Substring(1)), 2).PadLeft(5, '0');
             string imm = int.Parse(instruction.Immediate).ToBinary(11);
 
-            return new MachineCode($"{imm}{rs1Binary}{func3}{rdBinary}{opcode}");
+            return new MachineCode($"{imm}{rs1Binary}{func3}{rdBinary}{opcode}", instruction.Instruction);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SharpRISCV.MachineCode
             string rdBinary = Convert.ToString(int.Parse(instruction.Rd.Substring(1)), 2).PadLeft(5, '0');
             string imm = Convert.ToInt32(instruction.Immediate,16).ToBinary(20);
 
-            return new MachineCode($"{imm}{rdBinary}{opcode}");
+            return new MachineCode($"{imm}{rdBinary}{opcode}", instruction.Instruction);
         }
     }
 }
