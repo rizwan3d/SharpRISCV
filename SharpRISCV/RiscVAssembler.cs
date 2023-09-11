@@ -5,6 +5,9 @@ class RiscVAssembler
 
     public static InstructionType IdentifyInstructionType(string instruction)
     {
+        instruction = instruction.Trim();
+        if (string.IsNullOrEmpty(instruction))
+            return InstructionType.EmptyLine;
         string op = instruction.Split(' ')[0];
         OpCode opCode = op.ToEnum<OpCode>();
         switch (opCode)

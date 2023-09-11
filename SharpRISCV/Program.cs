@@ -23,7 +23,7 @@ class Program
         foreach (var assemblyLine in assemblyLines)
         {
             var instruction = RiscVAssembler.IdentifyInstructionType(assemblyLine);
-
+            if (instruction == InstructionType.EmptyLine) continue;
             var riscVInstruction = RiscVAssembler.InstructionParser(assemblyLine, instruction);
             var machineCode = riscVInstruction.MachineCode();
             Console.WriteLine($"{machineCode} {machineCode.Hex} # {assemblyLine}");
