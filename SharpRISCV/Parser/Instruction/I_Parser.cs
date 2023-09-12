@@ -20,7 +20,7 @@ class I_Parser : IParser
             };
         }
 
-        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*(-*[0-9]*)$");
+        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*(-*[0-9A-Za-z]*)$");
         iTypeMatch = iTypeRegex.Match(instruction);
         if (iTypeMatch.Success)
         {            
