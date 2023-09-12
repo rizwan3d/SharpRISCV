@@ -1,6 +1,7 @@
 ﻿enum Funct3
 {
     addi = 0b000,
+    la = 0b000,
     slti = 0b010,
     sltiu = 0b011,
     xori = 0b100,
