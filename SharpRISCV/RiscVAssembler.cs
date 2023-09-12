@@ -56,7 +56,7 @@ namespace SharpRISCV
                 if (assemblyLine.Trim().EndsWith(":"))
                 {
                     string label = assemblyLine.Substring(0, assemblyLine.Length - 1);
-                    Address.Labels.Add(label, Address.CurrentAddress);
+                    Address.Labels.Add(label.Trim(), Address.CurrentAddress);
                     continue;
                 }
                 Address.GetAndIncreseAddress();
