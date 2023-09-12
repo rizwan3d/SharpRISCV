@@ -53,6 +53,7 @@ namespace SharpRISCV
         {
             foreach (var assemblyLine in code)
             {
+                if(string.IsNullOrEmpty(assemblyLine.Trim())) continue;
                 if (assemblyLine.Trim().EndsWith(":"))
                 {
                     string label = assemblyLine.Substring(0, assemblyLine.Length - 1);
