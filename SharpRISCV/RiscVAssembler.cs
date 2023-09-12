@@ -9,18 +9,57 @@ namespace SharpRISCV
 
         public static List<RiscVInstruction> Instruction { get { return instruction; } }
 
+        private static List<string> sectionsDirective = new List<string>()
+        {
+            ".data",".text"
+        };
+
+        private static string currentDirective = "";
 
         public static void Assamble(string[] code)
         {
             code = RemoveComments(code);
             ProcessLables(code);
+            var t = Address.Labels;
             Address.Reset();
             foreach (var assemblyLine in code)
             {
-                var instructionType = IdentifyInstructionType(assemblyLine);
-                if (instructionType == InstructionType.EmptyLine) continue;
-                var riscVInstruction = InstructionParser(assemblyLine.Trim(), instructionType);
-                instruction.Add(riscVInstruction);
+                var line = assemblyLine.Trim();
+                if (line.StartsWith(".") && sectionsDirective.Any(x => x == line))
+                {
+                    currentDirective = line;
+                    continue;
+                }
+
+                switch (currentDirective)
+                {
+                    case ".text":
+                        var instructionType = IdentifyInstructionType(line);
+                        if (instructionType == InstructionType.EmptyLine) continue;
+                        var riscVInstruction = InstructionParser(line.Trim(), instructionType);
+                        instruction.Add(riscVInstruction);
+                        break;
+                    case ".data":
+                        var riscVDirective = DirectiveParser(line.Trim());
+                        break;
+                }
+            }
+        }
+
+        private static RiscVInstruction DirectiveParser(string v)
+        {
+            if (v.EndsWith(":"))
+                return (new Lable_Parser()).Parse(v);
+
+            string directive = v.Substring(0, v.IndexOf(' ')).Trim();
+
+            switch (directive)
+            {
+                case ".string":
+                case ".asciz":
+                    return null;
+                default:
+                    return null;
             }
         }
 
@@ -54,10 +93,12 @@ namespace SharpRISCV
             foreach (var assemblyLine in code)
             {
                 if(string.IsNullOrEmpty(assemblyLine.Trim())) continue;
+                if(assemblyLine.Trim().StartsWith(".")) continue;
                 if (assemblyLine.Trim().EndsWith(":"))
                 {
-                    string label = assemblyLine.Substring(0, assemblyLine.Length - 1);
-                    Address.Labels.Add(label.Trim(), Address.CurrentAddress);
+                    string label = assemblyLine.Trim();
+                    label = label.Substring(0, label.Length - 1);
+                    Address.Labels.Add(label, Address.CurrentAddress);
                     continue;
                 }
                 Address.GetAndIncreseAddress();
