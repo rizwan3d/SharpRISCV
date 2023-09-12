@@ -33,7 +33,7 @@ namespace SharpRISCV.MachineCode
             string imm = value.ToBinary(11);
             if (imm.Length > 11)
             {
-                imm = imm.Substring(imm.Length - 11, 11);
+                imm = imm.Substring(imm.Length - 12);
             }
 
             return new MachineCode($"{imm}{rs1Binary}{func3}{rdBinary}{opcode}", instruction.Instruction);
