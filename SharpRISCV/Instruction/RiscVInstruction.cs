@@ -52,23 +52,23 @@ class RiscVInstruction
     public string Label { get; internal set; }
     public string Instruction { get; internal set; }
 
-    public MachineCode MachineCode()
+    public List<MachineCode> MachineCode()
     {
 
         switch (InstructionType)
         {
             case InstructionType.R:
-                return (new R_MachineCode().Generate(this));
+                return new List<MachineCode> { new R_MachineCode().Generate(this)};
             case InstructionType.I:
-                return (new I_MachineCode().Generate(this));
+                return new I_MachineCode().Generate(this);
             case InstructionType.S:
-                return (new S_MachineCode().Generate(this));
+                return new List<MachineCode> { new S_MachineCode().Generate(this) };
             case InstructionType.B:
-                return (new B_MachineCode().Generate(this));
+                return new List<MachineCode> { new B_MachineCode().Generate(this) };
             case InstructionType.U:
-                return (new U_MachineCode().Generate(this));
+                return new List<MachineCode> { new U_MachineCode().Generate(this) };
             case InstructionType.J:
-                return (new J_MachineCode().Generate(this));
+                return new List<MachineCode> { new J_MachineCode().Generate(this) };
             default:
                 return null;
         }

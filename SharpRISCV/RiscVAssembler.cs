@@ -69,7 +69,7 @@ namespace SharpRISCV
 
             foreach (var instruction in Instruction)
             {
-                mc.Add(instruction.MachineCode());
+                mc.AddRange(instruction.MachineCode());
             }
 
             return mc;

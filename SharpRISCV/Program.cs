@@ -63,8 +63,8 @@ partial class Program
                         Console.WriteLine($" \t{instruction.Instruction}");
                         continue;
                     }
-                    var machineCode = instruction.MachineCode();
-                    Console.WriteLine($" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}");
+                    instruction.MachineCode().ForEach( machineCode => 
+                    Console.WriteLine($" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}"));
                 }
                 Console.WriteLine($"-------------------------------------------------------------------------");
             }

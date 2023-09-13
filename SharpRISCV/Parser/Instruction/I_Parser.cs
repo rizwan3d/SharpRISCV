@@ -29,7 +29,7 @@ class I_Parser : IParser
                 Instruction = instruction,
                 Opcode = iTypeMatch.Groups[1].Value,
                 Rd = iTypeMatch.Groups[2].Value,
-                Rs1 = "x0",
+                Rs1 = iTypeMatch.Groups[2].Value,
                 Immediate = iTypeMatch.Groups[3].Value,
                 Rs2 = null,
                 InstructionType = InstructionType.I,
