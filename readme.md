@@ -24,7 +24,9 @@ SharpRISCV is an implementation of RISC-V assembly in C#.
 1. [ ] Generate ELF
 
 ## Assembler Directives
-1. Not supported.
+1. [X] .text
+1. [ ] .data
+1. [ ] .string and asciz
 
 # UesFull links:
 1. [RISC-V Instruction Formats](https://sourceware.org/binutils/docs/as/RISC_002dV_002dFormats.html)
