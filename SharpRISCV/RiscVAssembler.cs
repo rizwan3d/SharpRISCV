@@ -162,7 +162,7 @@ namespace SharpRISCV
             {
                 var line = assemblyLine.Trim();
                 if (string.IsNullOrEmpty(line)) continue;
-                if (line.StartsWith(".string"))
+                if (line.StartsWith(".string") || line.StartsWith(".asciz"))
                 {
                     string pattern = @"\"".*\""";
                     Match match = Regex.Match(line, pattern);
