@@ -138,16 +138,17 @@ namespace SharpRISCV
         {
             foreach (var assemblyLine in code)
             {
-                if(string.IsNullOrEmpty(assemblyLine.Trim())) continue;
-                if(assemblyLine.Trim().StartsWith(".")) continue;
-                if (assemblyLine.Trim().EndsWith(":"))
+                var line = assemblyLine.Trim();
+                if(string.IsNullOrEmpty(line)) continue;
+                if(line.StartsWith(".")) continue;
+                if (line.EndsWith(":"))
                 {
-                    string label = assemblyLine.Trim();
-                    label = label.Substring(0, label.Length - 1);
+                    string label = line.Substring(0, line.Length - 1);
                     Address.Labels.Add(label, Address.CurrentAddress);
                     continue;
                 }
                 Address.GetAndIncreseAddress();
+                if(line.StartsWith("la")) Address.GetAndIncreseAddress();
             }
         }
 
