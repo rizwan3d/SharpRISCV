@@ -52,6 +52,8 @@ partial class Program
             if (outputFile == "console")
             {
                 Console.WriteLine($"-------------------------------------------------------------------------");
+                Console.WriteLine($" Entry Address: {Address.EntryPointHax}");
+                Console.WriteLine($"-------------------------------------------------------------------------");
                 Console.WriteLine($" Address \t|\tHex Code\t|\tInstruction");
                 Console.WriteLine($"-------------------------------------------------------------------------");
 

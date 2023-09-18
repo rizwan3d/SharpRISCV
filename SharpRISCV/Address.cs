@@ -7,6 +7,15 @@
 
         public static void Reset() => currentAddress = 0;
 
+        public static int EntryPoint
+        {
+            get
+            {
+                return Labels.FirstOrDefault(x => x.Key.Equals("main")).Value;
+            }
+        }
+        public static string EntryPointHax { get { return $"0x{EntryPoint.ToString("X8")}"; } }
+
         public static int GetAndIncreseAddress()
         {
             int oldAddress = currentAddress;
@@ -16,5 +25,6 @@
 
         public static int CurrentAddress { get { return currentAddress; } }
 
+        public static void SetAddress (int address) => currentAddress = address;
     }
 }
