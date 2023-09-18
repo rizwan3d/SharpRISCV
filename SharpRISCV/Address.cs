@@ -23,6 +23,13 @@
             return oldAddress;
         }
 
+        public static int GetAndIncreseAddress(int by)
+        {
+            int oldAddress = currentAddress;
+            currentAddress += by;
+            return oldAddress;
+        }
+
         public static int CurrentAddress { get { return currentAddress; } }
 
         public static void SetAddress (int address) => currentAddress = address;

@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,7 +13,6 @@ namespace SharpRISCV
         public static List<RiscVInstruction> Instruction { get { return instruction; } }
 
         public static Dictionary<string, List<string>> DirectiveCode = new Dictionary<string, List<string>>();
-        public static List<string> DataDirective = new List<string>();
 
         private static List<string> sectionsDirective = new List<string>()
         {
@@ -33,11 +34,14 @@ namespace SharpRISCV
                 ProcessLables(lines);
             }
 
+            // For testing Linker Script script RAM (rwx) : ORIGIN = 0x00010000, LENGTH = 0x08000
+            Address.SetAddress(65536);
+
             //Process .Data Lables
             foreach (var directive in DirectiveCode[".data"])
             {
                 var lines = directive.SplitStingByNewLine();
-                ProcessLables(lines);
+                ProcessDataLables(lines);
             }
 
             Address.Reset();
@@ -149,6 +153,38 @@ namespace SharpRISCV
                 }
                 Address.GetAndIncreseAddress();
                 if(line.StartsWith("la")) Address.GetAndIncreseAddress();
+            }
+        }
+
+        public static void ProcessDataLables(string[] code)
+        {
+            foreach (var assemblyLine in code)
+            {
+                var line = assemblyLine.Trim();
+                if (string.IsNullOrEmpty(line)) continue;
+                if (line.StartsWith(".string"))
+                {
+                    string pattern = @"\"".*\""";
+                    Match match = Regex.Match(line, pattern);
+                    if (match.Success)
+                    {
+                        string extractedString = match.Groups[0].Value;
+                        string data = extractedString.Substring(1, extractedString.Length - 2);
+                        byte[] b = Encoding.ASCII.GetBytes(data);
+                        DataSection.Add(b);
+                        Address.GetAndIncreseAddress(b.Length);
+                        continue;
+                    }
+                    else
+                        throw new Exception("Invaild use of .string");
+                };
+                if (line.EndsWith(":"))
+                {
+                    string label = line.Substring(0, line.Length - 1);
+                    Address.Labels.Add(label, Address.CurrentAddress);
+                    continue;
+                }
+                Address.GetAndIncreseAddress();
             }
         }
 

@@ -69,6 +69,13 @@ partial class Program
                     Console.WriteLine($" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}"));
                 }
                 Console.WriteLine($"-------------------------------------------------------------------------");
+                Console.WriteLine($" Data Dump");
+                Console.WriteLine($"-------------------------------------------------------------------------");
+                foreach (var dump in DataSection.HexDum)
+                {
+                    Console.WriteLine($" 0x{dump.Key}\t|\t0x{dump.Value}\t|\t{dump.Value.HexToString().Reverse()}");
+                }
+                Console.WriteLine($"-------------------------------------------------------------------------");
             }
         }
         catch (IOException e)
