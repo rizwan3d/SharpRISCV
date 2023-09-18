@@ -46,7 +46,7 @@ partial class Program
 
         try
         {
-            string[] assemblyLines = File.ReadAllLines(inputFile);
+            string assemblyLines = File.ReadAllText(inputFile);
             RiscVAssembler.Assamble(assemblyLines);
 
             if (outputFile == "console")

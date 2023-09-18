@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SharpRISCV
@@ -9,6 +10,9 @@ namespace SharpRISCV
 
         public static List<RiscVInstruction> Instruction { get { return instruction; } }
 
+        public static Dictionary<string, List<string>> DirectiveCode = new Dictionary<string, List<string>>();
+        public static List<string> DataDirective = new List<string>();
+
         private static List<string> sectionsDirective = new List<string>()
         {
             ".data",".text"
@@ -16,32 +20,31 @@ namespace SharpRISCV
 
         private static string currentDirective = "";
 
-        public static void Assamble(string[] code)
+        public static void Assamble(string code)
         {
             code = RemoveComments(code);
-            ProcessLables(code);
-            var t = Address.Labels;
-            Address.Reset();
-            foreach (var assemblyLine in code)
-            {
-                var line = assemblyLine.Trim();
-                if (line.StartsWith(".") && sectionsDirective.Any(x => x == line))
-                {
-                    currentDirective = line;
-                    continue;
-                }
+            code = TrimLines(code);
+            BuildDirective(code);
 
-                switch (currentDirective)
+            //Process .Text Lables
+            foreach (var directive in DirectiveCode[".text"])
+            {
+                var lines = directive.SplitStingByNewLine();
+                ProcessLables(lines);
+            }
+
+            Address.Reset();
+
+            //Process .Text Instructions
+            foreach (var directive in DirectiveCode[".text"])
+            {
+                var lines = directive.SplitStingByNewLine();
+                foreach (var line in lines)
                 {
-                    case ".text":
-                        var instructionType = IdentifyInstructionType(line);
-                        if (instructionType == InstructionType.EmptyLine) continue;
-                        var riscVInstruction = InstructionParser(line.Trim(), instructionType);
-                        instruction.Add(riscVInstruction);
-                        break;
-                    case ".data":
-                        var riscVDirective = DirectiveParser(line.Trim());
-                        break;
+                    var instructionType = IdentifyInstructionType(line);
+                    if (instructionType == InstructionType.EmptyLine) continue;
+                    var riscVInstruction = InstructionParser(line.Trim(), instructionType);
+                    instruction.Add(riscVInstruction);
                 }
             }
         }
@@ -74,17 +77,53 @@ namespace SharpRISCV
 
             return mc;
         }
+        static void BuildDirective(string code)
+        {
+            string[] lines = code.SplitStingByNewLine();
 
-        static string[] RemoveComments(string[] lines)
+
+            StringBuilder directiveCode = new StringBuilder();
+
+            foreach (var line in lines)
+            {
+                if (line.StartsWith(".") && sectionsDirective.Any(x => x == line.ToLower()))
+                {
+                    AddToRespativeDirective(directiveCode.ToString());
+                    directiveCode.Clear();
+                    currentDirective = line.ToLower();
+                    continue;
+                }
+
+                directiveCode.AppendLine(line);
+            }
+
+            if (directiveCode.Length > 0)
+                    AddToRespativeDirective(directiveCode.ToString());
+        }
+
+        static void AddToRespativeDirective(string directiveCode)
+        {
+            if (!string.IsNullOrEmpty(currentDirective))
+            {
+                if (DirectiveCode.ContainsKey(currentDirective))
+                    DirectiveCode[currentDirective].Add(directiveCode.ToString());
+                else
+                    DirectiveCode[currentDirective] = new List<string> { directiveCode.ToString() };
+            }
+        }
+
+        static string RemoveComments(string lines)
         {
             // Regular expression to match comments starting with '#' and everything after
             string pattern = @"#.*$";
+            lines = Regex.Replace(lines, pattern, string.Empty, RegexOptions.Multiline);
+            return lines;
+        }
 
-            for (int i = 0; i < lines.Length; i++)
-            {
-                lines[i] = Regex.Replace(lines[i], pattern, string.Empty);
-            }
-
+        static string TrimLines(string lines)
+        {
+            string pattern = @"^\s+|\s+$";
+            lines = Regex.Replace(lines, pattern, string.Empty, RegexOptions.Multiline);
             return lines;
         }
 
