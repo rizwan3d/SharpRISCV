@@ -33,6 +33,13 @@ namespace SharpRISCV
                 ProcessLables(lines);
             }
 
+            //Process .Data Lables
+            foreach (var directive in DirectiveCode[".data"])
+            {
+                var lines = directive.SplitStingByNewLine();
+                ProcessLables(lines);
+            }
+
             Address.Reset();
 
             //Process .Text Instructions
