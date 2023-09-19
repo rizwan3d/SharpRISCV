@@ -172,7 +172,7 @@ namespace SharpRISCV
                         string data = extractedString.Substring(1, extractedString.Length - 2);
                         byte[] b = Encoding.ASCII.GetBytes(data);
                         DataSection.Add(b);
-                        Address.GetAndIncreseAddress(b.Length);
+                        Address.GetAndIncreseAddress(b.Length+1);
                         continue;
                     }
                     else
