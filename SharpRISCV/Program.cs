@@ -1,4 +1,7 @@
 ﻿using SharpRISCV;
+using System.Reflection.Emit;
+using System.Reflection;
+using SharpRISCV.Windows;
 
 partial class Program
 {
@@ -6,6 +9,7 @@ partial class Program
     {
 
         string inputFile = null;
+        OutputType outputType = OutputType.BIN;
         string outputFile = "console";
         RegisterSize? registerSize = RegisterSize.R32;
 
@@ -35,6 +39,25 @@ partial class Program
                     return;
                 }
             }
+            else if (args[i] == "-p" && i + 1 < args.Length)
+            {
+                string type = args[i + 1];
+                switch (type.ToLower())
+                {
+                    case "pe":
+                        outputType = OutputType.PE;
+                        break;
+                    case "bin":
+                        outputType = OutputType.BIN;
+                        break;
+                    case "elf":
+                        outputType = OutputType.ELF;
+                        break;
+                    case "hex":
+                        outputType = OutputType.HEX;
+                        break;
+                }
+            }
         }
 
         // Check if required arguments are provided
@@ -46,6 +69,7 @@ partial class Program
 
         try
         {
+            
             string assemblyLines = File.ReadAllText(inputFile);
             RiscVAssembler.Assamble(assemblyLines);
 
@@ -76,6 +100,15 @@ partial class Program
                     Console.WriteLine($" 0x{dump.Key}\t|\t0x{dump.Value}\t|\t{dump.Value.HexToString().Reverse()}");
                 }
                 Console.WriteLine($"-------------------------------------------------------------------------");
+            }
+
+            if(outputType == OutputType.PE)
+            
+            {
+                if (!outputFile.ToLower().EndsWith(".exe"))  outputFile += ".exe";
+                Console.WriteLine("Build Started");
+                new Compile(outputFile).BinaryWrite();
+                Console.WriteLine("Build Completed");
             }
         }
         catch (IOException e)

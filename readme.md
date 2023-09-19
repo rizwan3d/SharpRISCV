@@ -1,5 +1,6 @@
 # SharpRISCV #
 SharpRISCV is an implementation of RISC-V assembly in C#.
+First RISC V Assembly that build windows executable file
 
 ![Output Image](https://github.com/rizwan3d/SharpRISCV/blob/master/img.jpg?raw=true)
 
@@ -18,6 +19,7 @@ SharpRISCV is an implementation of RISC-V assembly in C#.
 1. [X] Lable Support.
 1. [X] Read form file (*.s).
 1. [X] Ignore Comments
+1. [ ] Generate PE (Even winodows cannot support RISC V) - exe file
 1. [ ] Generate Xilinx
 1. [ ] Generate Altera
 1. [ ] Generate Verilog

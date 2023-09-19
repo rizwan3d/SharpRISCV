@@ -2,7 +2,7 @@
 {
     public class DataSection
     {
-        static List<byte> DataDirective = new List<byte>();
+        public static List<byte> DataDirective = new List<byte>();
 
         public static void Add(byte[] byteArray)
         {

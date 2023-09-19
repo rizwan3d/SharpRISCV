@@ -3,6 +3,10 @@
     "SharpRISCV": {
       "commandName": "Project",
       "commandLineArgs": "-i test.s"
+    },
+    "PE Output": {
+      "commandName": "Project",
+      "commandLineArgs": "-i test.s -o out.exe -p pe"
     }
   }
 }
