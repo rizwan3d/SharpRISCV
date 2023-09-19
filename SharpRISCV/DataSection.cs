@@ -32,15 +32,13 @@
         { 
             get
             {
-                Dictionary<string, string> toReturn = new Dictionary<string, string>();
-                // For testing Linker Script script RAM (rwx) : ORIGIN = 0x00010000, LENGTH = 0x08000
-                int i = 65536;
+                Dictionary<string, string> toReturn = new Dictionary<string, string>();                
+                Address.SetAddress(Address.EntryDataAddress);
                 byte[] byteArray = ReverseArrayInSetsOfFour(DataDirective.ToArray());
                 string hexString = BitConverter.ToString(byteArray).Replace("-",""); // Convert to hexadecimal string
                 foreach (string substring in hexString.SplitStringByLength(8))
                 {
-                    toReturn.Add(i.ToString("X8"), substring.PadLeft(8, '0'));
-                    i+=4;
+                    toReturn.Add(Address.GetAndIncreseAddress().ToString("X8"), substring.PadLeft(8, '0'));
                 }
                 return toReturn;
             } 

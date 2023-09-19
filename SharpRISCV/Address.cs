@@ -32,6 +32,13 @@
 
         public static int CurrentAddress { get { return currentAddress; } }
 
+        public static int EntryDataAddress { get;  private set; }
+
         public static void SetAddress (int address) => currentAddress = address;
+
+        public static void StartDataAddress()
+        {
+            EntryDataAddress = currentAddress;
+        }
     }
 }
