@@ -19,7 +19,7 @@ First RISC V Assembly that build windows executable file
 1. [X] Lable Support.
 1. [X] Read form file (*.s).
 1. [X] Ignore Comments
-1. [X] Generate PE (Even windows cannot support RISC V) - exe file
+1. [X] Generate PE (Even windows cannot support RISC V) AKA exe file - (Virustotal's Details)(https://www.virustotal.com/gui/file/3a643bf62df82ae7824887bc2b9bdc45b0cd2ee7d9cbb54860833329b2ce2a3a/details)
 1. [ ] Generate Xilinx
 1. [ ] Generate Altera
 1. [ ] Generate Verilog
