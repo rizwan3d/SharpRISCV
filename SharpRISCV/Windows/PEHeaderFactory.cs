@@ -5,7 +5,7 @@ namespace SharpRISCV.Windows
 {
     public static class PEHeaderFactory
     {
-        public static List<byte> dataSectBytes { get; set; } = new List<byte>();
+        public static List<byte> dataSectBytes { get; set; }
 
         public static UInt32 latestDataSectAddr;
         public const UInt32 dataSectAddr = 0x00403000;
@@ -99,7 +99,7 @@ namespace SharpRISCV.Windows
 
             #region PE Code Section
 
-            Marshal.Copy(".#RISCV".toCodeSectNameBytes(), 0, new IntPtr(hdr.name), 8);
+            Marshal.Copy(".text".toCodeSectNameBytes(), 0, new IntPtr(hdr.name), 8);
             hdr.virtualSize = (UInt32)(opcodes.Count);
             hdr.virtualAddress = alignment;
             hdr.sizeOfRawData = (UInt32)mockOpcodes.Count;
