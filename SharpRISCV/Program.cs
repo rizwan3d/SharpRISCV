@@ -71,6 +71,7 @@ partial class Program
         {
             
             string assemblyLines = File.ReadAllText(inputFile);
+            Address.SetAddress((int)Compile.memAddress);
             RiscVAssembler.Assamble(assemblyLines);
 
             if (outputFile == "console")

@@ -9,6 +9,7 @@ namespace SharpRISCV.Windows
 {
     internal class Compile
     {
+        public const uint memAddress = 0x00401000; // if and only if windows app
 
         string path;
 
