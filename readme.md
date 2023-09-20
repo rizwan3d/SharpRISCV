@@ -4,6 +4,28 @@ First RISC V Assembly that build windows executable file
 
 ![Output Image](https://github.com/rizwan3d/SharpRISCV/blob/master/img.jpg?raw=true)
 
+## Usage
+### Build Bin file
+```bash 
+SharpRISCV.exe -i file.s -o out.o -p bin
+```
+### Build Windows EXE
+```bash 
+SharpRISCV.exe -i file.s -o out.exe -p pe
+```
+### Console Output
+```bash 
+SharpRISCV.exe -i file.s -o console
+```
+### Build Linux ELF
+```bash 
+SharpRISCV.exe -i file.s -o out.o -p elf
+```
+### Build HEX
+```bash 
+SharpRISCV.exe -i file.s -o out.o -p hex
+```
+
 ## Supported Instruction
 1. [X] R Type
 1. [X] U Type
@@ -35,4 +57,4 @@ First RISC V Assembly that build windows executable file
 1. [The RISC-V Instruction Set Manual](https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf) PDF Page 116
 1. [RISC-V ASSEMBLY LANGUAGE Programmer Manual](https://shakti.org.in/docs/risc-v-asm-manual.pdf)
 1. [RISC-V Instruction Encoder/Decoder](https://luplab.gitlab.io/rvcodecjs)
-2. [PE file format - Introduction](https://0xrick.github.io/win-internals/pe1/) 
+1. [PE file format - Introduction](https://0xrick.github.io/win-internals/pe1/) 
