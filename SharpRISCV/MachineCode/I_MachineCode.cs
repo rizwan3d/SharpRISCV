@@ -1,4 +1,5 @@
 ﻿
+using SharpRISCV.Registers;
 using System;
 using System.Collections.Generic;
 
@@ -28,9 +29,9 @@ namespace SharpRISCV.MachineCode
             if (!Address.Labels.ContainsKey(instruction.Label)) throw new Exception("Invalid Lable");
 
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
-            string rdBinary = Convert.ToString(int.Parse(instruction.Rd.Substring(1)), 2).PadLeft(5, '0');
+            string rdBinary = Convert.ToString(Register.FromABI[instruction.Rd], 2).PadLeft(5, '0');
             string func3 = ((int)instruction.Funct3).ToBinary(3);
-            string rs1Binary = Convert.ToString(int.Parse(instruction.Rs1.Substring(1)), 2).PadLeft(5, '0');
+            string rs1Binary = Convert.ToString(Register.FromABI[instruction.Rs1], 2).PadLeft(5, '0');
             string imm = value.ToBinary(11);
             string imm2 = "";
             if (imm.Length >= 12)

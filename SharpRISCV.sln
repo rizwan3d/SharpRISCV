@@ -14,9 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{2D3E518E-F48B-4AD2-BE94-0294D99A3579}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{2730FC94-0E0E-4CD7-870B-27E1D55C9B27}"
 	ProjectSection(SolutionItems) = preProject
-		example.s = example.s
+		Example\example.s = Example\example.s
 	EndProjectSection
 EndProject
 Global

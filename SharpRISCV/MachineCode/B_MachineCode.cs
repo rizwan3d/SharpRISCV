@@ -1,4 +1,5 @@
 ﻿
+using SharpRISCV.Registers;
 using System;
 
 namespace SharpRISCV.MachineCode
@@ -36,8 +37,8 @@ namespace SharpRISCV.MachineCode
             string imm11 = imm.Substring(1,1);
             string imm4_1 = imm.Substring(imm.Length-5,4);
             string func3 = ((int)instruction.Funct3).ToBinary(3);
-            string rs1Binary = Convert.ToString(int.Parse(instruction.Rs1.Substring(1)), 2).PadLeft(5, '0');
-            string rs2Binary = Convert.ToString(int.Parse(instruction.Rs2.Substring(1)), 2).PadLeft(5, '0');
+            string rs1Binary = Convert.ToString(Register.FromABI[instruction.Rs1], 2).PadLeft(5, '0');
+            string rs2Binary = Convert.ToString(Register.FromABI[instruction.Rs2], 2).PadLeft(5, '0');
             string imm10_5 = imm.Substring(1, 6);
             string imm12 = imm.Substring(0, 1);
 
