@@ -71,7 +71,6 @@ partial class Program
         {
             
             string assemblyLines = File.ReadAllText(inputFile);
-            Address.SetAddress((int)Compile.memAddress);
             RiscVAssembler.Assamble(assemblyLines);
 
             if (outputFile == "console")
@@ -108,6 +107,7 @@ partial class Program
             {
                 if (!outputFile.ToLower().EndsWith(".exe"))  outputFile += ".exe";
                 Console.WriteLine("Build Started");
+                Address.SetAddress((int)Compile.memAddress);
                 new Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
             }

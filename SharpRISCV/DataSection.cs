@@ -24,7 +24,6 @@
             //    }
 
                 DataDirective.AddRange(byteArray); // Add the set of bytes to the list
-                DataDirective.Add(0);
             //}
         }
 

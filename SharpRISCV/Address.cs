@@ -11,7 +11,7 @@
         {
             get
             {
-                return Labels.FirstOrDefault(x => x.Key.Equals("main")).Value;
+                return Labels.ContainsKey("main") ? Labels["main"] : 0;
             }
         }
         public static string EntryPointHax { get { return $"0x{EntryPoint.ToString("X8")}"; } }

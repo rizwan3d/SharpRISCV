@@ -28,19 +28,23 @@ namespace SharpRISCV
             BuildDirective(code);
 
             //Process .Text Lables
+            if(DirectiveCode.ContainsKey(".text"))
             foreach (var directive in DirectiveCode[".text"])
             {
                 var lines = directive.SplitStingByNewLine();
                 ProcessLables(lines);
             }
 
+            var x = Address.Labels;
+
             // For testing Linker Script script RAM (rwx) : ORIGIN = 0x00010000, LENGTH = 0x08000
             //Address.SetAddress(65536);
 
             Address.StartDataAddress();
             //Process .Data Lables
+            if(DirectiveCode.ContainsKey(".data"))
             foreach (var directive in DirectiveCode[".data"])
-            {
+                {
                 var lines = directive.SplitStingByNewLine();
                 ProcessDataLables(lines);
             }
@@ -173,8 +177,34 @@ namespace SharpRISCV
                         string data = extractedString.Substring(1, extractedString.Length - 2);
                         byte[] b = Encoding.ASCII.GetBytes(data);
                         DataSection.Add(b);
+                        DataSection.Add(new byte[] { 0 });
                         Address.GetAndIncreseAddress(b.Length+1);
                         continue;
+                    }
+                    else
+                        throw new Exception("Invaild use of .string");
+                };
+                if (line.StartsWith(".word"))
+                {
+                    string pattern = @"\.word\s+(\w+)";
+                    Match match = Regex.Match(line, pattern);
+                    if (match.Success)
+                    {
+                        string extractedString = match.Groups[1].Value;
+
+                        if(int.TryParse(extractedString, out int inval))
+                        {
+                            byte[] byteArray = BitConverter.GetBytes(inval);
+                            if (byteArray.Length < 4)
+                            {
+                                byte[] paddedArray = new byte[4];
+                                Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
+                                byteArray = paddedArray; // Replace byteArray with the padded array
+                            }
+                            DataSection.Add(byteArray);
+                            Address.GetAndIncreseAddress(byteArray.Length + 1);
+                            continue;
+                        }
                     }
                     else
                         throw new Exception("Invaild use of .string");
