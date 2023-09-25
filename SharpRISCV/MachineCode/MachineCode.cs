@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SharpRISCV.Registers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,6 +42,57 @@ namespace SharpRISCV.MachineCode
         public override string ToString()
         {
             return String.Join("-", Regex.Matches(Code.ToBinary(32), @"\d{4}").Cast<Match>()); ;
+        }
+
+
+        public static int ProcessLoHi(string imm)
+        {
+            if (imm.ToLower().StartsWith("%hi"))
+            {
+                return GetHiPart(imm);
+            }
+
+            return GetLoPart(imm);
+        }
+
+        private static int GetHiPart(string imm)
+        {
+            string pattern = @"%hi\((.*?)\)";
+            MatchCollection matches = Regex.Matches(imm, pattern);
+            string capturedText = matches[0].Groups[1].Value;
+
+            int hiPart = (GetLableRigisterOrAddress(capturedText) >> 12) & 0xFFFFF;
+            return hiPart;
+        }
+
+        private static int GetLoPart(string imm)
+        {
+            string pattern = @"%lo\((.*?)\)";
+            MatchCollection matches = Regex.Matches(imm, pattern);
+            string capturedText = matches[0].Groups[1].Value;
+            int hiPart = (GetLableRigisterOrAddress(capturedText) >> 12) & 0xFFFFF;
+            return hiPart;
+        }
+
+        public static int GetLableRigisterOrAddress(string Immediate)
+        {
+            int value;
+            if (SharpRISCV.Address.Labels.TryGetValue(Immediate, out int labelLineNumber))
+            {
+                value = SharpRISCV.Address.Labels[Immediate] - SharpRISCV.Address.CurrentAddress;
+            }
+            else if (Register.FromABI.TryGetValue(Immediate, out int register))
+            {
+                value = register;
+            }
+            else if (int.TryParse(Immediate, out value))
+            {
+                // Operand is a numeric value
+            }
+            else
+            throw new Exception("Invalid Lable");
+
+            return value;
         }
     }
 }

@@ -4,7 +4,7 @@ class U_Parser : IParser
 {
     public RiscVInstruction Parse(string instruction)
     {
-        Regex uTypeRegex = new Regex(@"^(\w+)\s+(\w+),\s+0x([\dA-Fa-f]+)$");
+        Regex uTypeRegex = new Regex(@"^(\w+)\s+(\w+),\s+([\w().%]+)$");
         Match uTypeMatch = uTypeRegex.Match(instruction);
         if (uTypeMatch.Success)
         {
