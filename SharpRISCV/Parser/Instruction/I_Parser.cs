@@ -4,7 +4,7 @@ class I_Parser : IParser
 {
     public RiscVInstruction Parse(string instruction)
     {
-        Regex iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*(\w+)\s*,\s*(-*[0-9]*)$");
+        Regex iTypeRegex = new Regex(@"^(\w+)\s+(\w+),\s*(\w+)\s*,\s+([-\w().%]+)$");
         Match iTypeMatch = iTypeRegex.Match(instruction);
         if (iTypeMatch.Success)
         {
@@ -20,7 +20,7 @@ class I_Parser : IParser
             };
         }
 
-        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*(-*[0-9A-Za-z]*)$");
+        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*([0-9A-Za-z.]*)$");
         iTypeMatch = iTypeRegex.Match(instruction);
         if (iTypeMatch.Success)
         {            

@@ -57,9 +57,9 @@ namespace SharpRISCV.MachineCode
 
         private static int GetHiPart(string imm)
         {
-            string pattern = @"%hi\((.*?)\)";
+            string pattern = @"%(hi|HI|Hi|hI)\((.*?)\)";
             MatchCollection matches = Regex.Matches(imm, pattern);
-            string capturedText = matches[0].Groups[1].Value;
+            string capturedText = matches[0].Groups[2].Value;
 
             int hiPart = (GetLableRigisterOrAddress(capturedText) >> 12) & 0xFFFFF;
             return hiPart;
@@ -67,15 +67,21 @@ namespace SharpRISCV.MachineCode
 
         private static int GetLoPart(string imm)
         {
-            string pattern = @"%lo\((.*?)\)";
+            string pattern = @"%(lo|LO|Lo|lO)\((.*?)\)";
             MatchCollection matches = Regex.Matches(imm, pattern);
-            string capturedText = matches[0].Groups[1].Value;
+            string capturedText = matches[0].Groups[2].Value;
             int hiPart = (GetLableRigisterOrAddress(capturedText) >> 12) & 0xFFFFF;
             return hiPart;
         }
 
         public static int GetLableRigisterOrAddress(string Immediate)
         {
+
+            if (Immediate.StartsWith("%"))
+            {
+                Immediate = ProcessLoHi(Immediate).ToString();
+            }
+
             int value;
             if (SharpRISCV.Address.Labels.TryGetValue(Immediate, out int labelLineNumber))
             {
