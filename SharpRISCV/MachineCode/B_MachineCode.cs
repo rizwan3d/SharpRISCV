@@ -17,17 +17,7 @@ namespace SharpRISCV.MachineCode
         {
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
 
-            int value;
-            if (Address.Labels.TryGetValue(instruction.Label, out int labelLineNumber))
-            {
-                value = Address.Labels[instruction.Label] - Address.CurrentAddress;
-            }
-            else if (int.TryParse(instruction.Label, out value))
-            {
-                // Operand is a numeric value
-            }
-            else
-            if (!Address.Labels.ContainsKey(instruction.Label)) throw new Exception("Invalid Lable");
+            int value = MachineCode.GetLableRigisterOrAddress(instruction.Label);
 
             string imm = value.ToBinary(12);
             if (imm.Length > 12)
