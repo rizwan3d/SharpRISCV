@@ -51,6 +51,9 @@ SharpRISCV.exe -i file.s -o out.o -p hex
 1. [X] .text
 1. [X] .data
 1. [X] .string and .asciz
+1. [X] .word
+1. [X] .%hi
+1. [X] .%lo
 
 # UesFull links:
 1. [RISC-V Instruction Formats](https://sourceware.org/binutils/docs/as/RISC_002dV_002dFormats.html)
