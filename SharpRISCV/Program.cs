@@ -69,12 +69,10 @@ partial class Program
 
         try
         {
-            
-            string assemblyLines = File.ReadAllText(inputFile);
-            RiscVAssembler.Assamble(assemblyLines);
-
             if (outputFile == "console")
             {
+                string assemblyLines = File.ReadAllText(inputFile);
+                RiscVAssembler.Assamble(assemblyLines);
                 Console.WriteLine($"-------------------------------------------------------------------------");
                 Console.WriteLine($" Entry Address: {Address.EntryPointHax}");
                 Console.WriteLine($"-------------------------------------------------------------------------");
@@ -108,6 +106,8 @@ partial class Program
                 if (!outputFile.ToLower().EndsWith(".exe"))  outputFile += ".exe";
                 Console.WriteLine("Build Started");
                 Address.SetAddress((int)Compile.memAddress);
+                string assemblyLines = File.ReadAllText(inputFile);
+                RiscVAssembler.Assamble(assemblyLines);
                 new Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
             }
