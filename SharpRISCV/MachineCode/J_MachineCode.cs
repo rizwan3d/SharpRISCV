@@ -17,7 +17,7 @@ namespace SharpRISCV.MachineCode
         {
 
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
-            int value = MachineCode.GetLableRigisterOrAddress(instruction.Immediate);
+            int value = MachineCode.ProcessSource(instruction.Immediate);
 
             string rdBinary = Convert.ToString(Register.FromABI[instruction.Rd], 2).PadLeft(5, '0');
             string imm = value.ToBinary(20);

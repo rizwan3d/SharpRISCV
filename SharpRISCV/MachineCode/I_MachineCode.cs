@@ -16,7 +16,7 @@ namespace SharpRISCV.MachineCode
         public List<MachineCode> Generate(RiscVInstruction instruction)
         {
             List <MachineCode> machines = new List < MachineCode >();
-            int value = MachineCode.GetLableRigisterOrAddress(instruction.Immediate);
+            int value = MachineCode.ProcessSource(instruction.Immediate);
 
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
             string rdBinary = Convert.ToString(Register.FromABI[instruction.Rd], 2).PadLeft(5, '0');

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 class I_Parser : IParser
 {
@@ -20,17 +21,39 @@ class I_Parser : IParser
             };
         }
 
-        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*([0-9A-Za-z.]*)$");
+        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*([\w.%()]*)$");
         iTypeMatch = iTypeRegex.Match(instruction);
         if (iTypeMatch.Success)
-        {            
-            return new RiscVInstruction
+        {
+
+            var rs1 = iTypeMatch.Groups[2].Value;
+            var immediate = iTypeMatch.Groups[3].Value;
+
+            var iSourceRegex = new Regex(@"^(([\w%]*\([^)]+\))|\d+)\(([^)]+)\)$");
+            var iSourceMatch = iSourceRegex.Match(immediate);
+
+            int i = 1;
+            if (iSourceMatch.Success)
+            {
+                immediate = iSourceMatch.Groups[i].Value;
+                HashSet<string> seenValues = new HashSet<string>();
+                seenValues.Add(iSourceMatch.Groups[i].Value);
+                while (seenValues.Contains(iSourceMatch.Groups[i].Value)){ i++; }
+
+                rs1 = iSourceMatch.Groups[i].Value;
+                while(string.IsNullOrEmpty(rs1) && i < iSourceMatch.Groups.Count)
+                {
+                    rs1 = iSourceMatch.Groups[++i].Value;
+                }
+            }
+
+                return new RiscVInstruction
             {
                 Instruction = instruction,
                 Opcode = iTypeMatch.Groups[1].Value,
                 Rd = iTypeMatch.Groups[2].Value,
-                Rs1 = iTypeMatch.Groups[2].Value,
-                Immediate = iTypeMatch.Groups[3].Value,
+                Rs1 = rs1,
+                Immediate = immediate,
                 Rs2 = null,
                 InstructionType = InstructionType.I,
             };

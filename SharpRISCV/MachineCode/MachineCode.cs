@@ -61,7 +61,7 @@ namespace SharpRISCV.MachineCode
             MatchCollection matches = Regex.Matches(imm, pattern);
             string capturedText = matches[0].Groups[2].Value;
 
-            int hiPart = (GetLableRigisterOrAddress(capturedText) >> 12) & 0xFFFFF;
+            int hiPart = (ProcessSource(capturedText) >> 12) & 0xFFFFF;
             return hiPart;
         }
 
@@ -70,11 +70,11 @@ namespace SharpRISCV.MachineCode
             string pattern = @"%(lo|LO|Lo|lO)\((.*?)\)";
             MatchCollection matches = Regex.Matches(imm, pattern);
             string capturedText = matches[0].Groups[2].Value;
-            int hiPart = (GetLableRigisterOrAddress(capturedText) >> 12) & 0xFFFFF;
+            int hiPart = (ProcessSource(capturedText) >> 12) & 0xFFFFF;
             return hiPart;
         }
 
-        public static int GetLableRigisterOrAddress(string Immediate)
+        public static int ProcessSource(string Immediate)
         {
 
             if (Immediate.StartsWith("%"))
