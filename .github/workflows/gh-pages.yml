@@ -17,16 +17,10 @@ jobs:
     # publishes Blazor project to the release-folder
     - name: Publish app
       run: dotnet publish ./WebRISCV/WebRISCV.csproj -c Release
-
-    - name: Rewrite base href
-      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
-      with:
-        html_path: ${{ env.PUBLISH_DIR }}/index.html
-        base_href: /SharpRISCV/
         
-    # changes the base-tag in index.html from '/' to 'BlazorGitHubPagesDemo' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to BlazorGitHubPagesDemo
-      run: sed -i 's/<base href="\/" \/>/<base href="\/BlazorGitHubPagesDemo\/" \/>/g' release/wwwroot/index.html
+    # changes the base-tag in index.html from '/' to 'SharpRISCV' to match GitHub Pages repository subdirectory
+    - name: Change base-tag in index.html from / to SharpRISCV
+      run: sed -i 's/<base href="\/" \/>/<base href="\/SharpRISCV\/" \/>/g' release/wwwroot/index.html
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
