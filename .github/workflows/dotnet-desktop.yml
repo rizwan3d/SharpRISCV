@@ -24,7 +24,10 @@ jobs:
 
       # Archive the package
       - name: Create archive
-        run: Compress-Archive -Path ./SharpRISCV/bin/Release/net7.0/* -DestinationPath ./SharpRISCV/bin/Release/net7.0/SharpRISCV.zip
+        uses: vimtor/action-zip@v1
+        with:
+          files: ./SharpRISCV/bin/Release/net7.0/*
+          dest: SharpRISCV.zip
 
       # Create the release:  https://github.com/actions/create-release
       - name: Create release
