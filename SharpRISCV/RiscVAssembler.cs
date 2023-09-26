@@ -187,25 +187,28 @@ namespace SharpRISCV
                 };
                 if (line.StartsWith(".word"))
                 {
-                    string pattern = @"\.word\s+(\w+)";
+                    string pattern = @"\.word\s+([\w,\s]+)";
                     Match match = Regex.Match(line, pattern);
                     if (match.Success)
                     {
                         string extractedString = match.Groups[1].Value;
 
-                        if(int.TryParse(extractedString, out int inval))
+                        foreach (var item in extractedString.Split(','))
                         {
-                            byte[] byteArray = BitConverter.GetBytes(inval);
-                            if (byteArray.Length < 4)
+                            if (int.TryParse(item.Trim(), out int inval))
                             {
-                                byte[] paddedArray = new byte[4];
-                                Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
-                                byteArray = paddedArray; // Replace byteArray with the padded array
+                                byte[] byteArray = BitConverter.GetBytes(inval);
+                                if (byteArray.Length < 4)
+                                {
+                                    byte[] paddedArray = new byte[4];
+                                    Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
+                                    byteArray = paddedArray; // Replace byteArray with the padded array
+                                }
+                                DataSection.Add(byteArray);
+                                Address.GetAndIncreseAddress(byteArray.Length + 1);
                             }
-                            DataSection.Add(byteArray);
-                            Address.GetAndIncreseAddress(byteArray.Length + 1);
-                            continue;
                         }
+                        continue;
                     }
                     else
                         throw new Exception("Invaild use of .string");
