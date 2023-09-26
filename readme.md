@@ -2,9 +2,9 @@
 SharpRISCV is an implementation of RISC-V assembly in C#.
 First RISC V Assembly that build windows executable file
 
-## (Try in Web Browser)[https://rizwan3d.github.io/SharpRISCV/]
+## [Try in Web Browser](https://rizwan3d.github.io/SharpRISCV/)
 
-(Write RISC-V ASM code in your browser)[https://rizwan3d.github.io/SharpRISCV/]
+[Write RISC-V ASM code in your browser](https://rizwan3d.github.io/SharpRISCV/)
 
 ## Desktop Exectuable (Build HEX and Windows Executable)
 
