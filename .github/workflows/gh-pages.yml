@@ -27,6 +27,10 @@ jobs:
         html_path: ${{ env.PUBLISH_DIR }}/index.html
         base_href: /SharpRISCV/
 
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyl
+
     - name: GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v1.5.1
