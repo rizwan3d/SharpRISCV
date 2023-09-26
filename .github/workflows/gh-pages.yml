@@ -5,6 +5,9 @@ env:
 # Controls when the action will run
 on:
   workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
   build:
