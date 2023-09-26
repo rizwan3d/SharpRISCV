@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SharpRISCV.Core.Windows
@@ -46,10 +49,10 @@ namespace SharpRISCV.Core.Windows
 
             #region DOS stub
 
-            Marshal.Copy(new byte[] { 0x0E, 0x1F, 0xBA, 0x0E, 0, 0xB4, 9, 0xCD, 0x21, 0xB8, 1, 0x4C, 0xCD, 0x21 }, 0, new nint(hdr.unknown), 14);
+            Marshal.Copy(new byte[] { 0x0E, 0x1F, 0xBA, 0x0E, 0, 0xB4, 9, 0xCD, 0x21, 0xB8, 1, 0x4C, 0xCD, 0x21 }, 0, new IntPtr(hdr.unknown), 14);
             const string msg = "This program cannot be run in DOS mode";
-            Marshal.Copy(msg.Select(x => (byte)x).ToArray(), 0, new nint(hdr.msg), msg.Length);
-            Marshal.Copy(new byte[] { 0x2E, 0x0D, 0x0D, 0x0A, 0x24 }, 0, new nint(hdr.unknown_0), 5);
+            Marshal.Copy(msg.Select(x => (byte)x).ToArray(), 0, new IntPtr(hdr.msg), msg.Length);
+            Marshal.Copy(new byte[] { 0x2E, 0x0D, 0x0D, 0x0A, 0x24 }, 0, new IntPtr(hdr.unknown_0), 5);
 
             #endregion
 
@@ -99,7 +102,7 @@ namespace SharpRISCV.Core.Windows
 
             #region PE Code Section
 
-            Marshal.Copy(".text".toCodeSectNameBytes(), 0, new nint(hdr.name), 8);
+            Marshal.Copy(".text".toCodeSectNameBytes(), 0, new IntPtr(hdr.name), 8);
             hdr.virtualSize = (uint)opcodes.Count;
             hdr.virtualAddress = alignment;
             hdr.sizeOfRawData = (uint)mockOpcodes.Count;
@@ -168,7 +171,7 @@ namespace SharpRISCV.Core.Windows
             const ushort hdrSize = 512;
 
             byte[] arr = new byte[hdrSize];
-            nint ptr = Marshal.AllocHGlobal(hdrSize);
+            IntPtr ptr = Marshal.AllocHGlobal(hdrSize);
 
             Marshal.StructureToPtr(hdr, ptr, true);
             Marshal.Copy(ptr, arr, 0, hdrSize);

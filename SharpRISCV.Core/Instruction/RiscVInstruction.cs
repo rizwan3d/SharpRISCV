@@ -1,5 +1,6 @@
 ﻿using SharpRISCV.Core.MachineCode;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 public class RiscVInstruction

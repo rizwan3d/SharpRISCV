@@ -1,4 +1,8 @@
-﻿namespace SharpRISCV.Core
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SharpRISCV.Core
 {
     public class DataSection
     {

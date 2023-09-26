@@ -1,4 +1,6 @@
-﻿namespace SharpRISCV.Core
+﻿using System.Collections.Generic;
+
+namespace SharpRISCV.Core
 {
     public static class Address
     {
