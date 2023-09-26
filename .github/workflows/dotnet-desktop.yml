@@ -19,7 +19,6 @@ jobs:
         run: |
           dotnet restore
           dotnet build ./SharpRISCV/SharpRISCV.csproj --configuration Release
-        working-directory: ./SharpRISCV/bin/Release/net7.0
 
       - name: Create Release
         id: create_release
