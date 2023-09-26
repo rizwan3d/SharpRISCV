@@ -1,6 +1,6 @@
 name: DeployToGitHubPages
 env:
-  PUBLISH_DIR: SharpRISCV/WebRISCV/bin/Release/net7.0/publish/
+  PUBLISH_DIR: ./WebRISCV/bin/Release/net7.0/wwwroot
 
 # Controls when the action will run
 on:
@@ -18,25 +18,17 @@ jobs:
     - name: Publish app
       run: dotnet publish ./WebRISCV/WebRISCV.csproj -c Release
 
-     # debug
-    - name: Change base-tag in index.html from / to SharpRISCV
-      run: ls -a
-        
-    # changes the base-tag in index.html from '/' to 'SharpRISCV' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to SharpRISCV
-      run: sed -i 's/<base href="\/" \/>/<base href="\/SharpRISCV\/" \/>/g' ./WebRISCV/bin/Release/net7.0/wwwroot
-    
-    # copy index.html to 404.html to serve the same file when a file is not found
-    - name: copy index.html to 404.html
-      run: cp release/wwwroot/index.html release/wwwroot/404.html
-
-    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-    - name: Add .nojekyll file
-      run: touch release/wwwroot/.nojekyll
-
-    - name: Commit wwwroot to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+    - name: Rewrite base href
+      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
       with:
+        html_path: ${{ env.PUBLISH_DIR }}/index.html
+        base_href: /SharpRISCV/
+
+    - name: GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v1.5.1
+      with:
+        target_branch: gh-pages
+        build_dir: ${{ env.PUBLISH_DIR }}
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: release/wwwroot
