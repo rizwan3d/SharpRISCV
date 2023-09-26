@@ -1,7 +1,6 @@
 ﻿using SharpRISCV;
 using System.Reflection.Emit;
 using System.Reflection;
-using SharpRISCV.Windows;
 
 partial class Program
 {
@@ -101,14 +100,23 @@ partial class Program
             }
 
             if(outputType == OutputType.PE)
-            
             {
                 if (!outputFile.ToLower().EndsWith(".exe"))  outputFile += ".exe";
                 Console.WriteLine("Build Started");
-                Address.SetAddress((int)Compile.memAddress);
+                Address.SetAddress((int)SharpRISCV.Windows.Compile.memAddress);
                 string assemblyLines = File.ReadAllText(inputFile);
                 RiscVAssembler.Assamble(assemblyLines);
-                new Compile(outputFile).BinaryWrite();
+                new SharpRISCV.Windows.Compile(outputFile).BinaryWrite();
+                Console.WriteLine("Build Completed");
+            }
+
+            if (outputType == OutputType.HEX)
+            {
+                if (!outputFile.ToLower().EndsWith(".hex")) outputFile += ".hex";
+                Console.WriteLine("Build Started");
+                string assemblyLines = File.ReadAllText(inputFile);
+                RiscVAssembler.Assamble(assemblyLines);
+                new SharpRISCV.Hex.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
             }
         }

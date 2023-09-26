@@ -7,6 +7,10 @@
     "PE Output": {
       "commandName": "Project",
       "commandLineArgs": "-i test.s -o out.exe -p pe"
+    },
+    "Hex Output": {
+      "commandName": "Project",
+      "commandLineArgs": "-i test.s -o out.hex -p hex"
     }
   }
 }
