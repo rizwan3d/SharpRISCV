@@ -1,6 +1,6 @@
 name: DeployToGitHubPages
 env:
-  PUBLISH_DIR: /WebRISCV/bin/Release/net7.0/publish/
+  PUBLISH_DIR: SharpRISCV/WebRISCV/bin/Release/net7.0/publish/
 
 # Controls when the action will run
 on:
