@@ -1,0 +1,30 @@
+name: Build and Release .NET Desktop Console App
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '7.0.400' # Replace with the desired .NET SDK version
+
+      - name: Build the .NET Console App
+        run: |
+          dotnet restore
+          dotnet build ./SharpRISCV/SharpRISCV.csproj --configuration Release
+        working-directory: ./SharpRISCV/bin/Release/net7.0
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./SharpRISCV/bin/Release/net7.0/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
