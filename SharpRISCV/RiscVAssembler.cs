@@ -25,6 +25,7 @@ namespace SharpRISCV
         {
             code = RemoveComments(code);
             code = TrimLines(code);
+            code = Regex.Replace(code, ":\\s*\\.", $":{Environment.NewLine}.", RegexOptions.Multiline);
             BuildDirective(code);
 
             //Process .Text Lables
