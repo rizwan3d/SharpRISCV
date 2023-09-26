@@ -17,6 +17,10 @@ jobs:
     # publishes Blazor project to the release-folder
     - name: Publish app
       run: dotnet publish ./WebRISCV/WebRISCV.csproj -c Release
+
+     # debug
+    - name: Change base-tag in index.html from / to SharpRISCV
+      run: ls -a
         
     # changes the base-tag in index.html from '/' to 'SharpRISCV' to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to SharpRISCV
