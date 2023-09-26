@@ -71,6 +71,7 @@ partial class Program
             if (outputFile == "console")
             {
                 string assemblyLines = File.ReadAllText(inputFile);
+                Address.SetAddress(0);
                 RiscVAssembler.Assamble(assemblyLines);
                 Console.WriteLine($"-------------------------------------------------------------------------");
                 Console.WriteLine($" Entry Address: {Address.EntryPointHax}");
@@ -115,6 +116,7 @@ partial class Program
                 if (!outputFile.ToLower().EndsWith(".hex")) outputFile += ".hex";
                 Console.WriteLine("Build Started");
                 string assemblyLines = File.ReadAllText(inputFile);
+                Address.SetAddress(0);
                 RiscVAssembler.Assamble(assemblyLines);
                 new SharpRISCV.Core.Hex.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");

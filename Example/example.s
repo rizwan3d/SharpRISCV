@@ -1,21 +1,18 @@
+.text                            # code segment
+main:                            # program entry
+    addi  sp,  sp, -16           # reserve stack space
+    sw    ra,  12(sp)            # save return address
+    lui   a0,  %hi(.LC0)         # load message address
+    addi  a0,  a0, %lo(.LC0)     # message address
+    la    x10, .LC0              # test la: load address
+    lui   a5,  %hi(w_addr)       # test %hi() address
+    lw    a5,  %lo(w_addr)(a5)   # test lw %lo() address
+    lw    ra,  12(sp)            # restore return address
+    addi  sp,  sp, 16            # release stack space
 .data                            # data segment
-LC1:                             # string address
-    .string "ABCDas"                  # 
-.text
-main2:                            # program entry
-    addi  x2,  x2, -16           # reserve stack space addi  ;sp,  sp, -16 
-    sw    x1,  12(x2)            # save return address       ;sw    ra,  12(sp) 
-    lui   x10, 0x0               # load message address      ;lui   a0,  %hi(.LC0) 
-    addi  x10, x10, 80           # load message address      ;lui   a0,  %hi(.LC0)
-    la    x10, LC0               # test la: load address     ;la    x10, .LC0
-.data                            # data segment
-LC0:                             # string address
-    .string "H"                  # 
-    
- .text
-main:                             # program entry
-    addi  x2,  x2, -16           # reserve stack space addi  ;sp,  sp, -16 
-    sw    x1,  12(x2)            # save return address
-mainqw:
-    addi  x2,  x2, -16           # reserve stack space addi  ;sp,  sp, -16 
-    sw    x1,  12(x2)            # save return address
+w_addr:                          # word address
+    .word 1495296332             # 1 word
+    .word 1852403041             # 1 word
+    .word 0,0                    # 2 words
+.LC0: .string "Hello, World!\n"  # a string
+.end

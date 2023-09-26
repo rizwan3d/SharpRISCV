@@ -60,6 +60,7 @@
 
     private void build()
     {
+        Address.SetAddress(0);
         RiscVAssembler.Assamble(fileContent);
         string output = string.Empty;
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";

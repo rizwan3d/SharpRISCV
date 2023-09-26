@@ -23,6 +23,8 @@ namespace SharpRISCV.Core
 
         public static void Assamble(string code)
         {
+            cleanAll();
+
             code = RemoveComments(code);
             code = TrimLines(code);
             code = Regex.Replace(code, ":\\s*\\.", $":{Environment.NewLine}.", RegexOptions.Multiline);
@@ -64,6 +66,13 @@ namespace SharpRISCV.Core
                     instruction.Add(riscVInstruction);
                 }
             }
+        }
+
+        private static void cleanAll()
+        {
+            instruction.Clear();
+            DirectiveCode.Clear();
+            Address.Labels.Clear();
         }
 
         private static RiscVInstruction DirectiveParser(string v)
