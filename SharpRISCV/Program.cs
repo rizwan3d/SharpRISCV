@@ -1,6 +1,6 @@
-﻿using SharpRISCV;
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using System.Reflection;
+using SharpRISCV.Core;
 
 partial class Program
 {
@@ -103,10 +103,10 @@ partial class Program
             {
                 if (!outputFile.ToLower().EndsWith(".exe"))  outputFile += ".exe";
                 Console.WriteLine("Build Started");
-                Address.SetAddress((int)SharpRISCV.Windows.Compile.memAddress);
+                Address.SetAddress((int)SharpRISCV.Core.Windows.Compile.memAddress);
                 string assemblyLines = File.ReadAllText(inputFile);
                 RiscVAssembler.Assamble(assemblyLines);
-                new SharpRISCV.Windows.Compile(outputFile).BinaryWrite();
+                new SharpRISCV.Core.Windows.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
             }
 
@@ -116,7 +116,7 @@ partial class Program
                 Console.WriteLine("Build Started");
                 string assemblyLines = File.ReadAllText(inputFile);
                 RiscVAssembler.Assamble(assemblyLines);
-                new SharpRISCV.Hex.Compile(outputFile).BinaryWrite();
+                new SharpRISCV.Core.Hex.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
             }
         }

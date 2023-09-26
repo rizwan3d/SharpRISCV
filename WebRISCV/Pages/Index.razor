@@ -1,0 +1,94 @@
+﻿@page "/"
+@using SharpRISCV.Core
+@inject HttpClient Http
+@inject ILogger<Index> Logger
+
+
+<PageTitle>Index</PageTitle>
+
+<h1>Welcome to SharpRISC-V</h1>
+
+<p>SharpRISCV is an implementation of RISC-V assembly in C#. First RISC V Assembly that build windows executable file.</p>
+
+
+
+<div class="row">
+    <div class="col">
+        Upload File (*.s) or Write code below. <br />
+        <div class="input-group mb-3">
+            <InputFile class="form-control" id="inputGroupFile02" OnChange="@LoadFiles" />
+            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+        </div>
+    </div>
+    <div class="col text-end">
+        <a class="btn btn-primary" @onclick="build">Build Console</a>
+    </div>
+</div>
+
+<div class="row h-100">
+    <div class="col h-100">
+        <textarea class="form-control w-100 h-100" rows="10" cols="40" @bind="fileContent"></textarea>
+    </div>
+    <div class="col h-100">
+        <textarea class="form-control w-100 h-100" rows="10" cols="40" @bind="output"></textarea>
+    </div>
+
+</div>
+
+@code {
+    private string fileContent { get; set; } = "";
+    private string output { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/example.s").ConfigureAwait(false);
+        StateHasChanged();
+    }
+
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles(1)[0];
+        using (var reader = new StreamReader(file.OpenReadStream()))
+        {
+            var fileContent = await reader.ReadToEndAsync();
+            this.fileContent = fileContent;
+            Logger.LogDebug(fileContent);
+        }
+        StateHasChanged();
+    }
+
+    private void build()
+    {
+        RiscVAssembler.Assamble(fileContent);
+        string output = string.Empty;
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+        output += $" Entry Address: {Address.EntryPointHax}{Environment.NewLine}";
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+        output += $" Address \t|\tHex Code\t|\tInstruction{Environment.NewLine}";
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+
+        foreach (var instruction in RiscVAssembler.Instruction)
+        {
+            if (instruction.InstructionType == InstructionType.Lable)
+            {
+                output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+                output += $" \t{instruction.Instruction}{Environment.NewLine}";
+                continue;
+            }
+            instruction.MachineCode().ForEach(machineCode =>
+            output += $" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}{Environment.NewLine}");
+        }
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+        output += $" Data Dump{Environment.NewLine}";
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+        foreach (var dump in DataSection.HexDum)
+        {
+            output += $" 0x{dump.Key}\t|\t0x{dump.Value}\t|\t{new string(dump.Value.HexToString().Reverse().ToArray())}{Environment.NewLine}";
+        }
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+
+        this.output = output;
+        StateHasChanged();
+    }
+}

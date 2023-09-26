@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{2730
 		Example\example.s = Example\example.s
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRISCV", "WebRISCV\WebRISCV.csproj", "{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpRISCV.Core", "SharpRISCV.Core\SharpRISCV.Core.csproj", "{4532AF82-E17D-4B81-B311-58C78096900A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{637A2613-BD4B-4FD4-9927-C397F2B31D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{637A2613-BD4B-4FD4-9927-C397F2B31D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{637A2613-BD4B-4FD4-9927-C397F2B31D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4532AF82-E17D-4B81-B311-58C78096900A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4532AF82-E17D-4B81-B311-58C78096900A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4532AF82-E17D-4B81-B311-58C78096900A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4532AF82-E17D-4B81-B311-58C78096900A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

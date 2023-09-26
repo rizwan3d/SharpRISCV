@@ -1,0 +1,23 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    @* <div class="sidebar">
+        <NavMenu />
+    </div>
+ *@
+    <main>
+        <div class="top-row px-4">
+            <a href="https://github.com/rizwan3d/SharpRISCV" target="_blank">Github</a>
+        </div>
+
+        <article class="content px-4 h-100">
+            @Body
+        </article>
+
+        <footer class="text-center text-white fixed-bottom" style="background-color: #f1f1f1;">            
+            <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                <a class="text-dark" href="https://github.com/rizwan3d/SharpRISCV">SharpRISC-V</a>
+            </div>
+        </footer>
+    </main>
+</div>
