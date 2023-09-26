@@ -20,7 +20,7 @@ jobs:
         
     # changes the base-tag in index.html from '/' to 'SharpRISCV' to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to SharpRISCV
-      run: sed -i 's/<base href="\/" \/>/<base href="\/SharpRISCV\/" \/>/g' release/wwwroot/index.html
+      run: sed -i 's/<base href="\/" \/>/<base href="\/SharpRISCV\/" \/>/g' SharpRISCV/WebRISCV/bin/Release/net7.0/wwwroot
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
