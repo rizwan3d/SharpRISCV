@@ -115,7 +115,7 @@
         var finalData = new SharpRISCV.Core.Windows.Compile("").BuildPeNoCheckSum();
         var finalDataWithCheckSum = new SharpRISCV.Core.Windows.Compile("").AddCheckSumForWeb(finalData);
         string output = string.Empty;
-        output += $"I'm unsure whether the PE EXE is valid or not. The checksum algorithm differs between the web and console applications. I haven't confirmed my file writing process.{Environment.NewLine}";
+        output += $"Check You Download.{Environment.NewLine}";
         this.output = output;
 
         await DownloadFile(finalDataWithCheckSum);

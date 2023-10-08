@@ -47,10 +47,10 @@ SharpRISCV.exe -i file.s -o out.o -p hex
 1. [X] Lable Support.
 1. [X] Read form file (*.s).
 1. [X] Ignore Comments
-1. [X] Generate PE (Even windows cannot support RISC V) AKA exe file - (Virustotal's Details)(https://www.virustotal.com/gui/file/3a643bf62df82ae7824887bc2b9bdc45b0cd2ee7d9cbb54860833329b2ce2a3a/details)
+1. [X] Generate PE (Even windows cannot support RISC V) AKA exe file - [Virustotal's Details](https://www.virustotal.com/gui/file/3a643bf62df82ae7824887bc2b9bdc45b0cd2ee7d9cbb54860833329b2ce2a3a/details)
 1. [X] Generate Hex (FOR MCUs)
 1. [X] Generate Hex (FOR MCUs) on Web Browser
-1. [ ] Generate Windows PE on Web Browser
+1. [X] Generate Windows PE on Web Browser - [Virustotal's Details](https://www.virustotal.com/gui/file/068b7911f9bce1131c2fc0bf412e81e4231146a4e71dfc7b90e6d209d0c0826f/details)
 1. [ ] Generate Xilinx
 1. [ ] Generate Altera
 1. [ ] Generate Verilog
