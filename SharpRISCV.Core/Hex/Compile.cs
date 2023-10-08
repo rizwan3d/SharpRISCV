@@ -19,6 +19,10 @@ namespace SharpRISCV.Core.Hex
         }
         public void BinaryWrite()
         {
+            File.WriteAllText(path, BuildHexString());
+        }
+
+        public string BuildHexString() {
             List<byte> finalBytes = new List<byte>();
 
             List<byte> opcodes = new List<byte>();
@@ -45,8 +49,7 @@ namespace SharpRISCV.Core.Hex
 
             hexFileContent.AppendLine(":00000001FF");
 
-
-            File.WriteAllText(path, hexFileContent.ToString());
+            return hexFileContent.ToString();
         }
 
         private string GenerateHexRecords(List<byte> data, int startAddress)

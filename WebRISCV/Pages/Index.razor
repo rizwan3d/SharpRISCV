@@ -21,6 +21,8 @@
         </div>
     </div>
     <div class="col text-end">
+        <a class="btn btn-primary" @onclick="buildPE">Build Windows PE</a>
+        <a class="btn btn-primary" @onclick="buildHex">Build Hex</a>
         <a class="btn btn-primary" @onclick="build">Build Console</a>
     </div>
 </div>
@@ -89,6 +91,33 @@
         }
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
 
+        this.output = output;
+        StateHasChanged();
+    }
+
+    private void buildHex()
+    {
+        Address.SetAddress(0);
+        RiscVAssembler.Assamble(fileContent);
+        var hexcode = new SharpRISCV.Core.Hex.Compile("").BuildHexString();
+        string output = string.Empty;
+        output += $"Copy all the code below the spation line and paste it in Notepad, then save it as a .hex file.{ Environment.NewLine}";
+        output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+        output += hexcode;
+        this.output = output;
+        StateHasChanged();
+    }
+
+    private void buildPE()
+    {
+        Address.SetAddress(0);
+        RiscVAssembler.Assamble(fileContent);
+        new SharpRISCV.Core.Windows.Compile("");
+        string output = string.Empty;
+        output += $"I do not know how to do it. If you know, please help me implement it.{Environment.NewLine}";
+        output += $"Issues:{Environment.NewLine}";
+        output += $"\t1) Save array of bytes as a file (*.exe).{Environment.NewLine}";
+        output += $"\t2) Calculate checksum without writing a file and update data.{Environment.NewLine}";
         this.output = output;
         StateHasChanged();
     }
