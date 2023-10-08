@@ -108,17 +108,49 @@
         StateHasChanged();
     }
 
-    private void buildPE()
+    private async void buildPE()
     {
         Address.SetAddress(0);
         RiscVAssembler.Assamble(fileContent);
-        new SharpRISCV.Core.Windows.Compile("");
+        var finalData = new SharpRISCV.Core.Windows.Compile("").BuildPeNoCheckSum();
+        var finalDataWithCheckSum = new SharpRISCV.Core.Windows.Compile("").AddCheckSumForWeb(finalData);
         string output = string.Empty;
-        output += $"I do not know how to do it. If you know, please help me implement it.{Environment.NewLine}";
-        output += $"Issues:{Environment.NewLine}";
-        output += $"\t1) Save array of bytes as a file (*.exe).{Environment.NewLine}";
-        output += $"\t2) Calculate checksum without writing a file and update data.{Environment.NewLine}";
+        output += $"I'm unsure whether the PE EXE is valid or not. The checksum algorithm differs between the web and console applications. I haven't confirmed my file writing process.{Environment.NewLine}";
         this.output = output;
+
+        await DownloadFile(finalDataWithCheckSum);
+
         StateHasChanged();
     }
+
+    private async Task DownloadFile(byte[] finalDataWithCheckSum)
+    {
+        var base64 = Convert.ToBase64String(finalDataWithCheckSum);
+        await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.exe", base64);
+    }
 }
+
+@inject IJSRuntime JSRuntime
+
+<script>
+    window.downloadFile = (fileName, base64String) => {
+        const byteCharacters = atob(base64String);
+        const byteNumbers = new Array(byteCharacters.length);
+
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "application/octet-stream" });
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+    };
+</script>

@@ -28,6 +28,36 @@ namespace SharpRISCV.Core.Windows
 
         public void BinaryWrite()
         {
+
+            List<byte> finalBytes = BuildPeNoCheckSum();
+
+
+            uint checkSum = 0;
+            File.WriteAllBytes(path, finalBytes.ToArray());
+
+            try
+            {
+                MapFileAndCheckSum(path, out checkSum, out checkSum);
+            }
+            catch (EntryPointNotFoundException e)
+            {
+                var data = File.ReadAllBytes(path);
+                var PEStart = BitConverter.ToInt32(data, 0x3c);
+                var PECoffStart = PEStart + 4;
+                var PEOptionalStart = PECoffStart + 20;
+                var PECheckSum = PEOptionalStart + 64;
+                checkSum = CalcCheckSum(data, PECheckSum);
+            }
+
+            using (FileStream fs = File.Open(path, FileMode.Open))
+            {
+                fs.Seek(216, SeekOrigin.Current);
+                fs.Write(BitConverter.GetBytes(checkSum), 0, 4);
+            }
+        }
+
+        public List<byte> BuildPeNoCheckSum()
+        {
             List<byte> finalBytes = new List<byte>();
 
             List<byte> opcodes = new List<byte>();
@@ -62,30 +92,22 @@ namespace SharpRISCV.Core.Windows
                 finalBytes.AddRange(dataSectBytes);
             finalBytes.ToArray();
 
-            uint checkSum = 0;
+            return finalBytes;
+        }
 
+        public byte[] AddCheckSumForWeb(List<byte> finalBytes)
+        {
+            var PEStart = BitConverter.ToInt32(finalBytes.ToArray<byte>(), 0x3c);
+            var PECoffStart = PEStart + 4;
+            var PEOptionalStart = PECoffStart + 20;
+            var PECheckSum = PEOptionalStart + 64;
+            uint checkSum = CalcCheckSum(finalBytes.ToArray<byte>(), PECheckSum);
 
-            File.WriteAllBytes(path, finalBytes.ToArray());
+            MemoryStream ms = new MemoryStream(finalBytes.ToArray());
+            ms.Seek(216, SeekOrigin.Current);
+            ms.Write(BitConverter.GetBytes(checkSum), 0, 4);
 
-            try
-            {
-                MapFileAndCheckSum(path, out checkSum, out checkSum);
-            }
-            catch (EntryPointNotFoundException e)
-            {
-                var data = File.ReadAllBytes(path);
-                var PEStart = BitConverter.ToInt32(data, 0x3c);
-                var PECoffStart = PEStart + 4;
-                var PEOptionalStart = PECoffStart + 20;
-                var PECheckSum = PEOptionalStart + 64;
-                checkSum = CalcCheckSum(data, PECheckSum);
-            }
-
-            using (FileStream fs = File.Open(path, FileMode.Open))
-            {
-                fs.Seek(216, SeekOrigin.Current);
-                fs.Write(BitConverter.GetBytes(checkSum), 0, 4);
-            }
+            return ms.ToArray();
         }
 
         //https://stackoverflow.com/questions/6429779/can-anyone-define-the-windows-pe-checksum-algorithm
