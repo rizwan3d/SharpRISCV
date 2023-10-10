@@ -64,10 +64,17 @@ SharpRISCV.exe -i file.s -o out.o -p hex
 1. [X] .%hi
 1. [X] .%lo
 
-# UesFull links:
+# UesFull links and tools:
 1. [RISC-V Instruction Formats](https://sourceware.org/binutils/docs/as/RISC_002dV_002dFormats.html)
 1. [The RISC-V Instruction Set Manual](https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf) PDF Page 116
 1. [RISC-V ASSEMBLY LANGUAGE Programmer Manual](https://shakti.org.in/docs/risc-v-asm-manual.pdf)
 1. [RISC-V Instruction Encoder/Decoder](https://luplab.gitlab.io/rvcodecjs)
 1. [PE file format - Introduction](https://0xrick.github.io/win-internals/pe1/) 
 1. [Intel HEX](https://en.wikipedia.org/wiki/Intel_HEX)
+1. [PE-bear for inspecting Windows PE (Portable Executable) files.](https://github.com/hasherezade/pe-bear) - [Download from here; I have added RISC-V machine code detection](https://ci.appveyor.com/project/hasherezade/pe-bear/builds/48225351)
+
+## Support:
+<p><a href="https://www.buymeacoffee.com/rizwan3d"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="rizwan3d" /></a></p><br><br><br>
+
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/rizwan3d) 
+
