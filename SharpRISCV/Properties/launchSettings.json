@@ -11,6 +11,10 @@
     "Hex Output": {
       "commandName": "Project",
       "commandLineArgs": "-i test.s -o out.hex -p hex"
+    },
+    "ELF Output": {
+      "commandName": "Project",
+      "commandLineArgs": "-i test.s -o out.elf -p elf"
     }
   }
 }

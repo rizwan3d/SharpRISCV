@@ -121,6 +121,17 @@ partial class Program
                 new SharpRISCV.Core.Hex.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
             }
+
+            if (outputType == OutputType.ELF)
+            {
+                if (!outputFile.ToLower().EndsWith(".elf")) outputFile += ".elf";
+                Console.WriteLine("Build Started");
+                string assemblyLines = File.ReadAllText(inputFile);
+                Address.SetAddress(0);
+                RiscVAssembler.Assamble(assemblyLines);
+                new SharpRISCV.Core.Elf.Compile(outputFile).BinaryWrite();
+                Console.WriteLine("Build Completed");
+            }
         }
         catch (IOException e)
         {
