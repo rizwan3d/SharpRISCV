@@ -51,10 +51,10 @@ SharpRISCV.exe -i file.s -o out.o -p hex
 1. [X] Generate Hex (FOR MCUs)
 1. [X] Generate Hex (FOR MCUs) on Web Browser
 1. [X] Generate Windows PE on Web Browser - [Virustotal's Details](https://www.virustotal.com/gui/file/068b7911f9bce1131c2fc0bf412e81e4231146a4e71dfc7b90e6d209d0c0826f/details)
+2. [X] Generate ELF - [Virustotal's Details](https://www.virustotal.com/gui/file/95ee44dd11752294aa7cef26594c420989b7f5886ace0bf14e0771c95ffca200/details)
 1. [ ] Generate Xilinx
 1. [ ] Generate Altera
 1. [ ] Generate Verilog
-1. [ ] Generate ELF
 
 ## Assembler Directives
 1. [X] .text
@@ -72,6 +72,7 @@ SharpRISCV.exe -i file.s -o out.o -p hex
 1. [PE file format - Introduction](https://0xrick.github.io/win-internals/pe1/) 
 1. [Intel HEX](https://en.wikipedia.org/wiki/Intel_HEX)
 1. [PE-bear for inspecting Windows PE (Portable Executable) files.](https://github.com/hasherezade/pe-bear) - [Download from here; I have added RISC-V machine code detection](https://ci.appveyor.com/project/hasherezade/pe-bear/builds/48225351)
+1. [ELF file viewer/editor for Windows, Linux and MacOS](https://github.com/horsicq/XELFViewer)
 
 ## Support:
 <p><a href="https://www.buymeacoffee.com/rizwan3d"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="rizwan3d" /></a></p><br><br><br>
