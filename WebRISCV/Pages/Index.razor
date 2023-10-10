@@ -141,7 +141,7 @@
         output += $"Check You Download.{Environment.NewLine}";
         this.output = output;
 
-        await DownloadFile(finalDataWithCheckSum);
+        await DownloadFilePE(finalDataWithCheckSum);
 
         StateHasChanged();
     }
@@ -155,12 +155,18 @@
         output += $"Check You Download.{Environment.NewLine}";
         this.output = output;
 
-        await DownloadFile(finalData.ToArray());
+        await DownloadFileELF(finalData.ToArray());
 
         StateHasChanged();
     }
 
-    private async Task DownloadFile(byte[] finalDataWithCheckSum)
+    private async Task DownloadFilePE(byte[] finalDataWithCheckSum)
+    {
+        var base64 = Convert.ToBase64String(finalDataWithCheckSum);
+        await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.exe", base64);
+    }
+
+    private async Task DownloadFileELF(byte[] finalDataWithCheckSum)
     {
         var base64 = Convert.ToBase64String(finalDataWithCheckSum);
         await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.elf", base64);
