@@ -22,6 +22,7 @@
         </div>
     </div>
     <div class="col text-end">
+        <a class="btn btn-primary" @onclick="buildELF">Build Linux ELF</a>
         <a class="btn btn-primary" @onclick="buildPE">Build Windows PE</a>
         <a class="btn btn-primary" @onclick="buildHex">Build Hex</a>
         <a class="btn btn-primary" @onclick="build">Build Console</a>
@@ -145,10 +146,24 @@
         StateHasChanged();
     }
 
+    private async void buildELF()
+    {
+        Address.SetAddress(0);
+        RiscVAssembler.Assamble(fileContent);
+        var finalData = new SharpRISCV.Core.Elf.Compile("").bytes();
+        string output = string.Empty;
+        output += $"Check You Download.{Environment.NewLine}";
+        this.output = output;
+
+        await DownloadFile(finalData.ToArray());
+
+        StateHasChanged();
+    }
+
     private async Task DownloadFile(byte[] finalDataWithCheckSum)
     {
         var base64 = Convert.ToBase64String(finalDataWithCheckSum);
-        await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.exe", base64);
+        await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.elf", base64);
     }
 }
 
