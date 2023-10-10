@@ -8,9 +8,10 @@
 
 <h1>Welcome to SharpRISC-V</h1>
 
-<p>SharpRISCV is an implementation of RISC-V assembly in C#. First RISC V Assembly that build windows executable file.</p>
-
-
+<p>
+    SharpRISCV is an implementation of RISC-V assembly in C#. First RISC V Assembly that build windows executable file. <br />
+    If you find the project helpful and informative, don’t forget to give it a star on <a href="https://github.com/rizwan3d/SharpRISCV" target="_blank">Github</a> to show your support.
+</p>
 
 <div class="row">
     <div class="col">
@@ -47,7 +48,7 @@
     <div class="col-3">
     </div>
     <div class="col-3">
-        <a href="https://www.buymeacoffee.com/rizwan3d" class="float-end"> 
+        <a href="https://www.buymeacoffee.com/rizwan3d" class="float-end">
             <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="rizwan3d" />
         </a>
     </div>
@@ -122,7 +123,7 @@
         RiscVAssembler.Assamble(fileContent);
         var hexcode = new SharpRISCV.Core.Hex.Compile("").BuildHexString();
         string output = string.Empty;
-        output += $"Copy all the code below the spation line and paste it in Notepad, then save it as a .hex file.{ Environment.NewLine}";
+        output += $"Copy all the code below the spation line and paste it in Notepad, then save it as a .hex file.{Environment.NewLine}";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
         output += hexcode;
         this.output = output;
