@@ -7,6 +7,8 @@ namespace SharpRISCV.Core
         private static int currentAddress = 0;
         public static Dictionary<string, int> Labels = new Dictionary<string, int>();
 
+        private static int InstructionSize = 4;
+
         public static void Reset() => currentAddress = 0;
 
         public static int EntryPoint
@@ -21,7 +23,7 @@ namespace SharpRISCV.Core
         public static int GetAndIncreseAddress()
         {
             int oldAddress = currentAddress;
-            currentAddress += 4;
+            currentAddress += InstructionSize;
             return oldAddress;
         }
 
@@ -40,7 +42,7 @@ namespace SharpRISCV.Core
 
         public static void StartDataAddress()
         {
-            EntryDataAddress = currentAddress;
+            EntryDataAddress = currentAddress + InstructionSize;
         }
     }
 }
