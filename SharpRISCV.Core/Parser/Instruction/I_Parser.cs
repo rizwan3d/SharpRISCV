@@ -6,7 +6,7 @@ public class I_Parser : IParser
 {
     public RiscVInstruction Parse(string instruction)
     {
-        Regex iTypeRegex = new Regex(@"^(\w+)\s+(\w+),\s*(\w+)\s*,\s+([-\w().%]+)$");
+        Regex iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*(\w+)\s*,\s*([-\w().%]+)$");
         Match iTypeMatch = iTypeRegex.Match(instruction);
         if (iTypeMatch.Success)
         {

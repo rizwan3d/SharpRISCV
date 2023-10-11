@@ -4,7 +4,7 @@ public class J_Parser : IParser
 {
     public RiscVInstruction Parse(string instruction)
     {
-        Regex jTypeRegex = new Regex(@"^(\w+)\s+(\w+),\s+([\dA-Za-z]+)$");
+        Regex jTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*([\dA-Za-z]+)$");
         Match jTypeMatch = jTypeRegex.Match(instruction);
         if (jTypeMatch.Success)
         {
