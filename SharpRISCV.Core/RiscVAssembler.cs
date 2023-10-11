@@ -206,18 +206,29 @@ namespace SharpRISCV.Core
 
                         foreach (var item in extractedString.Split(','))
                         {
-                            if (int.TryParse(item.Trim(), out int inval))
+                            int inval = 0;
+                            if(item.StartsWith("0x"))
                             {
-                                byte[] byteArray = BitConverter.GetBytes(inval);
-                                if (byteArray.Length < 4)
-                                {
-                                    byte[] paddedArray = new byte[4];
-                                    Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
-                                    byteArray = paddedArray; // Replace byteArray with the padded array
-                                }
-                                DataSection.Add(byteArray);
-                                Address.GetAndIncreseAddress(byteArray.Length + 1);
+                                inval = Convert.ToInt32(item,16);
                             }
+                            else if (item.StartsWith("0b"))
+                            {
+                                inval = Convert.ToInt32(item, 2);
+                            }
+                            else if (int.TryParse(item.Trim(), out int val))
+                            {
+                                inval = val;
+                            }
+
+                            byte[] byteArray = BitConverter.GetBytes(inval);
+                            if (byteArray.Length < 4)
+                            {
+                                byte[] paddedArray = new byte[4];
+                                Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
+                                byteArray = paddedArray; // Replace byteArray with the padded array
+                            }
+                            DataSection.Add(byteArray);
+                            Address.GetAndIncreseAddress(byteArray.Length + 1);
                         }
                         continue;
                     }
