@@ -15,7 +15,7 @@ namespace SharpRISCV.Core
         {
             get
             {
-                return Labels.ContainsKey("main") ? Labels["main"] : 0;
+                return Labels.ContainsKey("_start") ? Labels["_start"] : 0;
             }
         }
         public static string EntryPointHax { get { return $"0x{EntryPoint.ToString("X8")}"; } }
