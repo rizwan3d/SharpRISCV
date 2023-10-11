@@ -57,8 +57,9 @@ namespace SharpRISCV.Core
             Address.Reset();
 
             //Process .Text Instructions
+            if (DirectiveCode.ContainsKey(".text"))
             foreach (var directive in DirectiveCode[".text"])
-            {
+                    {
                 var lines = directive.SplitStingByNewLine();
                 foreach (var line in lines)
                 {
