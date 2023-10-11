@@ -141,7 +141,7 @@
         output += $"Check You Download.{Environment.NewLine}";
         this.output = output;
 
-        await DownloadFilePE(finalDataWithCheckSum);
+        await DownloadFile(finalDataWithCheckSum, OutputType.PE);
 
         StateHasChanged();
     }
@@ -155,21 +155,17 @@
         output += $"Check You Download.{Environment.NewLine}";
         this.output = output;
 
-        await DownloadFileELF(finalData.ToArray());
+        await DownloadFile(finalData.ToArray(), OutputType.ELF);
 
         StateHasChanged();
     }
 
-    private async Task DownloadFilePE(byte[] finalDataWithCheckSum)
+    private async Task DownloadFile(byte[] data, OutputType outputType)
     {
-        var base64 = Convert.ToBase64String(finalDataWithCheckSum);
-        await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.exe", base64);
-    }
-
-    private async Task DownloadFileELF(byte[] finalDataWithCheckSum)
-    {
-        var base64 = Convert.ToBase64String(finalDataWithCheckSum);
-        await JSRuntime.InvokeVoidAsync("downloadFile", "risc-v.elf", base64);
+        var base64 = Convert.ToBase64String(data);
+        string ext = outputType == OutputType.ELF ? ".elf" : "exe";
+        string name = $"SharRISCV-{DateTime.Now:MM-dd-yyyy}.{ext}";
+        await JSRuntime.InvokeVoidAsync("downloadFile", name, base64);
     }
 }
 
