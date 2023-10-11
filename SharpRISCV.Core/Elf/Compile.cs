@@ -42,7 +42,7 @@ namespace SharpRISCV.Core.Elf
 
             List<byte> dataSectBytes = new List<byte>();
             dataSectBytes.AddRange(DataSection.DataDirective);
-            var entryPoint = 64 + 32 + Address.EntryPoint;
+            var entryPoint = 0x40 + 0x38 + Address.EntryPoint;
 
             finalBytes.AddRange(new byte[] { 0x7F, (byte)'E', (byte)'L', (byte)'F' });
             finalBytes.Add(2); // class (64-bit)
@@ -57,7 +57,7 @@ namespace SharpRISCV.Core.Elf
             finalBytes.AddRange(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }); // section header offset
             finalBytes.AddRange(new byte[] { 0, 0, 0, 0 }); // flags
             finalBytes.AddRange(BitConverter.GetBytes((Int16)0x40)); // ELF header size
-            finalBytes.AddRange(BitConverter.GetBytes((Int16)32)); // program header size
+            finalBytes.AddRange(BitConverter.GetBytes((Int16)0x38)); // program header size
             finalBytes.AddRange(BitConverter.GetBytes((Int16)1)); // program header entry size
             finalBytes.AddRange(new byte[] { 0, 0 }); // section header size
             finalBytes.AddRange(new byte[] { 0, 0 }); // section header entry size
@@ -69,6 +69,7 @@ namespace SharpRISCV.Core.Elf
             //// Program header
             finalBytes.AddRange(new byte[] { 1, 0, 0, 0 }); // type (load)
             finalBytes.AddRange(new byte[] { 0, 0, 0, 0 }); // offset
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x40)); // virtual address
             finalBytes.AddRange(BitConverter.GetBytes((Int64)entryPoint)); // virtual address
             finalBytes.AddRange(BitConverter.GetBytes((Int64)entryPoint)); // physical address
             finalBytes.AddRange(BitConverter.GetBytes((Int64)size)); // file size
