@@ -17,9 +17,11 @@ namespace SharpRISCV.Core.Hex
         {
             this.path = path;
         }
-        public void BinaryWrite()
+        public string BinaryWrite()
         {
-            File.WriteAllText(path, BuildHexString());
+            string hex = BuildHexString();
+            File.WriteAllText(path, hex);
+            return hex;
         }
 
         public string BuildHexString() {

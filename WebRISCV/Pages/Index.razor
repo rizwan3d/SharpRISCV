@@ -137,8 +137,8 @@
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Windows.Compile("").BuildPeNoCheckSum();
         var finalDataWithCheckSum = new SharpRISCV.Core.Windows.Compile("").AddCheckSumForWeb(finalData);
-        string output = string.Empty;
-        output += $"Check You Download.{Environment.NewLine}";
+        string output = $"RAW DUMP:{Environment.NewLine}";
+        output += BytesConsoleOutputBuilder.Build(finalData);
         this.output = output;
 
         await DownloadFile(finalDataWithCheckSum, OutputType.PE);
@@ -151,12 +151,11 @@
         Address.SetAddress(0);
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Elf.Compile("").bytes();
-        string output = string.Empty;
-        output += $"Check You Download.{Environment.NewLine}";
+        string output = $"RAW DUMP:{Environment.NewLine}";
+        output += BytesConsoleOutputBuilder.Build(finalData);
         this.output = output;
 
         await DownloadFile(finalData.ToArray(), OutputType.ELF);
-
         StateHasChanged();
     }
 

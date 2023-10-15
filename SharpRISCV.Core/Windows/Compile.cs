@@ -26,7 +26,7 @@ namespace SharpRISCV.Core.Windows
             this.path = path;
         }
 
-        public void BinaryWrite()
+        public byte[] BinaryWrite()
         {
 
             List<byte> finalBytes = BuildPeNoCheckSum();
@@ -54,6 +54,8 @@ namespace SharpRISCV.Core.Windows
                 fs.Seek(216, SeekOrigin.Current);
                 fs.Write(BitConverter.GetBytes(checkSum), 0, 4);
             }
+
+            return File.ReadAllBytes(path);
         }
 
         public List<byte> BuildPeNoCheckSum()

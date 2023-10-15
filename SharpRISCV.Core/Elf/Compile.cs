@@ -17,13 +17,15 @@ namespace SharpRISCV.Core.Elf
         {
             this.path = path;
         }
-        public void BinaryWrite()
+        public List<byte> BinaryWrite()
         {
+            List<byte> finalBytes = bytes();
             using (FileStream fileStream = new FileStream(this.path, FileMode.Create))
             using (BinaryWriter writer = new BinaryWriter(fileStream))
             {
-                writer.Write(bytes().ToArray());
+                writer.Write(finalBytes.ToArray());
             }
+            return finalBytes;
         }
 
         public List<byte> bytes()
@@ -76,8 +78,6 @@ namespace SharpRISCV.Core.Elf
             finalBytes.AddRange(BitConverter.GetBytes((Int64)size)); // memory size
             finalBytes.AddRange(new byte[] { 5, 0, 0, 0 }); // flags (execute and read)
             finalBytes.AddRange(new byte[] { 0, 0, 0, 0, 0, 0,0,0 }); // alignment
-
-            Console.WriteLine(sizeof(byte)* finalBytes.Count);
 
 
             finalBytes.AddRange(opcodes);

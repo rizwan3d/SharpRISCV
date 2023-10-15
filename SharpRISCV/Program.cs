@@ -107,8 +107,10 @@ partial class Program
                 Address.SetAddress((int)SharpRISCV.Core.Windows.Compile.memAddress);
                 string assemblyLines = File.ReadAllText(inputFile);
                 RiscVAssembler.Assamble(assemblyLines);
-                new SharpRISCV.Core.Windows.Compile(outputFile).BinaryWrite();
+                var finalData = new SharpRISCV.Core.Windows.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
+                Console.WriteLine("RAW DUMP:");
+                Console.WriteLine(BytesConsoleOutputBuilder.Build(new List<byte>(finalData)));
             }
 
             if (outputType == OutputType.HEX)
@@ -118,8 +120,10 @@ partial class Program
                 string assemblyLines = File.ReadAllText(inputFile);
                 Address.SetAddress(0);
                 RiscVAssembler.Assamble(assemblyLines);
-                new SharpRISCV.Core.Hex.Compile(outputFile).BinaryWrite();
+                var finalData = new SharpRISCV.Core.Hex.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
+                Console.WriteLine("RAW DUMP:");
+                Console.WriteLine(finalData);
             }
 
             if (outputType == OutputType.ELF)
@@ -129,8 +133,11 @@ partial class Program
                 string assemblyLines = File.ReadAllText(inputFile);
                 Address.SetAddress(0);
                 RiscVAssembler.Assamble(assemblyLines);
-                new SharpRISCV.Core.Elf.Compile(outputFile).BinaryWrite();
+                var finalData = new SharpRISCV.Core.Elf.Compile(outputFile).BinaryWrite();
                 Console.WriteLine("Build Completed");
+                Console.WriteLine("RAW DUMP:");
+                Console.WriteLine(BytesConsoleOutputBuilder.Build(finalData));
+
             }
         }
         catch (IOException e)
