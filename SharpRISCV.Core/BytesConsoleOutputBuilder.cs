@@ -11,7 +11,7 @@ namespace SharpRISCV.Core
             int bytesPerLine = 16;
             int byteCount = 0;
             StringBuilder hexEditorOutput = new StringBuilder();
-
+            hexEditorOutput.Append("            0  1  2  3  4  4  6  7  8  9  A  B  C  D  E  F").AppendLine();
             foreach (byte b in bytes)
             {
                 if (byteCount % bytesPerLine == 0)
