@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using SharpRISCV.Core
+@using System.Text;
 @inject HttpClient Http
 @inject ILogger<Index> Logger
 
@@ -34,7 +35,9 @@
         <textarea class="form-control w-100 h-100" rows="10" cols="40" @bind="fileContent"></textarea>
     </div>
     <div class="col h-100">
-        <textarea class="form-control w-100 h-100" rows="10" cols="40" @bind="output"></textarea>
+        <pre>
+            @((MarkupString)(@output))
+        </pre>
     </div>
 
 </div>
@@ -69,7 +72,6 @@
         fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/example.s").ConfigureAwait(false);
         StateHasChanged();
     }
-
 
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
@@ -152,10 +154,10 @@
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Elf.Compile("").bytes();
         string output = $"RAW DUMP:{Environment.NewLine}";
-        output += BytesConsoleOutputBuilder.Build(finalData);
+        output = BytesConsoleOutputBuilder.Build(finalData);
+        output = HighlightElf(output);
         this.output = output;
-
-        await DownloadFile(finalData.ToArray(), OutputType.ELF);
+        //await DownloadFile(finalData.ToArray(), OutputType.ELF);
         StateHasChanged();
     }
 
@@ -166,11 +168,104 @@
         string name = $"SharRISCV-{DateTime.Now:MM-dd-yyyy}.{ext}";
         await JSRuntime.InvokeVoidAsync("downloadFile", name, base64);
     }
+
+
+    string HighlightElf(string hexDump)
+    {
+        var lines = hexDump.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+        var result = new StringBuilder();
+        int address = 0;
+        result.Append($"<span class='fs-5'>{lines[0]}</ span >").AppendLine();
+        foreach (var line in lines[1..lines.Length])
+        {
+            var saddress = line[0..8];
+            var bytespart = line[11..58];
+            var ascii = line[61..line.Length];
+            result.Append($"<span class='fs-5'>{saddress}   </span>");
+            foreach (var byteStr in bytespart.Split(' '))
+            {
+                var highlightedByte = HighlightElfByte(byteStr, address);
+                result.Append(highlightedByte).Append(' ');
+                address++;
+            }
+            result.Append($"<span class='fs-5'>  {ascii}</span>");
+            result.AppendLine();
+        }
+
+        return result.ToString();
+    }
+
+    string[] colors = { "blue", "green", "black", "red" };
+    int colorId = 0;
+    int tipId = 0;
+    string[] tips = { "EI_MAG", "EL_CLASS, EL_DATA" };
+    int UpdateColorId()
+    {
+        if (this.colorId < colors.Length - 1) return this.colorId++;
+        return colorId = 0;
+    }
+
+    void NextTip()
+    {
+        if (tipId < tips.Length)
+            tipId++;
+    }
+
+    string HighlightElfByte(string byteStr, int address)
+    {
+        int id = colorId;
+        if (address == 0x3)
+        {
+            id = UpdateColorId();
+            NextTip();
+        }
+        else if (address == 0x5)
+        {
+            id = UpdateColorId();
+        }
+        else if (address == 0x6)
+        {
+            id = UpdateColorId();
+        }
+        else if (address == 0xF)
+        {
+            id = UpdateColorId();
+        }
+        else if (address == 0x10)
+        {
+            id = UpdateColorId();
+        }
+        else if (address == 0x11)
+        {
+            id = UpdateColorId();
+        }
+        else if (address == 0x17)
+        {
+            id = UpdateColorId();
+        }
+        else if (address == 0x1B)
+        {
+            id = UpdateColorId();
+        }
+        // else if (address == 0x1F)
+        // {
+        //     id = UpdateColorId();
+        // }
+        return $"<span style='color:{colors[id]}' class='fs-5' title='{tips[tipId]} - Address: {address}'>{byteStr}</span>";
+    }
 }
 
 @inject IJSRuntime JSRuntime
 
 <script>
+    function addTooltips() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    }
+
     window.downloadFile = (fileName, base64String) => {
         const byteCharacters = atob(base64String);
         const byteNumbers = new Array(byteCharacters.length);
