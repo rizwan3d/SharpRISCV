@@ -39,7 +39,7 @@ namespace SharpRISCV.Core
             }
 
             int remainingSpaces = bytesPerLine - (byteCount % bytesPerLine);
-            hexEditorOutput.Append(' ', remainingSpaces * 4 + (remainingSpaces > 0 ? 2 : 0));
+            hexEditorOutput.Append(' ', remainingSpaces * 3);
 
             hexEditorOutput.Append("  ");
             for (int i = 0; i < bytesPerLine; i++)
