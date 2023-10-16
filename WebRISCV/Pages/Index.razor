@@ -72,6 +72,10 @@
         fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/example.s").ConfigureAwait(false);
         StateHasChanged();
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("addTooltips");
+    }
 
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
@@ -139,11 +143,11 @@
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Windows.Compile("").BuildPeNoCheckSum();
         var finalDataWithCheckSum = new SharpRISCV.Core.Windows.Compile("").AddCheckSumForWeb(finalData);
-        string output = $"RAW DUMP:{Environment.NewLine}";
-        output += BytesConsoleOutputBuilder.Build(finalData);
-        this.output = output;
+        string output = BytesConsoleOutputBuilder.Build(finalData);
+        this.output = $"<span class='fs-5'>RAW DUMP:{Environment.NewLine}</span>";
+        this.output += output;
 
-        await DownloadFile(finalDataWithCheckSum, OutputType.PE);
+        //await DownloadFile(finalDataWithCheckSum, OutputType.PE);
 
         StateHasChanged();
     }
@@ -153,11 +157,11 @@
         Address.SetAddress(0);
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Elf.Compile("").bytes();
-        string output = $"RAW DUMP:{Environment.NewLine}";
-        output = BytesConsoleOutputBuilder.Build(finalData);
+        string output = BytesConsoleOutputBuilder.Build(finalData);
         output = HighlightElf(output);
-        this.output = output;
-        //await DownloadFile(finalData.ToArray(), OutputType.ELF);
+        this.output = $"<span class='fs-5'>RAW DUMP:{Environment.NewLine}</span>";
+        this.output += output;
+        await DownloadFile(finalData.ToArray(), OutputType.ELF);
         StateHasChanged();
     }
 
@@ -196,63 +200,35 @@
         return result.ToString();
     }
 
-    string[] colors = { "blue", "green", "black", "red" };
     int colorId = 0;
     int tipId = 0;
-    string[] tips = { "EI_MAG", "EL_CLASS, EL_DATA" };
-    int UpdateColorId()
+    static string[] colors = { "blue", "green", "black", "red" };
+    CircularIdGenerator circularColors = new CircularIdGenerator(colors);
+    static string[] elfTips = { 
+        // ELF Header
+        "EI_MAG", "EL_CLASS ", " EL_DATA", "EI_VERSION", "EI_OSABI", "EI_ABIVERSION", "EI_PAD", "e_type", "e_machine", "e_version","e_phoff","e_shoff","e_flags","e_ehsize","e_phentsize","e_phnum","e_shentsize","e_shnum","e_shstrndx",
+        // Program header
+        "","p_type","p_flags","p_offset","p_vaddr","p_paddr","p_filesz","p_memsz","p_flags","p_align","CODE",
+    };
+    CircularIdGenerator elfTipsGenerator = new CircularIdGenerator(elfTips);
+    List<int> chnageAddress = new List<int>
     {
-        if (this.colorId < colors.Length - 1) return this.colorId++;
-        return colorId = 0;
-    }
-
-    void NextTip()
-    {
-        if (tipId < tips.Length)
-            tipId++;
-    }
+        // ELF Header
+        0x03,0x04,0x05,0x06,0x07,0x08,0x0F,0x11,0x13,0x17,0x1F,0x27,0x2F,0x34,0x35,0x37,0x39,0x3B,0x3D,0x3F,
+        // Program header
+        0X40+0x03,0X40+0x07,0X40+0x0F,0X40+0x17,0X40+0x1F,0X40+0x27,0X40+0x2B,0X40+0x33,0X40+0x37
+    };
 
     string HighlightElfByte(string byteStr, int address)
     {
-        int id = colorId;
-        if (address == 0x3)
+        string color = circularColors.Current;
+        string tip = elfTipsGenerator.Current;
+        if (chnageAddress.Contains(address))
         {
-            id = UpdateColorId();
-            NextTip();
+            color = circularColors.GetNextId();
+            tip = elfTipsGenerator.GetNextId();
         }
-        else if (address == 0x5)
-        {
-            id = UpdateColorId();
-        }
-        else if (address == 0x6)
-        {
-            id = UpdateColorId();
-        }
-        else if (address == 0xF)
-        {
-            id = UpdateColorId();
-        }
-        else if (address == 0x10)
-        {
-            id = UpdateColorId();
-        }
-        else if (address == 0x11)
-        {
-            id = UpdateColorId();
-        }
-        else if (address == 0x17)
-        {
-            id = UpdateColorId();
-        }
-        else if (address == 0x1B)
-        {
-            id = UpdateColorId();
-        }
-        // else if (address == 0x1F)
-        // {
-        //     id = UpdateColorId();
-        // }
-        return $"<span style='color:{colors[id]}' class='fs-5' title='{tips[tipId]} - Address: {address}'>{byteStr}</span>";
+        return $"<span style='color:{color}' class='fs-5' data-toggle='tooltip' data-placement='top' title='{tip} - Address: {address:X8}'>{byteStr}</span>";
     }
 }
 
@@ -260,12 +236,11 @@
 
 <script>
     function addTooltips() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     }
-
     window.downloadFile = (fileName, base64String) => {
         const byteCharacters = atob(base64String);
         const byteNumbers = new Array(byteCharacters.length);
