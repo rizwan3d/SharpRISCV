@@ -99,7 +99,7 @@
     {
         Address.SetAddress(0);
         RiscVAssembler.Assamble(fileContent);
-        string output = string.Empty;
+        string output = "<span class='fs-5'>";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
         output += $" Entry Address: {Address.EntryPointHax}{Environment.NewLine}";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
@@ -125,6 +125,7 @@
             output += $" 0x{dump.Key}\t|\t0x{dump.Value}\t|\t{new string(dump.Value.HexToString().Reverse().ToArray())}{Environment.NewLine}";
         }
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
+        output += $"</span>";
 
         this.output = output;
         StateHasChanged();
@@ -135,10 +136,11 @@
         Address.SetAddress(0);
         RiscVAssembler.Assamble(fileContent);
         var hexcode = new SharpRISCV.Core.Hex.Compile("").BuildHexString();
-        string output = string.Empty;
+        string output = "<span class='fs-5'>";
         output += $"Copy all the code below the spation line and paste it in Notepad, then save it as a .hex file.{Environment.NewLine}";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
         output += hexcode;
+        output += $"</span>";
         this.output = output;
         StateHasChanged();
     }
@@ -173,7 +175,7 @@
     private async Task DownloadFile(byte[] data, OutputType outputType)
     {
         var base64 = Convert.ToBase64String(data);
-        string ext = outputType == OutputType.ELF ? ".elf" : "exe";
+        string ext = outputType == OutputType.ELF ? "elf" : "exe";
         string name = $"SharRISCV-{DateTime.Now:MM-dd-yyyy}.{ext}";
         await JSRuntime.InvokeVoidAsync("downloadFile", name, base64);
     }
