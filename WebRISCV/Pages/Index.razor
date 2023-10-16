@@ -31,10 +31,10 @@
 </div>
 
 <div class="row h-100">
-    <div class="col h-100">
+    <div class="col-6 h-100">
         <textarea class="form-control w-100 h-100" rows="10" cols="40" @bind="fileContent"></textarea>
     </div>
-    <div class="col h-100">
+    <div class="col-6 h-100">
         <pre>
             @((MarkupString)(@output))
         </pre>
@@ -64,6 +64,12 @@
 </div>
 
 @code {
+
+    enum ByteType
+    {
+        ELF, PE, HEX
+    }
+
     private string fileContent { get; set; } = "";
     private string output { get; set; } = "";
 
@@ -144,11 +150,10 @@
         var finalData = new SharpRISCV.Core.Windows.Compile("").BuildPeNoCheckSum();
         var finalDataWithCheckSum = new SharpRISCV.Core.Windows.Compile("").AddCheckSumForWeb(finalData);
         string output = BytesConsoleOutputBuilder.Build(finalData);
+        output = Highlight(output, ByteType.PE);
         this.output = $"<span class='fs-5'>RAW DUMP:{Environment.NewLine}</span>";
         this.output += output;
-
-        //await DownloadFile(finalDataWithCheckSum, OutputType.PE);
-
+        await DownloadFile(finalDataWithCheckSum, OutputType.PE);
         StateHasChanged();
     }
 
@@ -158,7 +163,7 @@
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Elf.Compile("").bytes();
         string output = BytesConsoleOutputBuilder.Build(finalData);
-        output = HighlightElf(output);
+        output = Highlight(output, ByteType.ELF);
         this.output = $"<span class='fs-5'>RAW DUMP:{Environment.NewLine}</span>";
         this.output += output;
         await DownloadFile(finalData.ToArray(), OutputType.ELF);
@@ -174,7 +179,7 @@
     }
 
 
-    string HighlightElf(string hexDump)
+    string Highlight(string hexDump, ByteType type)
     {
         var lines = hexDump.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
@@ -189,7 +194,7 @@
             result.Append($"<span class='fs-5'>{saddress}   </span>");
             foreach (var byteStr in bytespart.Split(' '))
             {
-                var highlightedByte = HighlightElfByte(byteStr, address);
+                var highlightedByte = HighlightByte(byteStr, address, type);
                 result.Append(highlightedByte).Append(' ');
                 address++;
             }
@@ -211,7 +216,7 @@
         "","p_type","p_flags","p_offset","p_vaddr","p_paddr","p_filesz","p_memsz","p_flags","p_align","CODE",
     };
     CircularIdGenerator elfTipsGenerator = new CircularIdGenerator(elfTips);
-    List<int> chnageAddress = new List<int>
+    List<int> elfChnageAddress = new List<int>
     {
         // ELF Header
         0x03,0x04,0x05,0x06,0x07,0x08,0x0F,0x11,0x13,0x17,0x1F,0x27,0x2F,0x34,0x35,0x37,0x39,0x3B,0x3D,0x3F,
@@ -219,14 +224,19 @@
         0X40+0x03,0X40+0x07,0X40+0x0F,0X40+0x17,0X40+0x1F,0X40+0x27,0X40+0x2B,0X40+0x33,0X40+0x37
     };
 
-    string HighlightElfByte(string byteStr, int address)
+    string HighlightByte(string byteStr, int address, ByteType type)
     {
-        string color = circularColors.Current;
-        string tip = elfTipsGenerator.Current;
-        if (chnageAddress.Contains(address))
+        string color = "black";
+        string tip = string.Empty;
+        if (type == ByteType.ELF)
         {
-            color = circularColors.GetNextId();
-            tip = elfTipsGenerator.GetNextId();
+            color = circularColors.Current;
+            tip = elfTipsGenerator.Current;
+            if (elfChnageAddress.Contains(address))
+            {
+                color = circularColors.GetNextId();
+                tip = elfTipsGenerator.GetNextId();
+            }
         }
         return $"<span style='color:{color}' class='fs-5' data-toggle='tooltip' data-placement='top' title='{tip} - Address: {address:X8}'>{byteStr}</span>";
     }
