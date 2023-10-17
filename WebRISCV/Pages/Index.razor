@@ -3,6 +3,7 @@
 @using System.Text;
 @inject HttpClient Http
 @inject ILogger<Index> Logger
+@inject IJSRuntime JSModule
 
 
 <PageTitle>Index</PageTitle>
@@ -30,9 +31,9 @@
     </div>
 </div>
 
-<div class="row h-75">
-    <div class="col-6 h-100">
-        <textarea class="form-control w-100 h-100" rows="10" cols="40" @bind="fileContent"></textarea>
+<div class="row" style="min-height:700px">
+    <div class="col-6">
+            <div id="monaco-editor" style="width: 100%;height: 100%;"></div>
     </div>
     <div class="col-6">
         <pre>
@@ -73,14 +74,15 @@
     private string fileContent { get; set; } = "";
     private string output { get; set; } = "";
 
-    protected override async Task OnInitializedAsync()
-    {
-        fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/example.s").ConfigureAwait(false);
-        StateHasChanged();
-    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JSRuntime.InvokeVoidAsync("addTooltips");
+        if (firstRender)
+        {
+            fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/example.s").ConfigureAwait(false);
+            await JSModule.InvokeAsync<IJSObjectReference>("createEditor", "monaco-editor", fileContent);
+            await JSModule.InvokeVoidAsync("addTooltips");
+            StateHasChanged();
+        }
     }
 
     private async void LoadFiles(InputFileChangeEventArgs e)
@@ -95,9 +97,15 @@
         StateHasChanged();
     }
 
-    private void build()
+    private async Task<string> GetCode()
+    {
+        return await JSModule.InvokeAsync<string>("getEditorValue");
+    }
+
+    private async void build()
     {
         Address.SetAddress(0);
+        fileContent = await GetCode().ConfigureAwait(false);
         RiscVAssembler.Assamble(fileContent);
         string output = "<span class='fs-5'>";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
@@ -131,9 +139,10 @@
         StateHasChanged();
     }
 
-    private void buildHex()
+    private async void buildHex()
     {
         Address.SetAddress(0);
+        fileContent = await GetCode().ConfigureAwait(false);
         RiscVAssembler.Assamble(fileContent);
         var hexcode = new SharpRISCV.Core.Hex.Compile("").BuildHexString();
         string output = "<span class='fs-5'>";
@@ -148,6 +157,7 @@
     private async void buildPE()
     {
         Address.SetAddress(0);
+        fileContent = await GetCode().ConfigureAwait(false);
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Windows.Compile("").BuildPeNoCheckSum();
         var finalDataWithCheckSum = new SharpRISCV.Core.Windows.Compile("").AddCheckSumForWeb(finalData);
@@ -162,6 +172,7 @@
     private async void buildELF()
     {
         Address.SetAddress(0);
+        fileContent = await GetCode().ConfigureAwait(false);
         RiscVAssembler.Assamble(fileContent);
         var finalData = new SharpRISCV.Core.Elf.Compile("").bytes();
         string output = BytesConsoleOutputBuilder.Build(finalData);
@@ -177,7 +188,7 @@
         var base64 = Convert.ToBase64String(data);
         string ext = outputType == OutputType.ELF ? "elf" : "exe";
         string name = $"SharRISCV-{DateTime.Now:MM-dd-yyyy}.{ext}";
-        await JSRuntime.InvokeVoidAsync("downloadFile", name, base64);
+        await JSModule.InvokeVoidAsync("downloadFile", name, base64);
     }
 
 
@@ -243,34 +254,3 @@
         return $"<span style='color:{color}' class='fs-5' data-toggle='tooltip' data-placement='top' title='{tip} - Address: {address:X8}'>{byteStr}</span>";
     }
 }
-
-@inject IJSRuntime JSRuntime
-
-<script>
-    function addTooltips() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    }
-    window.downloadFile = (fileName, base64String) => {
-        const byteCharacters = atob(base64String);
-        const byteNumbers = new Array(byteCharacters.length);
-
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: "application/octet-stream" });
-
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = fileName;
-
-        document.body.appendChild(link);
-        link.click();
-
-        document.body.removeChild(link);
-    };
-</script>
