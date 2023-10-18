@@ -148,7 +148,14 @@
         string output = "<span class='fs-5'>";
         output += $"Copy all the code below the spation line and paste it in Notepad, then save it as a .hex file.{Environment.NewLine}";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
-        output += hexcode;
+        foreach(var line in hexcode.Split(':',StringSplitOptions.RemoveEmptyEntries))
+        {
+            output += ":<span class='text-info'>" + line[0..2] + "</span>";
+            output += "<span class='text-success'>" + line[3..6] + "</span>";
+            output += "<span class='text-danger'>" + line[5..7] + "</span>";
+            output += "<span class='text-primary'>" + line[7..(line.Length - 3)] + "</span>";
+            output += "<span class='text-warning'>" + line[(line.Length - 3)..line.Length] + "</span>";
+        }
         output += $"</span>";
         this.output = output;
         StateHasChanged();
