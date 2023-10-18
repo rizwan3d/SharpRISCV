@@ -1,7 +1,7 @@
 .text                            # code segment
     addi  sp,  sp, -16           # reserve stack space
     sw    ra,  12(sp)            # save return address
-_start:                            # program entry
+_start:                          # program entry
     lui   a0,  %hi(.LC0)         # load message address
     addi  a0,  a0, %lo(.LC0)     # message address
     la    x10, .LC0              # test la: load address
@@ -13,7 +13,7 @@ _start:                            # program entry
 w_addr:                          # word address
     .word 1495296332             # 1 word
     .word 1852403041             # 1 word
-    .word 0,0                    # 2 words
+    .word 0,0                    # 2 wordsd
 .LC0: 
-    .string "Hello, World!\n"  # a string
+    .string "Hello, World!\n"    # a string
 .end

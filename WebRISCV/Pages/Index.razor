@@ -109,9 +109,9 @@
         RiscVAssembler.Assamble(fileContent);
         string output = "<span class='fs-5'>";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
-        output += $" Entry Address: {Address.EntryPointHax}{Environment.NewLine}";
+        output += $" <span class='text-warning'>Entry Address:</span> <span class='text-primary'>{Address.EntryPointHax}</span>{Environment.NewLine}";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
-        output += $" Address \t|\tHex Code\t|\tInstruction{Environment.NewLine}";
+        output += $" <span class='text-primary'>Address</span> \t|\t<span class='text-success'>Hex Code</span>\t|\t<span class='text-info'>Instruction{Environment.NewLine}</span>";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
 
         foreach (var instruction in RiscVAssembler.Instruction)
@@ -119,18 +119,18 @@
             if (instruction.InstructionType == InstructionType.Lable)
             {
                 output += $"-------------------------------------------------------------------------{Environment.NewLine}";
-                output += $" \t{instruction.Instruction}{Environment.NewLine}";
+                output += $" \t<span class='text-warning'>{instruction.Instruction}</span>{Environment.NewLine}";
                 continue;
             }
             instruction.MachineCode().ForEach(machineCode =>
-            output += $" 0x{machineCode.Address:X8}\t|\t{machineCode.Hex}\t|\t{instruction.Instruction}{Environment.NewLine}");
+            output += $" <span class='text-primary'>0x{machineCode.Address:X8}</span>\t|\t<span class='text-success'>{machineCode.Hex}</span>\t|\t<span class='text-info'>{instruction.Instruction}</span>{Environment.NewLine}");
         }
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
-        output += $" Data Dump{Environment.NewLine}";
+        output += $" <span class='text-warning'>Data Dump{Environment.NewLine}</span>";
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
         foreach (var dump in DataSection.HexDum)
         {
-            output += $" 0x{dump.Key}\t|\t0x{dump.Value}\t|\t{new string(dump.Value.HexToString().Reverse().ToArray())}{Environment.NewLine}";
+            output += $" <span class='text-primary'>0x{dump.Key}</span>\t|\t<span class='text-success'>0x{dump.Value}</span>\t|\t<span class='text-info'>{new string(dump.Value.HexToString().Reverse().ToArray())}</span>{Environment.NewLine}";
         }
         output += $"-------------------------------------------------------------------------{Environment.NewLine}";
         output += $"</span>";
