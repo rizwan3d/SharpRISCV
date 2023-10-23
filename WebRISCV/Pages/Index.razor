@@ -104,7 +104,7 @@
     {
         if (firstRender)
         {
-            fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/example.s").ConfigureAwait(false);
+            fileContent = await Http.GetStringAsync("https://raw.githubusercontent.com/rizwan3d/SharpRISCV/master/Example/helloworld.s").ConfigureAwait(false);
             await JSModule.InvokeAsync<IJSObjectReference>("createEditor", "monaco-editor", fileContent);
             await JSModule.InvokeVoidAsync("addTooltips");
             StateHasChanged();
