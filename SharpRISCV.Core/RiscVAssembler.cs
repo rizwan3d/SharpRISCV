@@ -267,6 +267,8 @@ namespace SharpRISCV.Core
                     return InstructionType.U;
                 case (OpCode)0b0010011:
                     return InstructionType.I;
+                case (OpCode)0b1110011:
+                    return InstructionType.I;
                 case (OpCode)0b1100011:
                     return InstructionType.B;
                 case (OpCode)0b0000011:

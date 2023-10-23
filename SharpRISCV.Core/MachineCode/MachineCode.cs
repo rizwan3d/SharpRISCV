@@ -80,6 +80,7 @@ namespace SharpRISCV.Core.MachineCode
 
         public static int ProcessSource(string Immediate)
         {
+            if(Immediate == null) { return 0; }
 
             if (Immediate.StartsWith("%"))
             {

@@ -59,6 +59,19 @@ public class I_Parser : IParser
                 InstructionType = InstructionType.I,
             };
         }
+
+        if(instruction == "ecall" || instruction == "ebreak")
+        {
+            return new RiscVInstruction
+            {
+                Instruction = instruction,
+                Opcode = instruction,
+                Rd = string.Empty,
+                Rs1 = string.Empty,
+                InstructionType = InstructionType.I,
+            };
+        }
+
         return null;
     }
 }

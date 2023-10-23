@@ -77,6 +77,7 @@ namespace SharpRISCV.Core.Registers
             FromABI.Add("x29", 29);
             FromABI.Add("x30", 30);
             FromABI.Add("x31", 31);
+            FromABI.Add(string.Empty, 0);
         }
     }
 }

@@ -17,11 +17,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{2730FC94-0E0E-4CD7-870B-27E1D55C9B27}"
 	ProjectSection(SolutionItems) = preProject
 		Example\example.s = Example\example.s
+		helloworld.s = helloworld.s
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRISCV", "WebRISCV\WebRISCV.csproj", "{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebRISCV", "WebRISCV\WebRISCV.csproj", "{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpRISCV.Core", "SharpRISCV.Core\SharpRISCV.Core.csproj", "{4532AF82-E17D-4B81-B311-58C78096900A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpRISCV.Core", "SharpRISCV.Core\SharpRISCV.Core.csproj", "{4532AF82-E17D-4B81-B311-58C78096900A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
