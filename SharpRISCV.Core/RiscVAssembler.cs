@@ -151,8 +151,10 @@ namespace SharpRISCV.Core
 
         static string TrimLines(string lines)
         {
+            lines = string.Join("\n", lines.Split("\n\r",StringSplitOptions.RemoveEmptyEntries));
+            lines = string.Join("\n", lines.Split("\n",StringSplitOptions.RemoveEmptyEntries));
             string pattern = @"^\s+|\s+$";
-            lines = Regex.Replace(lines, pattern, string.Empty, RegexOptions.Multiline);
+            lines = Regex.Replace(lines, pattern, string.Empty, RegexOptions.Multiline | RegexOptions.Singleline);
             return lines;
         }
 
