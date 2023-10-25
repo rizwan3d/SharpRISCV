@@ -83,14 +83,18 @@
         // ELF Header
         "EI_MAG", "EL_CLASS ", " EL_DATA", "EI_VERSION", "EI_OSABI", "EI_ABIVERSION", "EI_PAD", "e_type", "e_machine", "e_version","e_phoff","e_shoff","e_flags","e_ehsize","e_phentsize","e_phnum","e_shentsize","e_shnum","e_shstrndx",
         // Program header
-        "","p_type","p_flags","p_offset","p_vaddr","p_paddr","p_filesz","p_memsz","p_flags","p_align","CODE",
+        "","p_type","p_flags","p_offset","p_vaddr","p_paddr","p_filesz","p_memsz","p_flags","p_align",
+        // Program header 2
+        "p_type","p_flags","p_offset","p_vaddr","p_paddr","p_filesz","p_memsz","p_flags","p_align","CODE",
     };
     List<int> elfChnageAddress = new List<int>
     {
         // ELF Header
         0x03,0x04,0x05,0x06,0x07,0x08,0x0F,0x11,0x13,0x17,0x1F,0x27,0x2F,0x34,0x35,0x37,0x39,0x3B,0x3D,0x3F,
         // Program header
-        0X40+0x03,0X40+0x07,0X40+0x0F,0X40+0x17,0X40+0x1F,0X40+0x27,0X40+0x2B,0X40+0x33,0X40+0x37
+        0X40+0x03,0X40+0x07,0X40+0x0F,0X40+0x17,0X40+0x1F,0X40+0x27,0X40+0x2B,0X40+0x33,0X40+0x33,
+        // Program header 2 
+        0X40+0X38+0x00,0X40+0X38+0x04,0X40+0X38+0x0C,0X40+0X38+0x14,0X40+0X38+0x1C,0X40+0X38+0x23,0X40+0X38+0x27,0X40+0X38+0x2F,0X40+0X38+0x33,0X40+0X38+0x37
     };
     CircularIdGenerator elfTipsGenerator = new CircularIdGenerator(elfTips);
     #endregion
