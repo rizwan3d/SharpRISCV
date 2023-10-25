@@ -190,7 +190,8 @@ namespace SharpRISCV.Core
                     {
                         string extractedString = match.Groups[0].Value;
                         string data = extractedString.Substring(1, extractedString.Length - 2);
-                        byte[] b = Encoding.ASCII.GetBytes(data);
+                        data = data.Replace("\\n", "\n");
+                        byte[] b = new UTF8Encoding(true).GetBytes(data);
                         DataSection.Add(b);
                         DataSection.Add(new byte[] { 0 });
                         Address.GetAndIncreseAddress(b.Length + 1);
