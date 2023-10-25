@@ -44,7 +44,7 @@ namespace SharpRISCV.Core.Elf
 
             List<byte> dataSectBytes = new List<byte>();
             dataSectBytes.AddRange(DataSection.DataDirective);
-            var entryPoint = 0x40 + 0x38 + Address.EntryPoint;
+            var entryPoint = Address.EntryPoint;
 
             finalBytes.AddRange(new byte[] { 0x7F, (byte)'E', (byte)'L', (byte)'F' });
             finalBytes.Add(2); // class (64-bit)
@@ -54,30 +54,41 @@ namespace SharpRISCV.Core.Elf
             finalBytes.AddRange(new byte[] { 2, 0 }); // type (executable)
             finalBytes.AddRange(new byte[] { 0xF3, 0 }); // machine (RISC-V)
             finalBytes.AddRange(new byte[] { 1, 0, 0, 0 }); // version
-            finalBytes.AddRange(BitConverter.GetBytes((Int64)entryPoint)); // entry point
+            finalBytes.AddRange(BitConverter.GetBytes((ulong)(0x10000 + 0x40 + 0x38+ 0x38 + entryPoint))); // entry point
             finalBytes.AddRange(BitConverter.GetBytes((Int64)0x40)); // program header offset
             finalBytes.AddRange(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }); // section header offset
-            finalBytes.AddRange(new byte[] { 0, 0, 0, 0 }); // flags
+            finalBytes.AddRange(new byte[] { 0x4, 0, 0, 0 }); // flags
             finalBytes.AddRange(BitConverter.GetBytes((Int16)0x40)); // ELF header size
             finalBytes.AddRange(BitConverter.GetBytes((Int16)0x38)); // program header size
-            finalBytes.AddRange(BitConverter.GetBytes((Int16)1)); // program header entry size
+            finalBytes.AddRange(BitConverter.GetBytes((Int16)2)); // program header entry size
             finalBytes.AddRange(new byte[] { 0, 0 }); // section header size
             finalBytes.AddRange(new byte[] { 0, 0 }); // section header entry size
             finalBytes.AddRange(new byte[] { 0, 0 }); // section header string index
 
 
-            var size = 96 + sizeof(byte) * opcodes.Count + sizeof(byte) * dataSectBytes.Count;
+            var size = 0x40 + 0x38 + 0x38 + opcodes.Count;
 
             //// Program header
             finalBytes.AddRange(new byte[] { 1, 0, 0, 0 }); // type (load)
-            finalBytes.AddRange(new byte[] { 0, 0, 0, 0 }); // offset
-            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x40)); // virtual address
-            finalBytes.AddRange(BitConverter.GetBytes((Int64)entryPoint)); // virtual address
-            finalBytes.AddRange(BitConverter.GetBytes((Int64)entryPoint)); // physical address
+            finalBytes.AddRange(new byte[] { 0x5, 0, 0, 0 }); // offset
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x00000)); // Virtual address of the segment in memory.
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x10000)); // virtual address
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x10000 + entryPoint)); // physical address
             finalBytes.AddRange(BitConverter.GetBytes((Int64)size)); // file size
             finalBytes.AddRange(BitConverter.GetBytes((Int64)size)); // memory size
-            finalBytes.AddRange(new byte[] { 5, 0, 0, 0 }); // flags (execute and read)
-            finalBytes.AddRange(new byte[] { 0, 0, 0, 0, 0, 0,0,0 }); // alignment
+            finalBytes.AddRange(new byte[] { 0, 0x10, 0, 0 }); // flags (execute and read)
+            finalBytes.AddRange(new byte[] { 00,00,00,00 }); // alignment
+
+            //// Program header
+            finalBytes.AddRange(new byte[] { 1, 0, 0, 0 }); // type (load)
+            finalBytes.AddRange(new byte[] { 06, 0, 0, 0 }); // offset
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x00000 + size));
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x11000 + size)); // virtual address
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)0x11000 + size)); // physical address
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)dataSectBytes.Count)); // file size
+            finalBytes.AddRange(BitConverter.GetBytes((Int64)dataSectBytes.Count)); // memory size
+            finalBytes.AddRange(new byte[] { 0, 0x10, 0, 0 }); // flags (execute and read)
+            finalBytes.AddRange(new byte[] { 00, 00, 00, 00}); // alignment
 
 
             finalBytes.AddRange(opcodes);
