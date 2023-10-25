@@ -8,6 +8,9 @@ First RISC V Assembly that build windows executable file.
 
 [Write RISC-V ASM code in your browser](https://rizwan3d.github.io/SharpRISCV/)
 
+## RISC-V Virtual Machine 
+You can use [RISC64-VM](https://github.com/rizwan3d/riscv64-vm) to run elf file on x86-x64 pc on linux and windows.
+
 ## Desktop Exectuable
 
 ![Output Image](https://github.com/rizwan3d/SharpRISCV/blob/master/img.jpg?raw=true)
