@@ -18,7 +18,7 @@ namespace SharpRISCV.Core
 
         private static List<string> sectionsDirective = new List<string>()
         {
-            ".data",".text"
+            ".data",".text", ".bss"
         };
 
         private static string currentDirective = "";
@@ -52,6 +52,13 @@ namespace SharpRISCV.Core
                 {
                     var lines = directive.SplitStingByNewLine();
                     ProcessDataLables(lines);
+                }
+
+            if (DirectiveCode.ContainsKey(".bss"))
+                foreach (var directive in DirectiveCode[".bss"])
+                {
+                    var lines = directive.SplitStingByNewLine();
+                    ProcessBssLables(lines);
                 }
 
             Address.Reset();
@@ -248,7 +255,38 @@ namespace SharpRISCV.Core
                 Address.GetAndIncreseAddress();
             }
         }
-
+        public static void ProcessBssLables(string[] code)
+        {
+            foreach (var assemblyLine in code)
+            {
+                var line = assemblyLine.Trim();
+                if (string.IsNullOrEmpty(line)) continue;
+                if (line.StartsWith(".space"))
+                {
+                    string pattern = @"[0-9]+";
+                    Match match = Regex.Match(line, pattern);
+                    if (match.Success)
+                    {
+                        string size = match.Groups[0].Value;
+                        if(int.TryParse(size, out int value))
+                        {
+                            DataSection.Add(new byte[value]);
+                            Address.GetAndIncreseAddress(value);
+                        }
+                        continue;
+                    }
+                    else
+                        throw new Exception("Invaild use of .space");
+                };
+                if (line.EndsWith(":"))
+                {
+                    string label = line.Substring(0, line.Length - 1);
+                    Address.Labels.Add(label, Address.CurrentAddress);
+                    continue;
+                }
+                Address.GetAndIncreseAddress();
+            }
+        }
         public static InstructionType IdentifyInstructionType(string instruction)
         {
             instruction = instruction.Trim();

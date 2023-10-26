@@ -64,6 +64,8 @@ SharpRISCV.exe -i file.s -o out.o -p hex
 ## Assembler Directives
 1. [X] .text
 1. [X] .data
+1. [X] .bss
+1. [X] .space
 1. [X] .string and .asciz
 1. [X] .word
 1. [X] .%hi

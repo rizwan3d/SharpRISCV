@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{2730
 	ProjectSection(SolutionItems) = preProject
 		Example\example.s = Example\example.s
 		helloworld.s = helloworld.s
+		Input.s = Input.s
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebRISCV", "WebRISCV\WebRISCV.csproj", "{E4C78F51-2521-41A5-BBC2-8ABCE9B9975B}"
