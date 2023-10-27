@@ -1,3 +1,5 @@
+#  Linux System Calls https://marcin.juszkiewicz.com.pl/download/tables/syscalls.html
+
 .text
 _start:
 
