@@ -4,6 +4,7 @@
 #
 # a0-a2 - parameters to linux function services
 # a7 - linux function number
+# Linux System Calls https://marcin.juszkiewicz.com.pl/download/tables/syscalls.html
 #
 
 # Setup the parameters to print hello world
