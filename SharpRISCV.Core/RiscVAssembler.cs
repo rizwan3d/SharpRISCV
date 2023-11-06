@@ -48,18 +48,24 @@ namespace SharpRISCV.Core
             Address.StartDataAddress();
             //Process .Data Lables
             if (DirectiveCode.ContainsKey(".data"))
+            {
+                Address.StartDataAddress();
                 foreach (var directive in DirectiveCode[".data"])
                 {
                     var lines = directive.SplitStingByNewLine();
                     ProcessDataLables(lines);
                 }
+            }
 
             if (DirectiveCode.ContainsKey(".bss"))
+            {
+                Address.StartBssAddress();
                 foreach (var directive in DirectiveCode[".bss"])
                 {
                     var lines = directive.SplitStingByNewLine();
                     ProcessBssLables(lines);
                 }
+            }
 
             Address.Reset();
 
