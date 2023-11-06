@@ -45,7 +45,6 @@ namespace SharpRISCV.Core
             // For testing Linker Script script RAM (rwx) : ORIGIN = 0x00010000, LENGTH = 0x08000
             //Address.SetAddress(65536);
 
-            Address.StartDataAddress();
             //Process .Data Lables
             if (DirectiveCode.ContainsKey(".data"))
             {
@@ -88,7 +87,8 @@ namespace SharpRISCV.Core
         {
             instruction.Clear();
             DirectiveCode.Clear();
-            Address.Labels.Clear();
+            Address.Clear();
+            DataSection.Clear();
         }
 
         private static RiscVInstruction DirectiveParser(string v)

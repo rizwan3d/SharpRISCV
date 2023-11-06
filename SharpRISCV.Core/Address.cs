@@ -51,5 +51,14 @@ namespace SharpRISCV.Core
         {
             EntryBssAddress = currentAddress;
         }
+
+        internal static void Clear()
+        {
+            EntryDataAddress = 0;
+            EntryBssAddress = 0;
+            currentAddress = 0;
+            EntryBssAddress = 0;
+            Labels.Clear();
+        }
     }
 }

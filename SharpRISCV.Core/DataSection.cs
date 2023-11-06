@@ -61,5 +61,9 @@ namespace SharpRISCV.Core
 
             return reversedArray;
         }
+        public static void Clear()
+        {
+            DataDirective.Clear();
+        }
     }
 }
