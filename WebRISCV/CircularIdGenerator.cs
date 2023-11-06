@@ -2,25 +2,30 @@
 {
     public class CircularIdGenerator
     {
-        private string[] colors;
+        private List<string> items;
         private int currentIndex;
 
-        public CircularIdGenerator(string[] inputColors)
+        public CircularIdGenerator(List<string> inputItems)
         {
-            colors = inputColors;
-            currentIndex = 0;
+            items = inputItems;
+            Reset();
         }
 
         public string Current 
         {
-            get { return colors[currentIndex]; }
+            get { return items[currentIndex]; }
         }
 
         public string GetNextId()
         {
-            string nextId = colors[currentIndex];
-            currentIndex = (currentIndex + 1) % colors.Length;
+            string nextId = items[currentIndex];
+            currentIndex = (currentIndex + 1) % items.Count;
             return nextId;
+        }
+
+        public void Reset()
+        {
+            currentIndex = 0;
         }
     }
 }
