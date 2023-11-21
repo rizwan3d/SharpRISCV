@@ -1,4 +1,6 @@
-﻿namespace WebRISCV
+﻿using System.Globalization;
+
+namespace WebRISCV
 {
     public class CircularIdGenerator
     {
@@ -13,7 +15,10 @@
 
         public string Current 
         {
-            get { return items[currentIndex]; }
+            get {
+                if (items.Count == 0) return string.Empty;
+                return items[currentIndex]; 
+            }
         }
 
         public string GetNextId()
