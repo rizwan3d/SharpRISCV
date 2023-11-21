@@ -6,7 +6,7 @@ namespace SharpRISCV.Core
     public static class Address
     {
         private static int currentAddress = 0;
-        public static Dictionary<string, int> Labels = new Dictionary<string, int>();
+        public static Dictionary<string, int> Labels = [];
 
         private static int InstructionSize = 4;
 

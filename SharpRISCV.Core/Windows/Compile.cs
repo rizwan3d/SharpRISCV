@@ -53,9 +53,9 @@ namespace SharpRISCV.Core.Windows
 
         public List<byte> BuildPeNoCheckSum()
         {
-            List<byte> finalBytes = new List<byte>();
+            List<byte> finalBytes = [];
 
-            List<byte> opcodes = new List<byte>();
+            List<byte> opcodes = [];
             foreach (var instruction in RiscVAssembler.Instruction)
             {
                 if (instruction.InstructionType == InstructionType.Lable)
@@ -65,7 +65,7 @@ namespace SharpRISCV.Core.Windows
                 ); ;
             }
 
-            List<byte> dataSectBytes = new List<byte>();
+            List<byte> dataSectBytes = [];
             dataSectBytes.AddRange(DataSection.DataDirective);
             PEHeaderFactory.dataSectBytes = dataSectBytes;
 

@@ -10,16 +10,13 @@ namespace SharpRISCV.Core
 {
     public class RiscVAssembler
     {
-        private static List<RiscVInstruction> instruction = new List<RiscVInstruction>();
+        private static List<RiscVInstruction> instruction = [];
 
         public static List<RiscVInstruction> Instruction { get { return instruction; } }
 
-        public static Dictionary<string, List<string>> DirectiveCode = new Dictionary<string, List<string>>();
+        public static Dictionary<string, List<string>> DirectiveCode = [];
 
-        private static List<string> sectionsDirective = new List<string>()
-        {
-            ".data",".text", ".bss"
-        };
+        private static List<string> sectionsDirective = [".data", ".text", ".bss"];
 
         private static string currentDirective = "";
 
@@ -150,7 +147,7 @@ namespace SharpRISCV.Core
                 if (DirectiveCode.ContainsKey(currentDirective))
                     DirectiveCode[currentDirective].Add(directiveCode.ToString());
                 else
-                    DirectiveCode[currentDirective] = new List<string> { directiveCode.ToString() };
+                    DirectiveCode[currentDirective] = [ directiveCode.ToString() ];
             }
         }
 
@@ -206,7 +203,7 @@ namespace SharpRISCV.Core
                         data = data.Replace("\\n", "\n");
                         byte[] b = new UTF8Encoding(true).GetBytes(data);
                         DataSection.Add(b);
-                        DataSection.Add(new byte[] { 0 });
+                        DataSection.Add([ 0 ]);
                         Address.GetAndIncreseAddress(b.Length + 1);
                         continue;
                     }

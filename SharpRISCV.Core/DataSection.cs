@@ -6,7 +6,7 @@ namespace SharpRISCV.Core
 {
     public class DataSection
     {
-        public static List<byte> DataDirective = new List<byte>();
+        public static List<byte> DataDirective = [];
 
         public static void Add(byte[] byteArray)
         {
@@ -35,7 +35,7 @@ namespace SharpRISCV.Core
         {
             get
             {
-                Dictionary<string, string> toReturn = new Dictionary<string, string>();
+                Dictionary<string, string> toReturn = [];
                 Address.SetAddress(Address.EntryDataAddress);
                 byte[] byteArray = ReverseArrayInSetsOfFour(DataDirective.ToArray());
                 string hexString = BitConverter.ToString(byteArray).Replace("-", ""); // Convert to hexadecimal string

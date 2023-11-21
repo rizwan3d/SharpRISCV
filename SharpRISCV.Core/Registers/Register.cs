@@ -8,7 +8,7 @@ namespace SharpRISCV.Core.Registers
 {
     public static class Register
     {
-        public static Dictionary<string, int> FromABI = new Dictionary<string, int>();
+        public static Dictionary<string, int> FromABI = [];
 
         static Register()
         {

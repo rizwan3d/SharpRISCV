@@ -20,9 +20,9 @@ namespace SharpRISCV.Core.Hex
         }
 
         public string BuildHexString() {
-            List<byte> finalBytes = new List<byte>();
+            List<byte> finalBytes = [];
 
-            List<byte> opcodes = new List<byte>();
+            List<byte> opcodes = [];
             foreach (var instruction in RiscVAssembler.Instruction)
             {
                 if (instruction.InstructionType == InstructionType.Lable)
@@ -32,7 +32,7 @@ namespace SharpRISCV.Core.Hex
                 ); ;
             }
 
-            List<byte> dataSectBytes = new List<byte>();
+            List<byte> dataSectBytes = [];
             dataSectBytes.AddRange(DataSection.DataDirective);
 
             int textSectionSize = opcodes.Count * 4;
@@ -69,7 +69,7 @@ namespace SharpRISCV.Core.Hex
                 byte[] bytes = Encoding.ASCII.GetBytes(record.ToString());
                 int checksum = 0;
                 for (int j = 1; j < bytes.Length; j += 2)
-                    checksum += Convert.ToInt32(Encoding.ASCII.GetString(new[] { bytes[j], bytes[j + 1] }), 16);
+                    checksum += Convert.ToInt32(Encoding.ASCII.GetString([ bytes[j], bytes[j + 1] ]), 16);
                 checksum &= 0xFF;
                 record.AppendFormat("{0:X2}", (byte)(0x100 - checksum));
 

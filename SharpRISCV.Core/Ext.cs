@@ -31,7 +31,7 @@ public static class Ext
     }
     public static List<string> SplitStringByLength(this string input, int length)
     {
-        List<string> substrings = new List<string>();
+        List<string> substrings = [];
 
         for (int i = 0; i < input.Length; i += length)
         {
