@@ -12,19 +12,12 @@ namespace SharpRISCV.Core.Windows
 {
 
 
-    public class Compile
+    public class Compile(string path)
     {
         [DllImport("ImageHlp.dll")]
         private static extern uint MapFileAndCheckSum(string Filename, out uint HeaderSum, out uint CheckSum);
 
         public const uint memAddress = 0x00401000; // if and only if windows app
-
-        string path;
-
-        public Compile(string path)
-        {
-            this.path = path;
-        }
 
         public byte[] BinaryWrite()
         {

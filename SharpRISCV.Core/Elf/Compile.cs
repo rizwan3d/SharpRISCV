@@ -9,18 +9,12 @@ using System.Threading.Tasks;
 
 namespace SharpRISCV.Core.Elf
 {
-    public class Compile
+    public class Compile(string path)
     {
-
-        string path;
-        public Compile(string path)
-        {
-            this.path = path;
-        }
         public List<byte> BinaryWrite()
         {
             List<byte> finalBytes = bytes();
-            using (FileStream fileStream = new FileStream(this.path, FileMode.Create))
+            using (FileStream fileStream = new FileStream(path, FileMode.Create))
             using (BinaryWriter writer = new BinaryWriter(fileStream))
             {
                 writer.Write(finalBytes.ToArray());

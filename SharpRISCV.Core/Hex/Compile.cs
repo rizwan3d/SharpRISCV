@@ -10,13 +10,8 @@ using System.Threading.Tasks;
 
 namespace SharpRISCV.Core.Hex
 {
-    public class Compile
+    public class Compile(string path)
     {
-        string path;
-        public Compile(string path)
-        {
-            this.path = path;
-        }
         public string BinaryWrite()
         {
             string hex = BuildHexString();
