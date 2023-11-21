@@ -101,7 +101,7 @@ namespace SharpRISCV.Core.MachineCode
                 // Operand is a numeric value
             }
             else
-                throw new Exception("Invalid Lable");
+                throw new("Invalid Lable");
 
             return value;
         }

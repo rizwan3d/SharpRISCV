@@ -27,7 +27,7 @@ namespace SharpRISCV.Core.MachineCode
                 imm = Convert.ToInt32(instruction.Immediate).ToBinary(20);
             }
 
-            return new MachineCode($"{imm}{rdBinary}{opcode}", instruction.Instruction);
+            return new ($"{imm}{rdBinary}{opcode}", instruction.Instruction);
         }
     }
 }

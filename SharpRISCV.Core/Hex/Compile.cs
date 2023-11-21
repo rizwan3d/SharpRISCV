@@ -37,7 +37,7 @@ namespace SharpRISCV.Core.Hex
 
             int textSectionSize = opcodes.Count * 4;
             int dataSectionStartAddress = textSectionSize;
-            StringBuilder hexFileContent = new StringBuilder();
+            StringBuilder hexFileContent = new();
             string headerRecord = GenerateHeaderRecord(dataSectionStartAddress);
             hexFileContent.AppendLine(headerRecord);
 
@@ -51,12 +51,12 @@ namespace SharpRISCV.Core.Hex
 
         private string GenerateHexRecords(List<byte> data, int startAddress)
         {
-            StringBuilder hexRecords = new StringBuilder();
+            StringBuilder hexRecords = new();
             int recordSize = 16;
 
             for (int i = 0; i < data.Count; i += recordSize)
             {
-                StringBuilder record = new StringBuilder();
+                StringBuilder record = new();
                 int byteCount = Math.Min(recordSize, data.Count - i);
                 string addressHex = (startAddress + i).ToString("X4");
                 record.AppendFormat(":{0:X2}{1:X4}00", byteCount, addressHex);

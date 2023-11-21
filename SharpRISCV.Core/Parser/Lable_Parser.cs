@@ -9,7 +9,6 @@ public class Lable_Parser : IParser
             Instruction = instruction,
             InstructionType = InstructionType.Lable
         };
-        return null;
     }
 }
 

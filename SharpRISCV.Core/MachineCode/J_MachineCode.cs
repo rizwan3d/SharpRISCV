@@ -29,7 +29,7 @@ namespace SharpRISCV.Core.MachineCode
             string imm10_1 = imm.Substring(9, 10);
             string imm11 = imm.Substring(11, 1);
 
-            return new MachineCode($"{imm20}{imm10_1}{imm11}{imm19_12}{rdBinary}{opcode}", instruction.Instruction);
+            return new($"{imm20}{imm10_1}{imm11}{imm19_12}{rdBinary}{opcode}", instruction.Instruction);
         }
     }
 }

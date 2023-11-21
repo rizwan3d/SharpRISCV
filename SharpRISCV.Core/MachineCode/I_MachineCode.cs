@@ -14,7 +14,7 @@ namespace SharpRISCV.Core.MachineCode
 
         public List<MachineCode> Generate(RiscVInstruction instruction)
         {
-            List<MachineCode> machines = new List<MachineCode>();
+            List<MachineCode> machines = [];
             int value = MachineCode.ProcessSource(instruction.Immediate);
 
             string opcode = ((int)instruction.OpcodeBin).ToBinary(7);
@@ -42,7 +42,7 @@ namespace SharpRISCV.Core.MachineCode
                 }));
             }
 
-            machines.Add(new MachineCode($"{imm}{rs1Binary}{func3}{rdBinary}{opcode}", instruction.Instruction));
+            machines.Add(new($"{imm}{rs1Binary}{func3}{rdBinary}{opcode}", instruction.Instruction));
 
             return machines;
         }

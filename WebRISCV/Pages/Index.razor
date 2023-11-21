@@ -77,12 +77,12 @@
     int colorId = 0;
     int tipId = 0;
     static List<string> colors = [ "blue", "green", "black", "red" ];
-    CircularIdGenerator circularColors = new CircularIdGenerator(colors);
+    CircularIdGenerator circularColors = new(colors);
 
     #region ELF Highlight DATA
     static List<string> elfTips = [];
     List<long> elfChnageAddress =[];
-    CircularIdGenerator elfTipsGenerator = new CircularIdGenerator(elfTips);
+    CircularIdGenerator elfTipsGenerator = new(elfTips);
 
     private void buildElfTips()
     {
@@ -115,7 +115,7 @@
     #endregion
     #region PE Highlight DATA
     static List<string> peTips = [];
-    CircularIdGenerator peTipsGenerator = new CircularIdGenerator(peTips);
+    CircularIdGenerator peTipsGenerator = new(peTips);
     List<int> peChnageAddress = [];
     #endregion
 
@@ -133,7 +133,7 @@
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
         var file = e.GetMultipleFiles(1)[0];
-        using (var reader = new StreamReader(file.OpenReadStream()))
+        using (StreamReader reader = new(file.OpenReadStream()))
         {
             var fileContent = await reader.ReadToEndAsync();
             this.fileContent = fileContent;
@@ -267,7 +267,7 @@
     {
         var lines = hexDump.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
-        var result = new StringBuilder();
+        StringBuilder result = new();
         int address = 0;
         result.Append($"<span class='fs-5'>{lines[0]}</ span >").AppendLine();
         foreach (var line in lines[1..lines.Length])

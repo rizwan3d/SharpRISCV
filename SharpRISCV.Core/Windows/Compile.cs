@@ -98,7 +98,7 @@ namespace SharpRISCV.Core.Windows
             var PECheckSum = PEOptionalStart + 64;
             uint checkSum = CalcCheckSum(finalBytes.ToArray<byte>(), PECheckSum);
 
-            MemoryStream ms = new MemoryStream(finalBytes.ToArray());
+            MemoryStream ms = new(finalBytes.ToArray());
             ms.Seek(216, SeekOrigin.Current);
             ms.Write(BitConverter.GetBytes(checkSum), 0, 4);
 

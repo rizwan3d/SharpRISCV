@@ -14,8 +14,8 @@ namespace SharpRISCV.Core.Elf
         public List<byte> BinaryWrite()
         {
             List<byte> finalBytes = bytes();
-            using (FileStream fileStream = new FileStream(path, FileMode.Create))
-            using (BinaryWriter writer = new BinaryWriter(fileStream))
+            using (FileStream fileStream = new(path, FileMode.Create))
+            using (BinaryWriter writer = new(fileStream))
             {
                 writer.Write(finalBytes.ToArray());
             }
@@ -24,9 +24,9 @@ namespace SharpRISCV.Core.Elf
 
         public List<byte> bytes()
         {
-            List<byte> finalBytes = new List<byte>();
+            List<byte> finalBytes = [];
 
-            List<byte> opcodes = new List<byte>();
+            List<byte> opcodes = [];
             foreach (var instruction in RiscVAssembler.Instruction)
             {
                 if (instruction.InstructionType == InstructionType.Lable)
@@ -36,7 +36,7 @@ namespace SharpRISCV.Core.Elf
                 ); ;
             }
 
-            List<byte> dataSectBytes = new List<byte>();
+            List<byte> dataSectBytes = [];
             dataSectBytes.AddRange(DataSection.DataDirective);
             var entryPoint = Address.EntryPoint;
 

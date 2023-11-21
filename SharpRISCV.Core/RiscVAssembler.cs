@@ -88,7 +88,7 @@ namespace SharpRISCV.Core
             DataSection.Clear();
         }
 
-        private static RiscVInstruction DirectiveParser(string v)
+        private static RiscVInstruction? DirectiveParser(string v)
         {
             if (v.EndsWith(":"))
                 return new Lable_Parser().Parse(v);
@@ -107,7 +107,7 @@ namespace SharpRISCV.Core
 
         public static List<MachineCode.MachineCode> MachineCode()
         {
-            List<MachineCode.MachineCode> mc = new List<MachineCode.MachineCode>();
+            List<MachineCode.MachineCode> mc = [];
 
             foreach (var instruction in Instruction)
             {
@@ -121,7 +121,7 @@ namespace SharpRISCV.Core
             string[] lines = code.SplitStingByNewLine();
 
 
-            StringBuilder directiveCode = new StringBuilder();
+            StringBuilder directiveCode = new();
 
             foreach (var line in lines)
             {
@@ -208,7 +208,7 @@ namespace SharpRISCV.Core
                         continue;
                     }
                     else
-                        throw new Exception("Invaild use of .string");
+                        throw new ("Invaild use of .string");
                 };
                 if (line.StartsWith(".word"))
                 {
@@ -247,7 +247,7 @@ namespace SharpRISCV.Core
                         continue;
                     }
                     else
-                        throw new Exception("Invaild use of .string");
+                        throw new ("Invaild use of .string");
                 };
                 if (line.EndsWith(":"))
                 {
@@ -326,7 +326,7 @@ namespace SharpRISCV.Core
             }
         }
 
-        public static RiscVInstruction InstructionParser(string instruction, InstructionType type)
+        public static RiscVInstruction? InstructionParser(string instruction, InstructionType type)
         {
             switch (type)
             {
