@@ -1,4 +1,5 @@
 ﻿using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
+using SharpRISCV.Core.V2.Token.Abstraction;
 using System.Text.RegularExpressions;
 
 namespace SharpRISCV.Core.V2.LexicalAnalysis

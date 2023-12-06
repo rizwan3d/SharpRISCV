@@ -1,4 +1,6 @@
-﻿namespace SharpRISCV.Core.V2.LexicalAnalysis.Abstraction
+﻿using SharpRISCV.Core.V2.Token.Abstraction;
+
+namespace SharpRISCV.Core.V2.LexicalAnalysis.Abstraction
 {
     public interface ILexer
     {

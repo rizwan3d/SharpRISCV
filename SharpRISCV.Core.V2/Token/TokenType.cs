@@ -1,4 +1,4 @@
-﻿namespace SharpRISCV.Core.V2.LexicalAnalysis
+﻿namespace SharpRISCV.Core.V2.Token
 {
     public enum TokenType
     {

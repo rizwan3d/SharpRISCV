@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
+using SharpRISCV.Core.V2.Token.Abstraction;
 
-namespace SharpRISCV.Core.V2.LexicalAnalysis
+namespace SharpRISCV.Core.V2.Token
 {
     public class Token(TokenType tokenType, string value, int startIndex, int length) : IToken
     {
@@ -10,6 +10,6 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
         public int StartIndex { get { return startIndex; } }
         public int Length { get { return length; } }
 
-        public static IToken EndOfFile { get => new Token(TokenType.EPSILONE,"EOF", 0, 0); }
+        public static IToken EndOfFile { get => new Token(TokenType.EPSILONE, "EOF", 0, 0); }
     }
 }
