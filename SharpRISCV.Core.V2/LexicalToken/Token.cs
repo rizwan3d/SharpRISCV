@@ -3,7 +3,7 @@ using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 
 namespace SharpRISCV.Core.V2.LexicalToken
 {
-    public class Token(TokenType tokenType, string value, int startIndex, int length) : IToken
+    public record Token(TokenType tokenType, string value, int startIndex, int length) : IToken
     {
         public TokenType TokenType { get { return tokenType; } }
         public string Value { get { return value; } }
