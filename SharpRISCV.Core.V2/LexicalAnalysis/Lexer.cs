@@ -81,5 +81,10 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
 
             return tokenList;
         }
+
+        public override void Reset()
+        {
+            Position = 0;
+        }
     }
 }

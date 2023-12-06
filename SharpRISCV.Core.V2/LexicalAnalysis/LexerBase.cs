@@ -22,5 +22,10 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
         {
             throw new NotImplementedException();
         }
+
+        public virtual void Reset()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
