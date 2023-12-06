@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using SharpRISCV.Core.V2.Token;
-using SharpRISCV.Core.V2.Token.Abstraction;
+using SharpRISCV.Core.V2.LexicalToken;
+using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;

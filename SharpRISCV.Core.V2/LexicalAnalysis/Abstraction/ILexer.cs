@@ -1,4 +1,4 @@
-﻿using SharpRISCV.Core.V2.Token.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 
 namespace SharpRISCV.Core.V2.LexicalAnalysis.Abstraction
 {

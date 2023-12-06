@@ -1,6 +1,6 @@
-﻿using SharpRISCV.Core.V2.Token;
+﻿using SharpRISCV.Core.V2.LexicalToken;
 
-namespace SharpRISCV.Core.V2.Token.Abstraction
+namespace SharpRISCV.Core.V2.LexicalToken.Abstraction
 {
     public interface IToken
     {

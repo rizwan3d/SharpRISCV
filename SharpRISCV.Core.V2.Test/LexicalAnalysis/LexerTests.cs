@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpRISCV.Core.V2.LexicalAnalysis;
-using SharpRISCV.Core.V2.Token;
+using SharpRISCV.Core.V2.LexicalToken;
 
 namespace SharpRISCV.Core.V2.Test.LexicalAnalysis
 {
