@@ -6,7 +6,7 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
     public class Lexer(string text) : LexerBase(text), ILexer
     {
         private int Position { get; set; } = 0;
-        private IEnumerable<Token> tokens;
+        private IEnumerable<IToken> tokens;
 
         private new Dictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
         {
@@ -27,7 +27,7 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
 
         private List<TokenType> IgnoredToken = [TokenType.COMMENT, TokenType.WHITESPACE, TokenType.COMMA];
 
-        public override Token GetNextToken()
+        public override IToken GetNextToken()
         {
             Token token = null;
             if (Position < Text.Length)
@@ -66,12 +66,12 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
             return Token.EndOfFile;
         }
 
-        public override IEnumerable<Token> Tokenize()
+        public override IEnumerable<IToken> Tokenize()
         {
-            List<Token> tokenList = [];
+            List<IToken> tokenList = [];
             Position = 0;
-            Token token = GetNextToken();
-            while (token.TokenType != TokenType.EPSILONE)
+            IToken token = GetNextToken();
+            while (!IToken.IsEndOfFile(token))
             {
                 tokenList.Add(token);
                 token = GetNextToken();

@@ -10,6 +10,6 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
         public int StartIndex { get { return startIndex; } }
         public int Length { get { return length; } }
 
-        public static Token EndOfFile { get => new Token(TokenType.EPSILONE,"EOF", 0, 0); }
+        public static IToken EndOfFile { get => new Token(TokenType.EPSILONE,"EOF", 0, 0); }
     }
 }
