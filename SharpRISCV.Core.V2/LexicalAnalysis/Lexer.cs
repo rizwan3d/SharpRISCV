@@ -10,7 +10,7 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
         private int Position { get; set; } = 0;
         private IEnumerable<IToken> tokens;
 
-        private new Dictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
+        private new IDictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
         {
             { TokenType.WHITESPACE, new Regex(Pattern.WhiteSpace) },
             { TokenType.COMMENT, new Regex(Pattern.Comment) },
