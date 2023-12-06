@@ -101,5 +101,61 @@ namespace SharpRISCV.Core.V2.Test.LexicalAnalysis
             Assert.AreEqual(TokenType.STRING, tokens[34].TokenType);
             Assert.AreEqual(@"""Hello World!\n""", tokens[34].Value);
         }
+
+        [TestMethod]
+        public void Lexer_Tokenize_Single_At_A_Time_SingleLine_Success()
+        {
+            string assemblyCode = "add $t0, $t1, $t2\nlw $s0, 100($sp)\n# This is a comment";
+
+            Lexer lexer = new Lexer(assemblyCode);
+
+            var tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.INSTRUCTION, tokens.TokenType);
+            Assert.AreEqual("add", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.REGISTER, tokens.TokenType);
+            Assert.AreEqual("t0", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.REGISTER, tokens.TokenType);
+            Assert.AreEqual("t1", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.REGISTER, tokens.TokenType);
+            Assert.AreEqual("t2", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.INSTRUCTION, tokens.TokenType);
+            Assert.AreEqual("lw", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.REGISTER, tokens.TokenType);
+            Assert.AreEqual("s0", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.INTEGER, tokens.TokenType);
+            Assert.AreEqual("100", tokens.Value);
+
+            tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.REGISTER, tokens.TokenType);
+            Assert.AreEqual("sp", tokens.Value);
+        }
     }
 }

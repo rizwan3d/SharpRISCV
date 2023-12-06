@@ -5,13 +5,14 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
 {
     public class Lexer(string text) : LexerBase(text), ILexer
     {
+        private int Position { get; set; } = 0;
         private IEnumerable<Token> tokens;
 
         private new Dictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
         {
             { TokenType.WHITESPACE, new Regex(Pattern.WhiteSpace) },
             { TokenType.COMMENT, new Regex(Pattern.Comment) },
-            { TokenType.Comma, new Regex(Pattern.Comma) },
+            { TokenType.COMMA, new Regex(Pattern.Comma) },
             { TokenType.STRING, new Regex(Pattern.String) },
             { TokenType.FLOAT, new Regex(Pattern.Float) },
             { TokenType.HEX, new Regex(Pattern.Hex) },
@@ -24,39 +25,59 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
             { TokenType.LABEL, new Regex(Pattern.Lable) },
         };
 
-        private List<TokenType> IgnoredToken = [TokenType.COMMENT, TokenType.WHITESPACE, TokenType.Comma];
+        private List<TokenType> IgnoredToken = [TokenType.COMMENT, TokenType.WHITESPACE, TokenType.COMMA];
+
+        public override Token GetNextToken()
+        {
+            Token token = null;
+            if (Position < Text.Length)
+            {
+                while (token is null)
+                {
+                    foreach (var rule in Rules)
+                    {
+                        Match match = null;
+                        try
+                        {
+                            match = rule.Value.Match(Text, Position);
+                        }
+                        catch (ArgumentOutOfRangeException error)
+                        {
+                            return Token.EndOfFile;
+                        }
+                        if (match.Success && match.Index == Position && !IgnoredToken.Contains(rule.Key))
+                        {
+                            token = new Token(rule.Key, match.Value, Position, match.Value.Length);
+                            Position += match.Length;
+                            break;
+                        }
+                    }
+
+                    if (token == null)
+                    {
+                        Position++;
+                    }
+                    else
+                    {
+                        return token;
+                    }
+                }
+            }
+            return Token.EndOfFile;
+        }
 
         public override IEnumerable<Token> Tokenize()
         {
-            List<Token> tokenList = new List<Token>();
-            Text = Regex.Replace(Text, Pattern.Comment, string.Empty, RegexOptions.Multiline);
-
-            int position = 0;
-            while (position < Text.Length)
+            List<Token> tokenList = [];
+            Position = 0;
+            Token token = GetNextToken();
+            while (token.TokenType != TokenType.EPSILONE)
             {
-                Token token = null;
-                foreach (var rule in Rules)
-                {
-                    Match match = rule.Value.Match(Text, position);
-                    if (match.Success && match.Index == position)
-                    {
-                        token = new Token(rule.Key, match.Value, position, match.Value.Length);
-                        position += match.Length;
-                        break;
-                    }
-                }
-
-                if (token == null)
-                {
-                    position++;
-                }
-                else
-                {
-                    tokenList.Add(token);
-                }
+                tokenList.Add(token);
+                token = GetNextToken();
             }
 
-            return tokenList.Where(token => !IgnoredToken.Contains(token.TokenType));
+            return tokenList;
         }
     }
 }

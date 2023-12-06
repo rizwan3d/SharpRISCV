@@ -4,6 +4,8 @@
     {
         INSTRUCTION, INTEGER, FLOAT, HEX, BINARY, REGISTER, LABEL, COMMENT, WHITESPACE, DIRECTIVE,
         STRING, LABELDEFINITION,
-        Comma
+        COMMA,
+        EPSILONE,
+        EMPTY
     }
 }

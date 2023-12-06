@@ -1,4 +1,5 @@
 ﻿using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
+using System.Text.RegularExpressions;
 
 namespace SharpRISCV.Core.V2.LexicalAnalysis
 {
@@ -8,9 +9,15 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
         public LexerBase(string text)
         {
             Text = text;
+            Text = Regex.Replace(Text, Pattern.Comment, string.Empty, RegexOptions.Multiline);
         }
 
         public virtual IEnumerable<Token> Tokenize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Token GetNextToken()
         {
             throw new NotImplementedException();
         }

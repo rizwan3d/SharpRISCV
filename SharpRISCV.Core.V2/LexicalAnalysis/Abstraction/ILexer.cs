@@ -3,7 +3,7 @@
     public interface ILexer
     {
         string Text { get; }
-
+        Token GetNextToken();
         IEnumerable<Token> Tokenize();
     }
 }
