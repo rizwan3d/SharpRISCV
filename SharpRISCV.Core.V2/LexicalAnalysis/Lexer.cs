@@ -76,6 +76,7 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
             IToken token = GetNextToken();
             while (!IToken.IsEndOfFile(token))
             {
+                tokenList.Add(token);
                 token = GetNextToken();
             }
 
