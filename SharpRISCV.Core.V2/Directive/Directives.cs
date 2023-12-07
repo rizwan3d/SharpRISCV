@@ -20,17 +20,17 @@ namespace SharpRISCV.Core.V2.Directive
             return IsText(token) || IsData(token);
         }
 
-        public static bool IsSizeModifier(IToken token)
+        public static bool IsSpace(IToken token)
         {
-            throw new NotImplementedException();
+            return token.Value.Equals(".space");
         }
 
-        internal static bool IsString(IToken token)
+        public static bool IsString(IToken token)
         {
             return token.Value.Equals(".string") || token.Value.Equals(".asciz");
         }
 
-        internal static bool IsWord(IToken token)
+        public static bool IsWord(IToken token)
         {
             return token.Value.Equals(".word");
         }

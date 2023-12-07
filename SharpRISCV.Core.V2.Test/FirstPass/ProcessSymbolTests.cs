@@ -120,5 +120,43 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
             symbolTableMock.Verify(st => st.Add("Label5", 37), Times.Once);
             symbolTableMock.Verify(st => st.Add("Label6", 42), Times.Once);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ProcessSymbol_Start_AddsLabel_Invalid_String_Directive_ToSymbolTable()
+        {
+            var lexerMock = new Mock<ILexer>();
+            var symbolTableMock = new Mock<ISymbolTable>();
+
+            lexerMock.SetupSequence(l => l.GetNextToken())
+                .Returns(new Token(TokenType.DIRECTIVE, ".data", 0, 3))
+                .Returns(new Token(TokenType.LABELDEFINITION, "Label2:", 3, 10))
+                .Returns(new Token(TokenType.DIRECTIVE, ".string", 10, 14))
+                .Returns(Token.EndOfFile);
+
+            var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
+
+            processSymbol.Start();
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ProcessSymbol_Start_AddsLabel_Invalid_Word_Directive_ToSymbolTable()
+        {
+            var lexerMock = new Mock<ILexer>();
+            var symbolTableMock = new Mock<ISymbolTable>();
+
+            lexerMock.SetupSequence(l => l.GetNextToken())
+                .Returns(new Token(TokenType.DIRECTIVE, ".data", 0, 3))
+                .Returns(new Token(TokenType.LABELDEFINITION, "Label2:", 3, 10))
+                .Returns(new Token(TokenType.DIRECTIVE, ".word", 10, 14))
+                .Returns(Token.EndOfFile);
+
+            var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
+
+            processSymbol.Start();
+
+        }
     }
 }
