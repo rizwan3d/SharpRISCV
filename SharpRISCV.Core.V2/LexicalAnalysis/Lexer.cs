@@ -8,7 +8,8 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
     public class Lexer(string text) : LexerBase(text), ILexer
     {
         private int Position { get; set; } = 0;
-        private IEnumerable<IToken> tokens;
+
+        public IToken CurrentToken { get; private set; }
 
         private new IDictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
         {
@@ -45,7 +46,7 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
                         }
                         catch (ArgumentOutOfRangeException error)
                         {
-                            return Token.EndOfFile;
+                            return CurrentToken = Token.EndOfFile;
                         }
                         if (match.Success && match.Index == Position && !IgnoredToken.Contains(rule.Key))
                         {
@@ -61,21 +62,20 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
                     }
                     else
                     {
-                        return token;
+                        return CurrentToken = token;
                     }
                 }
             }
-            return Token.EndOfFile;
+            return CurrentToken = Token.EndOfFile;
         }
 
         public override IEnumerable<IToken> Tokenize()
         {
             List<IToken> tokenList = [];
-            Position = 0;
+            Reset();
             IToken token = GetNextToken();
             while (!IToken.IsEndOfFile(token))
             {
-                tokenList.Add(token);
                 token = GetNextToken();
             }
 

@@ -12,5 +12,6 @@ namespace SharpRISCV.Core.V2.LexicalToken.Abstraction
         static bool IsEndOfFile(IToken token) => token.TokenType == TokenType.EPSILONE;
         static bool IsInstruction(IToken token) => token.TokenType == TokenType.INSTRUCTION;
         static bool IsLableDefinition(IToken token) => token.TokenType == TokenType.LABELDEFINITION;
+        static bool IsDirective(IToken token) => token.TokenType == TokenType.DIRECTIVE;
     }
 }
