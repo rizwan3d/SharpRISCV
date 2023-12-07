@@ -19,6 +19,9 @@ namespace SharpRISCV.Core.V2.FirstPass
 
         public void Add(string name, uint address)
         {
+            if (symbolInfos.FirstOrDefault( lable => lable.Name.Equals(name)) is not null)
+                throw new Exception($"Label name {name} is alredy defined.");
+
             symbolInfos.Add(new SymbolInfo(name, address));
         }
 

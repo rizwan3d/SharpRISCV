@@ -1,4 +1,5 @@
 ﻿using SharpRISCV.Core.V2.FirstPass;
+using SharpRISCV.Core.V2.FirstPass.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,15 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
             SymbolTable symbolTable = new SymbolTable();
 
             ISymbolInfo symbol = symbolTable["_doAgain"];
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void SymbolTable_SameLable_ThrowsExceptionForMissingSymbol()
+        {
+            SymbolTable symbolTable = new SymbolTable();
+            symbolTable.Add("_start", 0x123);
+            symbolTable.Add("_start", 0x123);
         }
     }
 }

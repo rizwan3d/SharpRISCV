@@ -18,7 +18,7 @@ namespace SharpRISCV.Core.V2.Test.LexicalAnalysis
 
             Lexer lexer = new Lexer(assemblyCode);
             var tokens = lexer.Tokenize().ToList();
-            tokens = tokens.Where(token => token.TokenType != TokenType.WHITESPACE).ToList();
+            tokens = tokens.ToList();
 
             Assert.IsNotNull(tokens);
             Assert.AreEqual(8, tokens.Count);

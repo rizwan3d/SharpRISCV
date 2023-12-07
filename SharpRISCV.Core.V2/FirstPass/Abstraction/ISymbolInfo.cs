@@ -1,4 +1,4 @@
-﻿namespace SharpRISCV.Core.V2.FirstPass
+﻿namespace SharpRISCV.Core.V2.FirstPass.Abstraction
 {
     public interface ISymbolInfo
     {
