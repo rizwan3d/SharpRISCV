@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
+﻿using SharpRISCV.Core.V2.FirstPass.Abstraction;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpRISCV.Core.V2.FirstPass.Abstraction;
 
 namespace SharpRISCV.Core.V2.FirstPass
 {
@@ -14,13 +10,13 @@ namespace SharpRISCV.Core.V2.FirstPass
 
         public ISymbolInfo this[string name]
         {
-            get => symbolInfos.FirstOrDefault(lable => lable.Name == name) ?? throw new IndexOutOfRangeException();
+            get => symbolInfos.FirstOrDefault(lable => lable.Name.Equals(name)) ?? throw new IndexOutOfRangeException();
         }
 
         public void Add(string name, uint address)
         {
-            if (symbolInfos.FirstOrDefault( lable => lable.Name.Equals(name)) is not null)
-                throw new Exception($"Label name {name} is alredy defined.");
+            if (symbolInfos.FirstOrDefault(lable => lable.Name.Equals(name)) is not null)
+                throw new Exception($"Label name {name} is already defined.");
 
             symbolInfos.Add(new SymbolInfo(name, address));
         }

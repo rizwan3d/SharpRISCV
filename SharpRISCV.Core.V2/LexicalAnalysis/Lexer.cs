@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
 using SharpRISCV.Core.V2.LexicalToken;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+using System.Text.RegularExpressions;
 
 namespace SharpRISCV.Core.V2.LexicalAnalysis
 {
@@ -9,9 +9,9 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
     {
         private int Position { get; set; } = 0;
 
-        public IToken CurrentToken { get; private set; }
+        public IToken? CurrentToken { get; private set; }
 
-        private new IDictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
+        private readonly IDictionary<TokenType, Regex> Rules = new Dictionary<TokenType, Regex>
         {
             { TokenType.WHITESPACE, new Regex(Pattern.WhiteSpace) },
             { TokenType.COMMENT, new Regex(Pattern.Comment) },
@@ -32,19 +32,19 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
 
         public override IToken GetNextToken()
         {
-            Token token = null;
+            Token? token = null;
             if (Position < Text.Length)
             {
                 while (token is null)
                 {
                     foreach (var rule in Rules)
                     {
-                        Match match = null;
+                        Match? match = null;
                         try
                         {
                             match = rule.Value.Match(Text, Position);
                         }
-                        catch (ArgumentOutOfRangeException error)
+                        catch (ArgumentOutOfRangeException)
                         {
                             return CurrentToken = Token.EndOfFile;
                         }

@@ -1,26 +1,18 @@
 ﻿using SharpRISCV.Core.V2.Directive;
 using SharpRISCV.Core.V2.FirstPass.Abstraction;
-using SharpRISCV.Core.V2.LexicalAnalysis;
 using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
-using SharpRISCV.Core.V2.ParseTree;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Transactions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SharpRISCV.Core.V2.FirstPass
 {
     public sealed class ProcessSymbol(ILexer lexer, ISymbolTable symbolTable) : ProcessSymbolBase(lexer, symbolTable), IProcessSymbol
     {
-        private IToken CurrentDirective;
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        private IToken CurrentDirective = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         private uint CurrentAddress = 0;
         public override void Start()
         {
@@ -33,12 +25,12 @@ namespace SharpRISCV.Core.V2.FirstPass
                 if (IToken.IsInstruction(token))
                     CurrentAddress += Setting.InstructionSize;
 
-                if (IToken.IsLableDefinition(token) && Directives.IsText(CurrentDirective))
+                if (IToken.IsLabelDefinition(token) && Directives.IsText(CurrentDirective))
                 {
                     symbolTable.Add(token.Value.Replace(":", string.Empty), CurrentAddress);
                 }
 
-                if (IToken.IsLableDefinition(token) && Directives.IsData(CurrentDirective))
+                if (IToken.IsLabelDefinition(token) && Directives.IsData(CurrentDirective))
                 {
                     string lableName = token.Value.Replace(":", string.Empty);
                     token = lexer.GetNextToken();
@@ -48,7 +40,7 @@ namespace SharpRISCV.Core.V2.FirstPass
                     {
                         token = lexer.GetNextToken();
 
-                        if(token.TokenType != LexicalToken.TokenType.STRING)
+                        if (token.TokenType != LexicalToken.TokenType.STRING)
                             throw new Exception("Invalid Use of word directive.");
 
                         string text = token.Value.Replace("\\n", "\n");

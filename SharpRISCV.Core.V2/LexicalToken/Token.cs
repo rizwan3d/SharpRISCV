@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 
 namespace SharpRISCV.Core.V2.LexicalToken
 {

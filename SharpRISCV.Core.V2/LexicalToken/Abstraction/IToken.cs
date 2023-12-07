@@ -1,6 +1,4 @@
-﻿using SharpRISCV.Core.V2.LexicalToken;
-
-namespace SharpRISCV.Core.V2.LexicalToken.Abstraction
+﻿namespace SharpRISCV.Core.V2.LexicalToken.Abstraction
 {
     public interface IToken
     {
@@ -11,7 +9,7 @@ namespace SharpRISCV.Core.V2.LexicalToken.Abstraction
         static IToken? EndOfFile { get; }
         static bool IsEndOfFile(IToken token) => token.TokenType == TokenType.EPSILONE;
         static bool IsInstruction(IToken token) => token.TokenType == TokenType.INSTRUCTION;
-        static bool IsLableDefinition(IToken token) => token.TokenType == TokenType.LABELDEFINITION;
+        static bool IsLabelDefinition(IToken token) => token.TokenType == TokenType.LABELDEFINITION;
         static bool IsDirective(IToken token) => token.TokenType == TokenType.DIRECTIVE;
     }
 }
