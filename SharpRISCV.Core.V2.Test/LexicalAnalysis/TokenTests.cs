@@ -18,7 +18,7 @@ namespace SharpRISCV.Core.V2.Test.LexicalAnalysis
             TokenType expectedType = TokenType.INSTRUCTION;
             string expectedValue = "Add";
 
-            IToken token = new Token(expectedType, expectedValue, 0, expectedValue.Length);
+            IToken token = new Token(expectedType, expectedValue, 0, 0, expectedValue.Length);
 
             Assert.AreEqual(expectedType, token.TokenType);
             Assert.AreEqual(expectedValue, token.Value);

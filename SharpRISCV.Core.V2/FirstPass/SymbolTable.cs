@@ -1,4 +1,5 @@
 ﻿using SharpRISCV.Core.V2.FirstPass.Abstraction;
+using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using System;
 using System.Linq;
 
@@ -13,12 +14,12 @@ namespace SharpRISCV.Core.V2.FirstPass
             get => symbolInfos.FirstOrDefault(lable => lable.Name.Equals(name)) ?? throw new IndexOutOfRangeException();
         }
 
-        public void Add(string name, uint address)
+        public void Add(IToken token,uint address)
         {
-            if (symbolInfos.FirstOrDefault(lable => lable.Name.Equals(name)) is not null)
-                throw new Exception($"Label name {name} is already defined.");
+            if (symbolInfos.FirstOrDefault(lable => lable.Name.Equals(token.Value)) is not null)
+                throw new Exception($"Label name {token.Value} is already defined at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
 
-            symbolInfos.Add(new SymbolInfo(name, address));
+            symbolInfos.Add(new SymbolInfo(token.Value.Replace(":", string.Empty), address));
         }
 
         public int Count => symbolInfos.Count;

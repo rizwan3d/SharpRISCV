@@ -1,5 +1,6 @@
 ﻿using SharpRISCV.Core.V2.FirstPass;
 using SharpRISCV.Core.V2.FirstPass.Abstraction;
+using SharpRISCV.Core.V2.LexicalToken;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
         {
             SymbolTable symbolTable = new SymbolTable();
 
-            symbolTable.Add("_start", 0x123);
+            symbolTable.Add(new Token(TokenType.DIRECTIVE,"_start",0,0,0), 0x123);
 
             Assert.AreEqual(1, symbolTable.Count);
         }
@@ -25,7 +26,7 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
         public void SymbolTable_Indexer_ReturnsCorrectSymbol()
         {
             SymbolTable symbolTable = new SymbolTable();
-            symbolTable.Add("_start", 0x123);
+            symbolTable.Add(new Token(TokenType.DIRECTIVE, "_start", 0, 0, 0), 0x123);
 
             ISymbolInfo symbol = symbolTable["_start"];
 
@@ -48,8 +49,8 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
         public void SymbolTable_SameLable_ThrowsExceptionForMissingSymbol()
         {
             SymbolTable symbolTable = new SymbolTable();
-            symbolTable.Add("_start", 0x123);
-            symbolTable.Add("_start", 0x123);
+            symbolTable.Add(new Token(TokenType.DIRECTIVE, "_start", 0, 0, 0), 0x123);
+            symbolTable.Add(new Token(TokenType.DIRECTIVE, "_start", 0, 0, 0), 0x123);
         }
     }
 }

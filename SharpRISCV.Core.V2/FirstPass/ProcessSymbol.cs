@@ -1,6 +1,7 @@
 ﻿using SharpRISCV.Core.V2.Directive;
 using SharpRISCV.Core.V2.FirstPass.Abstraction;
 using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
+using SharpRISCV.Core.V2.LexicalToken;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using System;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace SharpRISCV.Core.V2.FirstPass
             while (!IToken.IsEndOfFile(token))
             {
                 if (IToken.IsDirective(token) && !Directives.IsValid(token))
-                    throw new Exception($"Invalid directives {token.Value}");
+                    throw new Exception($"Invalid directives {token.Value} at Line Number: {token.LineNumber}, Char: {token.StartIndex}." );
 
                 if (IToken.IsDirective(token) && Directives.IsSection(token))
                     CurrentDirective = token;
@@ -30,12 +31,12 @@ namespace SharpRISCV.Core.V2.FirstPass
 
                 else if (IToken.IsLabelDefinition(token) && Directives.IsText(CurrentDirective))
                 {
-                    symbolTable.Add(token.Value.Replace(":", string.Empty), CurrentAddress);
+                    symbolTable.Add(token, CurrentAddress);
                 }
 
                 else if (IToken.IsLabelDefinition(token) && Directives.IsData(CurrentDirective))
                 {
-                    string lableName = token.Value.Replace(":", string.Empty);
+                    IToken lable = Token.FromToken(token);
                     token = lexer.GetNextToken();
                     uint incrementedAddress = 0;
 
@@ -44,7 +45,7 @@ namespace SharpRISCV.Core.V2.FirstPass
                         token = lexer.GetNextToken();
 
                         if (token.TokenType != LexicalToken.TokenType.STRING)
-                            throw new Exception("Invalid Use of word directive.");
+                            throw new Exception($"Invalid Use of word directive at {token.LineNumber}, Char: {token.StartIndex}.");
 
                         string text = token.Value.Replace("\\n", "\n");
                         uint size = (uint)new UTF8Encoding(true).GetBytes(text).Length + 1;
@@ -68,13 +69,13 @@ namespace SharpRISCV.Core.V2.FirstPass
                         }
 
                         if (inval is null)
-                            throw new Exception("Invalid Use of word directive.");
+                            throw new Exception($"Invalid Use of word directive at {token.LineNumber}, Char: {token.StartIndex}.");
 
                         byte[] byteArray = BitConverter.GetBytes((int)inval);
                         incrementedAddress += (uint)byteArray.Length + 1;
                     }
 
-                    symbolTable.Add(lableName, CurrentAddress);
+                    symbolTable.Add(lable, CurrentAddress);
                     CurrentAddress += incrementedAddress;
                 }
 

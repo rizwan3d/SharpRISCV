@@ -1,4 +1,6 @@
-﻿namespace SharpRISCV.Core.V2.FirstPass.Abstraction
+﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+
+namespace SharpRISCV.Core.V2.FirstPass.Abstraction
 {
     public interface ISymbolTable
     {
@@ -6,6 +8,6 @@
 
         int Count { get; }
 
-        void Add(string name, uint address);
+        void Add(IToken token, uint address);
     }
 }

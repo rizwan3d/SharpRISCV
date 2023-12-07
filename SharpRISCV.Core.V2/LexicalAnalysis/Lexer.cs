@@ -50,7 +50,8 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
                         }
                         if (match.Success && match.Index == Position && !IgnoredToken.Contains(rule.Key))
                         {
-                            token = new Token(rule.Key, match.Value, Position, match.Value.Length);
+                            int lineNumber = Text.Take(Position).Count(c => c == '\n') + 1;
+                            token = new Token(rule.Key, match.Value, Position, lineNumber, match.Value.Length);
                             Position += match.Length;
                             break;
                         }
