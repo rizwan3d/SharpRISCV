@@ -19,18 +19,21 @@ namespace SharpRISCV.Core.V2.FirstPass
             var token = lexer.GetNextToken();
             while (!IToken.IsEndOfFile(token))
             {
+                if (IToken.IsDirective(token) && !Directives.IsValid(token))
+                    throw new Exception($"Invalid directives {token.Value}");
+
                 if (IToken.IsDirective(token) && Directives.IsSection(token))
                     CurrentDirective = token;
 
-                if (IToken.IsInstruction(token))
+                else if (IToken.IsInstruction(token))
                     CurrentAddress += Setting.InstructionSize;
 
-                if (IToken.IsLabelDefinition(token) && Directives.IsText(CurrentDirective))
+                else if (IToken.IsLabelDefinition(token) && Directives.IsText(CurrentDirective))
                 {
                     symbolTable.Add(token.Value.Replace(":", string.Empty), CurrentAddress);
                 }
 
-                if (IToken.IsLabelDefinition(token) && Directives.IsData(CurrentDirective))
+                else if (IToken.IsLabelDefinition(token) && Directives.IsData(CurrentDirective))
                 {
                     string lableName = token.Value.Replace(":", string.Empty);
                     token = lexer.GetNextToken();

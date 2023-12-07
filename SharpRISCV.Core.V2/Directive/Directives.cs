@@ -1,4 +1,5 @@
-﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalToken;
+using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using System;
 using System.Linq;
 
@@ -6,6 +7,13 @@ namespace SharpRISCV.Core.V2.Directive
 {
     public static class Directives
     {
+        static List<string> DirectivesList = [".text", ".data", ".space", ".string", ".asciz", ".word"];
+
+        public static bool IsValid(IToken token)
+        {
+            return DirectivesList.Contains(token.Value);
+        }
+
         public static bool IsText(IToken token)
         {
             return token.Value.Equals(".text");

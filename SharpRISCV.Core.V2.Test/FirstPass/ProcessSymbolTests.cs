@@ -137,7 +137,6 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
             var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
 
             processSymbol.Start();
-
         }
 
         [TestMethod]
@@ -156,7 +155,21 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
             var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
 
             processSymbol.Start();
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ProcessSymbol_Start_AddsLabel_Invalid_Directive_ToSymbolTable()
+        {
+            var lexerMock = new Mock<ILexer>();
+            var symbolTableMock = new Mock<ISymbolTable>();
+
+            lexerMock.SetupSequence(l => l.GetNextToken())
+                .Returns(new Token(TokenType.DIRECTIVE, ".asds", 0, 3));
+
+            var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
+
+            processSymbol.Start();
         }
     }
 }
