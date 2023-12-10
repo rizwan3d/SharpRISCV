@@ -28,7 +28,7 @@ namespace SharpRISCV.Core.V2.FirstPass
 
                 else if (IToken.IsInstruction(token))
                     if (Setting.HasTwoBaseInstruction(token))
-                        CurrentAddress += Setting.InstructionSize*2;
+                        CurrentAddress += Setting.InstructionSize * 2;
                     else
                         CurrentAddress += Setting.InstructionSize;
 

@@ -14,7 +14,7 @@ namespace SharpRISCV.Core.V2.FirstPass
             get => symbolInfos.FirstOrDefault(lable => lable.Name.Equals(name)) ?? throw new IndexOutOfRangeException();
         }
 
-        public void Add(IToken token,uint address)
+        public void Add(IToken token, uint address)
         {
             if (symbolInfos.FirstOrDefault(lable => lable.Name.Equals(token.Value)) is not null)
                 throw new Exception($"Label name {token.Value} is already defined at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");

@@ -1,5 +1,4 @@
-﻿using SharpRISCV.Core.V2.LexicalToken;
-using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using System;
 using System.Linq;
 

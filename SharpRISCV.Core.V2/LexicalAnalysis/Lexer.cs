@@ -25,7 +25,7 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
             { TokenType.INSTRUCTION, new Regex(Pattern.Instruction) },
             { TokenType.DIRECTIVE, new Regex(Pattern.Directive) },
             { TokenType.LABELDEFINITION, new Regex(Pattern.LabeDefinition) },
-            { TokenType.LABEL, new Regex(Pattern.Lable) },
+            { TokenType.LABEL, new Regex(Pattern.Label) },
         };
 
         private List<TokenType> IgnoredToken = [TokenType.COMMENT, TokenType.WHITESPACE, TokenType.COMMA];

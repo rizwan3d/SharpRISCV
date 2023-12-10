@@ -12,7 +12,7 @@
         public static readonly string Hex = @"\b0x[0-9A-Fa-f]+\b";
         public static readonly string Binary = @"\b0b[01]+\b";
         public static readonly string Directive = @"\.\w+";
-        public static readonly string Lable = $@"\b[a-zA-Z_][a-zA-Z_0-9]*(?!({Register}))";
+        public static readonly string Label = $@"\b[a-zA-Z_][a-zA-Z_0-9]*(?!({Register}))";
         public static readonly string LabeDefinition = @"\b[a-zA-Z_][a-zA-Z_0-9]*:";
         public static readonly string WhiteSpace = @"\s+";
     }
