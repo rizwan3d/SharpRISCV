@@ -21,7 +21,7 @@ namespace SharpRISCV.Core.V2.FirstPass
             while (!IToken.IsEndOfFile(token))
             {
                 if (IToken.IsDirective(token) && !Directives.IsValid(token))
-                    throw new Exception($"Invalid directives {token.Value} at Line Number: {token.LineNumber}, Char: {token.StartIndex}." );
+                    throw new Exception($"Invalid directives {token.Value} at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
 
                 if (IToken.IsDirective(token) && Directives.IsSection(token))
                     CurrentDirective = token;
@@ -44,7 +44,7 @@ namespace SharpRISCV.Core.V2.FirstPass
                     {
                         token = lexer.GetNextToken();
 
-                        if (token.TokenType != LexicalToken.TokenType.STRING)
+                        if (token.TokenType != TokenType.STRING)
                             throw new Exception($"Invalid Use of word directive at {token.LineNumber}, Char: {token.StartIndex}.");
 
                         string text = token.Value.Replace("\\n", "\n");
@@ -54,24 +54,11 @@ namespace SharpRISCV.Core.V2.FirstPass
                     else if (IToken.IsDirective(token) && Directives.IsWord(token))
                     {
                         token = lexer.GetNextToken();
-                        int? inval = null;
-                        if (token.TokenType == LexicalToken.TokenType.HEX)
-                        {
-                            inval = Convert.ToInt32(token.Value.Substring(2), 16);
-                        }
-                        else if (token.TokenType == LexicalToken.TokenType.BINARY)
-                        {
-                            inval = Convert.ToInt32(token.Value.Substring(2), 2);
-                        }
-                        else if (token.TokenType == LexicalToken.TokenType.INTEGER)
-                        {
-                            inval = Convert.ToInt32(token.Value);
-                        }
 
-                        if (inval is null)
+                        if (token.NumericVal is null)
                             throw new Exception($"Invalid Use of word directive at {token.LineNumber}, Char: {token.StartIndex}.");
 
-                        byte[] byteArray = BitConverter.GetBytes((int)inval);
+                        byte[] byteArray = BitConverter.GetBytes(token.NumericVal.Value);
                         incrementedAddress += (uint)byteArray.Length + 1;
                     }
 
@@ -79,6 +66,28 @@ namespace SharpRISCV.Core.V2.FirstPass
                     CurrentAddress += incrementedAddress;
                 }
 
+                else if (IToken.IsLabelDefinition(token) && Directives.IsBss(CurrentDirective))
+                {
+                    IToken lable = Token.FromToken(token);
+                    token = lexer.GetNextToken();
+                    uint incrementedAddress = 0;
+
+                    if (IToken.IsDirective(token) && Directives.IsSpace(token))
+                    {
+                        token = lexer.GetNextToken();
+
+                        if (token.NumericVal is null)
+                            throw new Exception($"Invalid Use of space directive at {token.LineNumber}, Char: {token.StartIndex}.");
+
+                        byte[] byteArray = new byte[token.NumericVal.Value];
+                        incrementedAddress += (uint)byteArray.Length + 1;
+
+                        symbolTable.Add(lable, CurrentAddress);
+                        CurrentAddress += incrementedAddress;
+                    }
+                    else
+                        throw new Exception($"Invalid Use of directive at {token.LineNumber}, Char: {token.StartIndex}.");
+                }
                 token = lexer.GetNextToken();
             }
         }

@@ -7,6 +7,7 @@
         int StartIndex { get; }
         int LineNumber { get; }
         int Length { get; }
+        int? NumericVal { get; }
         static IToken? EndOfFile { get; }
         static bool IsEndOfFile(IToken token) => token.TokenType == TokenType.EPSILONE;
         static bool IsInstruction(IToken token) => token.TokenType == TokenType.INSTRUCTION;
