@@ -158,5 +158,18 @@ namespace SharpRISCV.Core.V2.Test.LexicalAnalysis
             Assert.AreEqual(TokenType.REGISTER, tokens.TokenType);
             Assert.AreEqual("sp", tokens.Value);
         }
+
+        [TestMethod]
+        public void Lexer_Tokenize_Pseudo_Instruction_Success()
+        {
+            string assemblyCode = "mv $t0, $t1";
+            Lexer lexer = new Lexer(assemblyCode);
+
+            var tokens = lexer.GetNextToken();
+            Assert.IsNotNull(tokens);
+
+            Assert.AreEqual(TokenType.INSTRUCTION, tokens.TokenType);
+            Assert.AreEqual("mv", tokens.Value);
+        }
     }
 }
