@@ -27,7 +27,10 @@ namespace SharpRISCV.Core.V2.FirstPass
                     CurrentDirective = token;
 
                 else if (IToken.IsInstruction(token))
-                    CurrentAddress += Setting.InstructionSize;
+                    if (Setting.HasTwoBaseInstruction(token))
+                        CurrentAddress += Setting.InstructionSize*2;
+                    else
+                        CurrentAddress += Setting.InstructionSize;
 
                 else if (IToken.IsLabelDefinition(token) && Directives.IsText(CurrentDirective))
                 {

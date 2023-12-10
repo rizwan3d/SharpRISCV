@@ -68,7 +68,7 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
                 .Returns(new Token(TokenType.INSTRUCTION, "ADD", 0, 0, 3))
                 .Returns(new Token(TokenType.LABELDEFINITION, "Label2:", 3, 0, 10))
                 .Returns(new Token(TokenType.INSTRUCTION, "ADD", 10, 0, 14))
-                .Returns(new Token(TokenType.INSTRUCTION, "ADD", 10, 0, 14))
+                .Returns(new Token(TokenType.INSTRUCTION, "la", 10, 0, 14))
                 .Returns(new Token(TokenType.LABELDEFINITION, "Label3:", 3, 0, 10))
                 .Returns(Token.EndOfFile);
 
@@ -78,7 +78,7 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
 
             symbolTableMock.Verify(st => st.Add(new Token(TokenType.LABELDEFINITION, "Label1:", 3, 0, 10), 0), Times.Once);
             symbolTableMock.Verify(st => st.Add(new Token(TokenType.LABELDEFINITION, "Label2:", 3, 0, 10), 4), Times.Once);
-            symbolTableMock.Verify(st => st.Add(new Token(TokenType.LABELDEFINITION, "Label3:", 3, 0, 10), 12), Times.Once);
+            symbolTableMock.Verify(st => st.Add(new Token(TokenType.LABELDEFINITION, "Label3:", 3, 0, 10), 16), Times.Once);
         }
 
         [TestMethod]
