@@ -179,6 +179,24 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
+        public void ProcessSymbol_Start_AddsLabel_Invalid_Data_Directive_ToSymbolTable()
+        {
+            var lexerMock = new Mock<ILexer>();
+            var symbolTableMock = new Mock<ISymbolTable>();
+
+            lexerMock.SetupSequence(l => l.GetNextToken())
+                .Returns(new Token(TokenType.DIRECTIVE, ".data", 0, 0, 3))
+                .Returns(new Token(TokenType.LABELDEFINITION, "Label2:", 3, 0, 10))
+                .Returns(new Token(TokenType.DIRECTIVE, ".space", 10, 0, 14))
+                .Returns(Token.EndOfFile);
+
+            var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
+
+            processSymbol.Start();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void ProcessSymbol_Start_AddsLabel_Invalid_Directive_ToSymbolTable()
         {
             var lexerMock = new Mock<ILexer>();

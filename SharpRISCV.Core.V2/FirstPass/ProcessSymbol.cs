@@ -61,6 +61,8 @@ namespace SharpRISCV.Core.V2.FirstPass
                         byte[] byteArray = BitConverter.GetBytes(token.NumericVal.Value);
                         incrementedAddress += (uint)byteArray.Length + 1;
                     }
+                    else
+                        throw new Exception($"Invalid Use of directive at {token.LineNumber}, Char: {token.StartIndex}.");
 
                     symbolTable.Add(lable, CurrentAddress);
                     CurrentAddress += incrementedAddress;
