@@ -86,8 +86,6 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
         {
             var lexerMock = new Mock<ILexer>();
             var symbolTableMock = new Mock<ISymbolTable>();
-
-            var ss = new SymbolTable();
             
             var lable1 = new Token(TokenType.LABELDEFINITION, "Label1", 3, 0, 10);
             var lable2 = new Token(TokenType.LABELDEFINITION, "Label2", 3, 0, 10);
@@ -127,7 +125,7 @@ namespace SharpRISCV.Core.V2.Test.FirstPass
                 .Returns(new Token(TokenType.INTEGER, @"256", 10, 0, 14))
                 .Returns(Token.EndOfFile);
 
-            var processSymbol = new ProcessSymbol(lexerMock.Object, ss); // symbolTableMock.Object);
+            var processSymbol = new ProcessSymbol(lexerMock.Object, symbolTableMock.Object);
 
             processSymbol.Start();
 
