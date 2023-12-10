@@ -15,8 +15,6 @@ namespace SharpRISCV.Core.V2.FirstPass
             this.symbolTable = symbolTable;
         }
 
-        public virtual void Start()
-        {
-        }
+        public abstract void Start();
     }
 }

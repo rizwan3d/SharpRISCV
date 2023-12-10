@@ -13,9 +13,9 @@ namespace SharpRISCV.Core.V2.LexicalAnalysis
             Text = Regex.Replace(Text, Pattern.Comment, string.Empty, RegexOptions.Multiline);
         }
 
-        public virtual IEnumerable<IToken> Tokenize() => throw new NotImplementedException();
+        public abstract IEnumerable<IToken> Tokenize();
 
-        public virtual IToken GetNextToken() => throw new NotImplementedException();
-        public virtual void Reset() => throw new NotImplementedException();
+        public abstract IToken GetNextToken();
+        public abstract void Reset();
     }
 }
