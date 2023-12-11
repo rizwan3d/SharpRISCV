@@ -4,7 +4,7 @@ using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
 
 namespace SharpRISCV.Core.V2.Program.Instructions
 {
-    class Instruction(IToken token) : InstructionBase(token), IInstruction
+    public class Instruction(IToken token) : InstructionBase(token), IInstruction
     {
         public override bool IsComplete()
         {
@@ -32,10 +32,10 @@ namespace SharpRISCV.Core.V2.Program.Instructions
             dynamic? Operand = isRegisterOrLable ? token.Value : token.NumericVal;
 
             if (IsRd())
+                Rd = $"{Operand}";
+            else if (IsRs1())
                 Rs1 = $"{Operand}";
-            if (IsRs1())
-                Rs1 = $"{Operand}";
-            if (IsRs2())
+            else if (IsRs2())
                 Rs2 = $"{Operand}";
             else
                 throw new Exception($"Invalid Instruction at at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
