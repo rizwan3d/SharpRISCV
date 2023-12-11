@@ -35,12 +35,6 @@ namespace SharpRISCV.Core.V2.Program.Datas
             else if (Directives.IsWord(Type))
             {
                 byte[] byteArray = BitConverter.GetBytes(IntData.GetValueOrDefault());
-                if (byteArray.Length < 4)
-                {
-                    byte[] paddedArray = new byte[4];
-                    Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
-                    byteArray = paddedArray; // Replace byteArray with the padded array
-                }
                 bytes.AddRange(byteArray);
             }
             else if (Directives.IsSpace(Type))
@@ -55,7 +49,7 @@ namespace SharpRISCV.Core.V2.Program.Datas
         {
             if (Directives.IsWord(Type) || Directives.IsSpace(Type))
                 IntData = token.NumericVal.GetValueOrDefault();
-            if (Directives.IsString(Type))
+            else if(Directives.IsString(Type))
                 StringData = token.Value;
             else
                 throw new Exception($"Invalid Instruction at at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
