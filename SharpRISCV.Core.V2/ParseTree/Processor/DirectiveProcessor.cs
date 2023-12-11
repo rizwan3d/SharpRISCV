@@ -11,19 +11,19 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
 {
     public class DirectiveProcessor : ITokenProcessStrategy
     {
-        public void Process(IList<ISection> Sections, ISection CurrentSections, ref IInstruction CurrentInstruction, IData CurrentData, IToken token)
+        public void Process(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
             if (Directives.IsSection(token))
             {
-                ProcessSection(Sections, CurrentSections, CurrentInstruction, CurrentData, token);
+                ProcessSection(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token);
             }
             else
             {
-                ProcessOtherDirective(Sections, CurrentSections, CurrentInstruction, CurrentData, token);
+                ProcessOtherDirective(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token);
             }
         }
 
-        private void ProcessSection(IList<ISection> Sections, ISection CurrentSections, IInstruction CurrentInstruction, IData CurrentData, IToken token)
+        private void ProcessSection(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
             if (CurrentInstruction is not null && CurrentInstruction.IsComplete())
                 CurrentSections.Instructions.Add(CurrentInstruction);
@@ -32,7 +32,7 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
             Sections.Add(CurrentSections);
         }
 
-        private void ProcessOtherDirective(IList<ISection> Sections, ISection CurrentSections, IInstruction CurrentInstruction, IData CurrentData, IToken token)
+        private void ProcessOtherDirective(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
             if (CurrentData is not null && CurrentData.IsComplete())
                 CurrentSections.Data.Add(CurrentData);

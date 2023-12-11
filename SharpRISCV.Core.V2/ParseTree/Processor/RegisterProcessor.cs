@@ -8,8 +8,11 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
 {
     public class RegisterProcessor : ITokenProcessStrategy
     {
-        public void Process(IList<ISection> Sections, ISection CurrentSections, ref IInstruction CurrentInstruction, IData CurrentData, IToken token)
+        public void Process(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
+            if (CurrentInstruction is null)
+                throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+
             CurrentInstruction.ProcessOperand(token);
         }
     }

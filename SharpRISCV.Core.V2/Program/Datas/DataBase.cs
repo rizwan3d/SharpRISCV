@@ -11,5 +11,6 @@ namespace SharpRISCV.Core.V2.Program.Datas
         public abstract bool IsComplete();
 
         public abstract void SetData(IToken token);
+        public abstract object GetData();
     }
 }

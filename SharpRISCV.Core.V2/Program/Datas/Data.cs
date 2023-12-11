@@ -18,7 +18,7 @@ namespace SharpRISCV.Core.V2.Program.Datas
             return !string.IsNullOrEmpty(StringData) || IntData is not null;
         }
 
-        public object GetData()
+        public override object GetData()
         {
             return IntData is null? StringData: IntData;
         }

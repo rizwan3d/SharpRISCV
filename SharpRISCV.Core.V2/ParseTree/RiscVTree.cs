@@ -9,7 +9,7 @@ using SharpRISCV.Core.V2.Program.Sections.Abstraction;
 
 namespace SharpRISCV.Core.V2.ParseTree
 {
-    class RiscVTree : RiscVTreeBase, IRiscVTree
+    public class RiscVTree : RiscVTreeBase, IRiscVTree
     {
         private Dictionary<TokenType, ITokenProcessStrategy> ProcessStrategys { get; }
 
@@ -25,6 +25,7 @@ namespace SharpRISCV.Core.V2.ParseTree
         {
             ProcessStrategys = new Dictionary<TokenType, ITokenProcessStrategy>();
             ProcessStrategys.Add(TokenType.DIRECTIVE, new DirectiveProcessor());
+            ProcessStrategys.Add(TokenType.REGISTER, new RegisterProcessor());
             ProcessStrategys.Add(TokenType.INSTRUCTION, new InstructionProcessor());
             ProcessStrategys.Add(TokenType.INTEGER, new NumberProcessor());
             ProcessStrategys.Add(TokenType.HEX, new NumberProcessor());
@@ -41,10 +42,12 @@ namespace SharpRISCV.Core.V2.ParseTree
             var token = lexer.GetNextToken();
             while (!IToken.IsEndOfFile(token))
             {
-                ITokenProcessStrategy processStrategy = ProcessStrategys[token.TokenType];
-                tokenProcessContext.SetStrategy(processStrategy);
-                tokenProcessContext.ExecuteStrategy(Sections, CurrentSections, ref CurrentInstruction, CurrentData, token); ;
-
+                if (!IToken.IsLable(token))
+                {
+                    ITokenProcessStrategy processStrategy = ProcessStrategys[token.TokenType];
+                    tokenProcessContext.SetStrategy(processStrategy);
+                    tokenProcessContext.ExecuteStrategy(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token); ;
+                }
                 token = lexer.GetNextToken();
             }
 

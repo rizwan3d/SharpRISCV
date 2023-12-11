@@ -6,6 +6,7 @@ namespace SharpRISCV.Core.V2.Program.Datas.Abstraction
     {
         bool IsComplete();
         void SetData(IToken token);
+        object GetData();
 
         IToken Type { get; set; }
     }
