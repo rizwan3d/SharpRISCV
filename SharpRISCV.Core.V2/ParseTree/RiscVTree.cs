@@ -6,6 +6,7 @@ using SharpRISCV.Core.V2.ParseTree.Processor;
 using SharpRISCV.Core.V2.Program.Datas.Abstraction;
 using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
 using SharpRISCV.Core.V2.Program.Sections.Abstraction;
+using System.Xml;
 
 namespace SharpRISCV.Core.V2.ParseTree
 {
@@ -33,24 +34,24 @@ namespace SharpRISCV.Core.V2.ParseTree
             ProcessStrategys.Add(TokenType.BINARY, new NumberProcessor());
             ProcessStrategys.Add(TokenType.LABEL, new LabelProcessor());
             ProcessStrategys.Add(TokenType.STRING, new StringProcessor());
+            ProcessStrategys.Add(TokenType.EPSILONE, new EpsiloneProcessor());
         }
 
         public override List<ISection> ParseProgram()
         {
             TokenProcessContext tokenProcessContext = new();
 
-            var token = lexer.GetNextToken();
-            while (!IToken.IsEndOfFile(token))
+            IToken token;
+            do
             {
+                token = lexer.GetNextToken();
                 if (!IToken.IsLable(token))
                 {
                     ITokenProcessStrategy processStrategy = ProcessStrategys[token.TokenType];
                     tokenProcessContext.SetStrategy(processStrategy);
-                    tokenProcessContext.ExecuteStrategy(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token); ;
+                    tokenProcessContext.ExecuteStrategy(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token);
                 }
-                token = lexer.GetNextToken();
-            }
-
+            } while (!IToken.IsEndOfFile(token));
             return Sections;
         }
     }
