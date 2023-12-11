@@ -8,7 +8,7 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
 {
     public class NumberProcessor : ITokenProcessStrategy
     {
-        public void Process(IList<ISection> Sections, ISection CurrentSections, IInstruction CurrentInstruction, IData CurrentData, IToken token)
+        public void Process(IList<ISection> Sections, ISection CurrentSections, ref IInstruction CurrentInstruction, IData CurrentData, IToken token)
         {
             if (CurrentSections is IDataSection || CurrentSections is IBssSection)
             {

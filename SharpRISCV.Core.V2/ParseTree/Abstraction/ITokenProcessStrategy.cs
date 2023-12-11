@@ -7,6 +7,6 @@ namespace SharpRISCV.Core.V2.ParseTree.Abstraction
 {
     public interface ITokenProcessStrategy
     {
-        void Process(IList<ISection> Sections, ISection CurrentSections, IInstruction CurrentInstruction, IData CurrentData, IToken token);
+        void Process(IList<ISection> Sections, ISection CurrentSections, ref IInstruction CurrentInstruction, IData CurrentData, IToken token);
     }
 }

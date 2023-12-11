@@ -43,7 +43,7 @@ namespace SharpRISCV.Core.V2.ParseTree
             {
                 ITokenProcessStrategy processStrategy = ProcessStrategys[token.TokenType];
                 tokenProcessContext.SetStrategy(processStrategy);
-                tokenProcessContext.ExecuteStrategy(Sections, CurrentSections, CurrentInstruction, CurrentData, token); ;
+                tokenProcessContext.ExecuteStrategy(Sections, CurrentSections, ref CurrentInstruction, CurrentData, token); ;
 
                 token = lexer.GetNextToken();
             }

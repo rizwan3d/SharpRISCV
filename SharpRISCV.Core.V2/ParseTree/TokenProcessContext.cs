@@ -15,9 +15,9 @@ namespace SharpRISCV.Core.V2.ParseTree
             this.strategy = strategy;
         }
 
-        public void ExecuteStrategy(IList<ISection> Sections, ISection CurrentSections, IInstruction CurrentInstruction, IData CurrentData, IToken token)
+        public void ExecuteStrategy(IList<ISection> Sections, ISection CurrentSections, ref IInstruction CurrentInstruction, IData CurrentData, IToken token)
         {
-            strategy?.Process(Sections, CurrentSections, CurrentInstruction, CurrentData, token);
+            strategy?.Process(Sections, CurrentSections, ref CurrentInstruction, CurrentData, token);
         }
     }
 }
