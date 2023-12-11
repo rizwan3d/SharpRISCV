@@ -33,7 +33,9 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
                 else
                     CurrentSections.Instructions.Add(CurrentInstruction);
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             CurrentInstruction = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             CurrentSections = SectionFactory.CreateSection(token);
             Sections.Add(CurrentSections);
         }
