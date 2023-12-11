@@ -3,7 +3,7 @@ using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
 
 namespace SharpRISCV.Core.V2.Program.Instructions
 {
-    class InstructionFactory
+    public class InstructionFactory
     {
         public static IInstruction CreateInstruction(IToken token)
         {

@@ -3,7 +3,7 @@ using SharpRISCV.Core.V2.Program.Datas.Abstraction;
 
 namespace SharpRISCV.Core.V2.Program.Datas
 {
-    class DataFactory
+    public class DataFactory
     {
         public static IData CreateData(IToken token)
         {

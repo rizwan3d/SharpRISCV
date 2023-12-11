@@ -4,7 +4,7 @@ using SharpRISCV.Core.V2.Program.Sections.Abstraction;
 
 namespace SharpRISCV.Core.V2.Program.Sections
 {
-    class SectionFactory
+    public class SectionFactory
     {
         public static ISection CreateSection(IToken token)
         {

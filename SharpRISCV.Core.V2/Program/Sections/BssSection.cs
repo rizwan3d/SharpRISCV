@@ -2,6 +2,6 @@
 
 namespace SharpRISCV.Core.V2.Program.Sections
 {
-    class BssSection : SectionBase, ISection, IBssSection
+    public class BssSection : SectionBase, ISection, IBssSection
     { }
 }
