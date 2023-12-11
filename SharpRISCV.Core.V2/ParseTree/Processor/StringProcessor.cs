@@ -10,9 +10,13 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
     {
         public void Process(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
-            if (CurrentSections is IDataSection)
+            if (CurrentSections is null)
+                throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+            else if(CurrentSections is IDataSection)
             {
-                CurrentData.SetData(token);
+                if (CurrentData is null)
+                throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+                    CurrentData.SetData(token);
                 CurrentSections.Data.Add(CurrentData);
             }
             else
