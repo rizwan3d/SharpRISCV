@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
 using SharpRISCV.Core.V2.LexicalAnalysis;
 using Moq;
+using static System.Collections.Specialized.BitVector32;
 
 namespace SharpRISCV.Core.V2.Test.ParseTree
 {
@@ -191,6 +192,59 @@ namespace SharpRISCV.Core.V2.Test.ParseTree
             lexer.SetupSequence(x => x.GetNextToken())
                 .Returns(new Token(TokenType.LABELDEFINITION, "data:", 0, 0, 0))
                 .Returns(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0))
+                .Returns(new Token(TokenType.DIRECTIVE, ".space", 0, 0, 0))
+                .Returns(new Token(TokenType.STRING, @"""Hello""", 0, 0, 0))
+                .Returns(new Token(TokenType.EPSILONE, "", 0, 0, 0));
+
+            IRiscVTree riscVTree = new RiscVTree(lexer.Object);
+
+            List<ISection> sections = riscVTree.ParseProgram();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Program_Test_7()
+        {
+            var lexer = new Mock<ILexer>();
+
+            lexer.SetupSequence(x => x.GetNextToken())
+                .Returns(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0))
+                .Returns(new Token(TokenType.EPSILONE, "", 0, 0, 0));
+
+            IRiscVTree riscVTree = new RiscVTree(lexer.Object);
+
+            riscVTree.ParseProgram();
+        }
+
+        [TestMethod]
+        public void Program_Test_8()
+        {
+            var lexer = new Mock<ILexer>();
+
+            lexer.SetupSequence(x => x.GetNextToken())
+                .Returns(new Token(TokenType.DIRECTIVE, ".text", 0, 0, 0))
+                .Returns(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0))
+                .Returns(new Token(TokenType.EPSILONE, "", 0, 0, 0));
+
+            IRiscVTree riscVTree = new RiscVTree(lexer.Object);
+
+            List<ISection> sections = riscVTree.ParseProgram();
+
+            Assert.IsNotNull(sections);
+            Assert.AreEqual(1, sections.Count);
+            Assert.IsInstanceOfType(sections[0], typeof(ITextSection));
+            Assert.AreEqual("addi", sections[0].Instructions[0].Opcode);
+
+        }
+
+        [TestMethod]
+        public void Program_Test_9()
+        {
+            var lexer = new Mock<ILexer>();
+
+            lexer.SetupSequence(x => x.GetNextToken())
+                .Returns(new Token(TokenType.DIRECTIVE, ".data", 0, 0, 0))
+                .Returns(new Token(TokenType.LABELDEFINITION, "lable:", 0, 0, 0))
                 .Returns(new Token(TokenType.DIRECTIVE, ".string", 0, 0, 0))
                 .Returns(new Token(TokenType.STRING, @"""Hello""", 0, 0, 0))
                 .Returns(new Token(TokenType.EPSILONE, "", 0, 0, 0));
@@ -198,6 +252,29 @@ namespace SharpRISCV.Core.V2.Test.ParseTree
             IRiscVTree riscVTree = new RiscVTree(lexer.Object);
 
             List<ISection> sections = riscVTree.ParseProgram();
+
+            Assert.IsNotNull(sections);
+            Assert.AreEqual(1, sections.Count);
+            Assert.IsInstanceOfType(sections[0], typeof(IDataSection));
+            Assert.AreEqual(@"""Hello""", sections[0].Data[0].GetData());
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Program_Test_10()
+        {
+            var lexer = new Mock<ILexer>();
+
+            lexer.SetupSequence(x => x.GetNextToken())
+                .Returns(new Token(TokenType.LABELDEFINITION, "lable:", 0, 0, 0))
+                .Returns(new Token(TokenType.DIRECTIVE, ".string", 0, 0, 0))
+                .Returns(new Token(TokenType.STRING, @"""Hello""", 0, 0, 0))
+                .Returns(new Token(TokenType.EPSILONE, "", 0, 0, 0));
+
+            IRiscVTree riscVTree = new RiscVTree(lexer.Object);
+
+            riscVTree.ParseProgram();
         }
     }
 }
