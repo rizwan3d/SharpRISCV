@@ -12,7 +12,12 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
         public void Process(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
             if (CurrentInstruction is not null && CurrentInstruction.IsComplete())
-                CurrentSections.Instructions.Add(CurrentInstruction);
+                if(CurrentSections is null)
+                    throw new Exception($"invlid section definition at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+                else if (CurrentSections is not ITextSection)
+                    throw new Exception($"Instruction only allowed in text section at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+                else
+                    CurrentSections.Instructions.Add(CurrentInstruction);
 
             CurrentInstruction = InstructionFactory.CreateInstruction(token);
         }

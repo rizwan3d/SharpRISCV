@@ -26,16 +26,25 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
         private void ProcessSection(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
             if (CurrentInstruction is not null && CurrentInstruction.IsComplete())
-                CurrentSections.Instructions.Add(CurrentInstruction);
+                if (CurrentSections is null)
+                    throw new Exception($"invlid section definition at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+                else if (CurrentSections is not ITextSection)
+                    throw new Exception($"Instruction only allowed in text section at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+                else
+                    CurrentSections.Instructions.Add(CurrentInstruction);
 
+            CurrentInstruction = null;
             CurrentSections = SectionFactory.CreateSection(token);
             Sections.Add(CurrentSections);
         }
 
         private void ProcessOtherDirective(IList<ISection> Sections, ref ISection CurrentSections, ref IInstruction CurrentInstruction, ref IData CurrentData, IToken token)
         {
-            if (CurrentData is not null && CurrentData.IsComplete())
-                CurrentSections.Data.Add(CurrentData);
+            if (CurrentData is not null)
+                if (CurrentData.IsComplete())
+                    CurrentSections.Data.Add(CurrentData);
+                else
+                    throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
 
             CurrentData = DataFactory.CreateData(token);
         }
