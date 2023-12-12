@@ -7,8 +7,8 @@ os.makedirs(output_directory, exist_ok=True)
 
 csharp_class = """using SharpRISCV.Core.V2.FirstPass.Abstraction;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
-using SharpRISCV.Core.V2.ParseTree.Abstraction;
 using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
+using SharpRISCV.Core.V2.SemanticAnalysis.Abstraction;
 
 namespace SharpRISCV.Core.V2.SemanticAnalysis.Analyzers
 {
