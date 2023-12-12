@@ -25,7 +25,7 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
             }
             catch
             {
-                throw new Exception($"invlid section definition at Line Number: {Instruction.LineNumber}, Char: {Instruction.StartIndex}.");
+                throw new Exception($"invlid register at Line Number: {Instruction.LineNumber}, Char: {Instruction.StartIndex}.");
             }
         }
 
