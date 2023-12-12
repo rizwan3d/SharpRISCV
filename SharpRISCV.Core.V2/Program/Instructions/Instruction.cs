@@ -9,7 +9,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
     {
         public override bool IsComplete()
         {
-            return !string.IsNullOrEmpty(token?.Value);
+            return !string.IsNullOrEmpty(Token?.Value);
         }
 
         public override bool IsRd()
