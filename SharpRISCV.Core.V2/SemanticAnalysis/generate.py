@@ -1,6 +1,6 @@
 import os
 
-file_path = 'InstructionSet.txt'
+file_path = '../InstructionSet.txt'
 
 output_directory = './Analyzers/'
 os.makedirs(output_directory, exist_ok=True)
