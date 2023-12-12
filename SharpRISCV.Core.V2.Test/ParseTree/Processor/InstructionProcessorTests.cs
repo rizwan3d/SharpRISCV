@@ -46,7 +46,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
             instructionProcessor.Process(sections, ref textSection, ref currentInstruction, ref currentData, token);
 
             Assert.IsNotNull(currentInstruction);
-            Assert.AreNotEqual(Mnemonic.AMOADD_D, currentInstruction.Mnemonic);
+            Assert.AreNotEqual(Mnemonic.ADD, currentInstruction.Mnemonic);
         }
 
         [TestMethod]

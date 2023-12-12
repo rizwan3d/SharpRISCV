@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpRISCV.Core.V2.Program.Instructions;
+using Moq;
+using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+using SharpRISCV.Core.V2.SemanticAnalysis;
 
 namespace SharpRISCV.Core.V2.Test.Program
 {
@@ -114,6 +117,62 @@ namespace SharpRISCV.Core.V2.Test.Program
             instruction.ProcessOperand(operandToken2);
             instruction.ProcessOperand(operandToken3);
             instruction.ProcessOperand(operandToken4);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_ITypeOpcode_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.I, instruction.InstructionType);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_RTypeOpcode_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "add", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.R, instruction.InstructionType);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_STypeOpcode_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "sb", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.S, instruction.InstructionType);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_BTypeOpcode_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "beq", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.B, instruction.InstructionType);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_UTypeOpcode_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "lui", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.U, instruction.InstructionType);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_JTypeOpcode_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "jal", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.J, instruction.InstructionType);
+        }
+
+        [TestMethod]
+        public void IdentifyInstructionType_Lable_SetsInstructionTypeToR()
+        {
+            var instruction = new Instruction(new Token(TokenType.LABEL, "LABEL", 0, 0, 0));
+
+            Assert.AreEqual(InstructionType.Lable, instruction.InstructionType);
         }
     }
 }
