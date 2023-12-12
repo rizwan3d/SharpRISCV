@@ -4,11 +4,6 @@ using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using SharpRISCV.Core.V2.ParseTree.Abstraction;
 using SharpRISCV.Core.V2.Program;
 using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpRISCV.Core.V2.SemanticAnalysis
 {
@@ -30,7 +25,7 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
         }
 
 
-        protected bool IsLable(IToken Instruction, ISymbolTable symbolTable)
+        protected bool IsLabel(IToken Instruction, ISymbolTable symbolTable)
         {
             try
             {

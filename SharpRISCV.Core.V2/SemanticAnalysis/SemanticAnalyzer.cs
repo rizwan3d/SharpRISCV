@@ -6,10 +6,10 @@ using SharpRISCV.Core.V2.SemanticAnalysis.Abstraction;
 
 namespace SharpRISCV.Core.V2.SemanticAnalysis
 {
-    public class SemanticAnalyzer(List<ISection> sections, ISymbolTable symbolTable)
-: ISemanticAnalyzer
+    public class SemanticAnalyzer(List<ISection> sections, ISymbolTable symbolTable, IAnalyzerResolver analyzerResolver)
+: SemanticAnalyzerBase(analyzerResolver), ISemanticAnalyzer
     {
-        public void Perform()
+        public override void Perform()
         {
             foreach (ISection section in sections.Where(s => s is ITextSection))
             {
@@ -18,11 +18,9 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
                     string name = ins.Mnemonic.ToString().ToLower().ToUpperFirstLetter();
                     IAnalyzer? Analyzer;
 
-                    Type? type = Type.GetType($"SharpRISCV.Core.V2.SemanticAnalysis.Analyzers.{name}Analyzer");
                     try
                     {
-                        if (type is null)
-                            throw new Exception();
+                        var type = AnalyzerResolver.FindAnalyzer(name);
 
                         Analyzer = Activator.CreateInstance(type) as IAnalyzer;
                     }
@@ -31,10 +29,7 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
                         throw new Exception($"invlid Instruction at Line Number: {ins.Token.LineNumber}, Char: {ins.Token.StartIndex}.");
                     }
 
-                    if (Analyzer is null)
-                        throw new Exception($"invlid Instruction at Line Number: {ins.Token.LineNumber}, Char: {ins.Token.StartIndex}.");
-
-                    Analyzer.Analyze(ins, symbolTable);
+                    Analyzer?.Analyze(ins, symbolTable);
                 }
             }
         }
