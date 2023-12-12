@@ -120,6 +120,13 @@ namespace SharpRISCV.Core.V2.Test.Program
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void IdentifyInstruction_Invalid()
+        {
+            var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "asd", 0, 0, 0));
+        }
+
+        [TestMethod]
         public void IdentifyInstructionType_ITypeOpcode_SetsInstructionTypeToR()
         {
             var instruction = new Instruction(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0));
