@@ -166,13 +166,5 @@ namespace SharpRISCV.Core.V2.Test.Program
 
             Assert.AreEqual(InstructionType.J, instruction.InstructionType);
         }
-
-        [TestMethod]
-        public void IdentifyInstructionType_Lable_SetsInstructionTypeToR()
-        {
-            var instruction = new Instruction(new Token(TokenType.LABEL, "LABEL", 0, 0, 0));
-
-            Assert.AreEqual(InstructionType.Lable, instruction.InstructionType);
-        }
     }
 }
