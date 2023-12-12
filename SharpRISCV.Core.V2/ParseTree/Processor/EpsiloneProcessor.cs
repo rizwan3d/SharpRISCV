@@ -1,16 +1,10 @@
-﻿using SharpRISCV.Core.V2.Directive;
-using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using SharpRISCV.Core.V2.ParseTree.Abstraction;
 using SharpRISCV.Core.V2.Program.Datas.Abstraction;
-using SharpRISCV.Core.V2.Program.Datas;
 using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
 using SharpRISCV.Core.V2.Program.Sections.Abstraction;
-using SharpRISCV.Core.V2.Program.Sections;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpRISCV.Core.V2.ParseTree.Processor
 {

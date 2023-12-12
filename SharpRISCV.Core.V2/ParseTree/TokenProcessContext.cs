@@ -20,7 +20,7 @@ namespace SharpRISCV.Core.V2.ParseTree
             if (strategy is null)
                 throw new Exception("Invalid Token Process Strategy");
 
-            strategy.Process(Sections, ref CurrentSections, ref CurrentInstruction,ref CurrentData, token);
+            strategy.Process(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token);
         }
     }
 }

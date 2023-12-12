@@ -21,7 +21,8 @@ namespace SharpRISCV.Core.V2.Program.Instructions
             {
                 token.Value.ToUpper().ToEnum<Mnemonic>();
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 throw new Exception($"invlid mnemonic at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
             }
             Token = token;

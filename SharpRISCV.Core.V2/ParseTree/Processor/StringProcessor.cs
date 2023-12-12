@@ -12,11 +12,11 @@ namespace SharpRISCV.Core.V2.ParseTree.Processor
         {
             if (CurrentSections is null)
                 throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
-            else if(CurrentSections is IDataSection)
+            else if (CurrentSections is IDataSection)
             {
                 if (CurrentData is null)
-                throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
-                    CurrentData.SetData(token);
+                    throw new Exception($"Invalid Instruction at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+                CurrentData.SetData(token);
                 CurrentSections.Data.Add(CurrentData);
             }
             else
