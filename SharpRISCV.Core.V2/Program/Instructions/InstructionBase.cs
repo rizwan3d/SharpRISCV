@@ -5,14 +5,27 @@ namespace SharpRISCV.Core.V2.Program.Instructions
 {
     public abstract class InstructionBase : IInstruction
     {
-        public string Opcode { get; }
-        public string Rd { get; set; } = string.Empty;
-        public string Rs1 { get; set; } = string.Empty;
-        public string Rs2 { get; set; } = string.Empty;
+        protected IToken Token { get; }
+        public OpCode Opcode { get { return Token.Value.ToEnum<OpCode>(); } }
+        public Funct3 Funct3 { get { return Token.Value.ToEnum<Funct3>(); } }
+        public Funct7 Funct7 { get { return Token.Value.ToEnum<Funct7>(); } }
+        public Mnemonic Mnemonic { get { return Token.Value.ToUpper().ToEnum<Mnemonic>(); } }
+        public IToken Rd { get; set; }
+        public IToken Rs1 { get; set; }
+        public IToken Rs2 { get; set; }
+        public InstructionType InstructionType { get; protected set; }
 
         protected InstructionBase(IToken token)
         {
-            Opcode = token.Value;
+            try
+            {
+                token.Value.ToUpper().ToEnum<Mnemonic>();
+            }
+            catch (Exception) {
+                throw new Exception($"invlid mnemonic at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
+            }
+            Token = token;
+            IdentifyInstructionType();
         }
 
         public abstract bool IsComplete();
@@ -24,5 +37,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         public abstract bool IsRs2();
 
         public abstract void ProcessOperand(IToken token);
+
+        protected abstract void IdentifyInstructionType();
     }
 }

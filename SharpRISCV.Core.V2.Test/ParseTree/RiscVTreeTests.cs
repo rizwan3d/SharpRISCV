@@ -13,6 +13,7 @@ using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
 using SharpRISCV.Core.V2.LexicalAnalysis;
 using Moq;
 using static System.Collections.Specialized.BitVector32;
+using SharpRISCV.Core.V2.Program.Instructions;
 
 namespace SharpRISCV.Core.V2.Test.ParseTree
 {
@@ -233,7 +234,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree
             Assert.IsNotNull(sections);
             Assert.AreEqual(1, sections.Count);
             Assert.IsInstanceOfType(sections[0], typeof(ITextSection));
-            Assert.AreEqual("addi", sections[0].Instructions[0].Opcode);
+            Assert.AreEqual(Mnemonic.ADDI, sections[0].Instructions[0].Mnemonic);
 
         }
 

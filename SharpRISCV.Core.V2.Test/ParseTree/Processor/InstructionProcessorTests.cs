@@ -29,23 +29,8 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
             instructionProcessor.Process(sections, ref textSection, ref currentInstruction,ref currentData, token);
 
             var completedInstruction = textSection.Instructions.FirstOrDefault();
-            Assert.AreEqual("addi", completedInstruction?.Opcode);
-            Assert.AreEqual("add", currentInstruction?.Opcode);
-        }
-
-        [TestMethod]
-        public void Process_ShouldNotAddCurrentInstructionToInstructionsList_WhenCurrentInstructionIsIncomplete()
-        {
-            var instructionProcessor = new InstructionProcessor();
-            IInstruction currentInstruction = new Instruction(new Token(TokenType.INSTRUCTION, "", 0, 0, 0));
-            ISection textSection = new TextSection();
-            IData currentData = null;
-            var sections = new List<ISection> { textSection };
-            var token = new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0);
-
-            instructionProcessor.Process(sections, ref textSection, ref currentInstruction,ref currentData, token);
-
-            CollectionAssert.DoesNotContain(textSection.Instructions, currentInstruction);
+            Assert.AreEqual(Mnemonic.ADDI, completedInstruction?.Mnemonic);
+            Assert.AreEqual(Mnemonic.ADD, currentInstruction?.Mnemonic);
         }
 
         [TestMethod]
@@ -61,7 +46,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
             instructionProcessor.Process(sections, ref textSection, ref currentInstruction, ref currentData, token);
 
             Assert.IsNotNull(currentInstruction);
-            Assert.AreNotEqual("NewOpcode", currentInstruction.Opcode);
+            Assert.AreNotEqual(Mnemonic.AMOADD_D, currentInstruction.Mnemonic);
         }
 
         [TestMethod]

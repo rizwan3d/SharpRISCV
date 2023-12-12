@@ -28,7 +28,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
 
             labelProcessor.Process(sections, ref textSection, ref currentInstruction, ref data, token);
 
-            Assert.AreEqual("_start", currentInstruction.Rd);
+            Assert.AreEqual("_start", currentInstruction.Rd.Value);
         }
 
         [TestMethod]

@@ -45,7 +45,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
             var token = new Token(TokenType.DIRECTIVE, ".text", 0, 0, 0);
 
             directiveProcessor.Process(sections, ref section, ref currentInstruction, ref currentData, token);
-            Assert.AreEqual("addi", sections[0].Instructions[0].Opcode);
+            Assert.AreEqual(Mnemonic.ADDI, sections[0].Instructions[0].Mnemonic);
             Assert.AreEqual(2, sections.Count);
         }
 

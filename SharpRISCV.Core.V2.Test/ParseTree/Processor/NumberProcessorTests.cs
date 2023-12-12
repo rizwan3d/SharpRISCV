@@ -75,7 +75,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
 
             numberProcessor.Process(sections, ref textSection, ref currentInstruction, ref data, token);
 
-            Assert.AreEqual("42", currentInstruction.Rd);
+            Assert.AreEqual("42", currentInstruction.Rd.Value);
         }
     }
 }

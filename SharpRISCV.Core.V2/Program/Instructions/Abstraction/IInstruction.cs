@@ -1,4 +1,5 @@
-﻿using SharpRISCV.Core.V2.LexicalToken.Abstraction;
+﻿using SharpRISCV.Core.V2.LexicalToken;
+using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 
 namespace SharpRISCV.Core.V2.Program.Instructions.Abstraction
 {
@@ -9,10 +10,15 @@ namespace SharpRISCV.Core.V2.Program.Instructions.Abstraction
         bool IsRs1();
         bool IsRs2();
 
-        string Opcode { get; }
-        string Rd { get; set; }
-        string Rs1 { get; set; }
-        string Rs2 { get; set; }
+        InstructionType InstructionType { get; }
+
+        Mnemonic Mnemonic { get; }
+        OpCode Opcode { get; }
+        Funct3 Funct3 { get; }
+        Funct7 Funct7 { get; }
+        IToken Rd { get; set; }
+        IToken Rs1 { get; set; }
+        IToken Rs2 { get; set; }
 
         void ProcessOperand(IToken token);
     }
