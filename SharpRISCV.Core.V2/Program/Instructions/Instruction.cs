@@ -41,9 +41,6 @@ namespace SharpRISCV.Core.V2.Program.Instructions
 
         protected override void IdentifyInstructionType()
         {
-            if(IToken.IsLable(Token))
-                InstructionType = InstructionType.Lable;
-
             switch (Opcode)
             {
                 case (OpCode)0b0110011:
@@ -68,7 +65,6 @@ namespace SharpRISCV.Core.V2.Program.Instructions
                     InstructionType = InstructionType.J;
                     break;
                 default:
-                    InstructionType = InstructionType.UnKnown;
                     break;
             }
         }
