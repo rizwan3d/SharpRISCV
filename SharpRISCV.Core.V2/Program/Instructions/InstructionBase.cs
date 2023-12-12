@@ -5,7 +5,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
 {
     public abstract class InstructionBase : IInstruction
     {
-        protected IToken Token { get; }
+        public IToken Token { get; }
         public OpCode Opcode { get { return Token.Value.ToEnum<OpCode>(); } }
         public Funct3 Funct3 { get { return Token.Value.ToEnum<Funct3>(); } }
         public Funct7 Funct7 { get { return Token.Value.ToEnum<Funct7>(); } }

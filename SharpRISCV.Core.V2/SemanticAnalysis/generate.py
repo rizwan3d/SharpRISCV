@@ -28,7 +28,8 @@ with open(file_path, 'r') as file:
         parts = line.strip().split()
         i = i + 1
         if len(parts) >= 1:
-            new_file_name = parts[0].capitalize() + 'Analyzer'
+            new_file_name = parts[0].replace(".", "_")
+            new_file_name = new_file_name.capitalize() + 'Analyzer'
             new_file_path = os.path.join(output_directory, new_file_name)  + ".cs"
 
             new_class = csharp_class.replace("CLASSNAME", new_file_name)

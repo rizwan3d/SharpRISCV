@@ -11,6 +11,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions.Abstraction
         bool IsRs2();
 
         InstructionType InstructionType { get; }
+        IToken Token { get; }
 
         Mnemonic Mnemonic { get; }
         OpCode Opcode { get; }
