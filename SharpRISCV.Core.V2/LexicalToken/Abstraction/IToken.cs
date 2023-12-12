@@ -13,6 +13,6 @@
         static bool IsInstruction(IToken token) => token.TokenType == TokenType.INSTRUCTION;
         static bool IsLabelDefinition(IToken token) => token.TokenType == TokenType.LABELDEFINITION;
         static bool IsDirective(IToken token) => token.TokenType == TokenType.DIRECTIVE;
-        static bool IsLable(IToken token) => token.TokenType == TokenType.LABELDEFINITION;
+        static bool IsLabel(IToken token) => token.TokenType == TokenType.LABELDEFINITION;
     }
 }

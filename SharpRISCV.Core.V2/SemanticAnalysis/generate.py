@@ -47,7 +47,7 @@ with open(file_path, 'r') as file:
                     if(value == "rs2"):
                         check = "            IsRegister(Instruction.Rs2);\n            __________________________"
                     if(value == "imm"):
-                        check = "            if(IToken.IsLabel(Instruction."+imm+"))\n                IsLable(Instruction."+imm+", symbolTable);\n            else\n                IsImm(Instruction."+imm+");\n            __________________________"
+                        check = "            if(IToken.IsLabel(Instruction."+imm+"))\n                IsLabel(Instruction."+imm+", symbolTable);\n            else\n                IsImm(Instruction."+imm+");\n            __________________________"
                     new_class = new_class.replace("            __________________________",check);
             
             new_class = new_class.replace("            __________________________","");
