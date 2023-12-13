@@ -11,7 +11,7 @@
         public static readonly string Float = @"\b\d+\.\d+\b";
         public static readonly string Hex = @"\b0x[0-9A-Fa-f]+\b";
         public static readonly string Binary = @"\b0b[01]+\b";
-        public static readonly string Directive = @"(?:\.align|\.file|\.globl|\.local|\.comm|\.common|\.ident|\.section|\.size|\.text|\.data|\.rodata|\.bss|\.string|\.asciz|\.equ|\.macro|\.endm|\.type|\.option|\.byte|\.2byte|\.half|\.short|\.4byte|\.word|\.long|\.8byte|\.dword|\.quad|\.float|\.double|\.quad|\.dtprelword|\.dtpreldword|\.sleb128|\.uleb128|\.p2align|\.balign|\.zero|\.variant_cc|\.attribute)\b";
+        public static readonly string Directive = @"(?:\.align|\.file|\.globl|\.local|\.comm|\.common|\.ident|\.section|\.size|\.text|\.data|\.rodata|\.bss|\.string|\.asciz|\.equ|\.macro|\.endm|\.type|\.option|\.byte|\.2byte|\.half|\.short|\.4byte|\.word|\.long|\.8byte|\.dword|\.quad|\.float|\.double|\.quad|\.dtprelword|\.dtpreldword|\.sleb128|\.uleb128|\.p2align|\.balign|\.zero|\.variant_cc|\.attribute|\.end)\b";
         public static readonly string Label = $@"([%a-zA-Z._]+(?:\(\s*[.a-zA-Z_0-9]*\s*\)(?:\s*\(\s*[.a-zA-Z_0-9]*\s*\))?|[.a-zA-Z_0-9()]*))(?!({Register}))";
         public static readonly string LabeDefinition = @"[a-zA-Z._][.a-zA-Z_0-9]*:";
         public static readonly string WhiteSpace = @"\s+";
