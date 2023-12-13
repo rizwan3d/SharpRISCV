@@ -19,7 +19,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         {
             try
             {
-                token.Value.ToUpper().ToEnum<Mnemonic>();
+                token.Value.ToUpper().Replace(".","_").ToEnum<Mnemonic>();
             }
             catch (Exception)
             {
