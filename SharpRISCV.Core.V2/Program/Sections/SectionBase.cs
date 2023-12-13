@@ -8,7 +8,8 @@ namespace SharpRISCV.Core.V2.Program.Sections
 {
     public class SectionBase : ISection
     {
-        public List<IInstruction> Instructions { get; set; } = [];
-        public List<IData> Data { get; set; } = [];
+        public IList<IInstruction> Instructions { get; set; } = [];
+        public IList<IData> Data { get; set; } = [];
+        public IList<Byte> Bytes { get; set; } = [];
     }
 }

@@ -5,7 +5,8 @@ namespace SharpRISCV.Core.V2.Program.Sections.Abstraction
 {
     public interface ISection
     {
-        List<IInstruction> Instructions { get; set; }
-        List<IData> Data { get; set; }
+        IList<IInstruction> Instructions { get; set; }
+        IList<IData> Data { get; set; }
+        IList<Byte> Bytes { get; set; }
     }
 }

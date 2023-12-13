@@ -20,7 +20,7 @@ namespace SharpRISCV.Core.V2.Test.Program
         {
             var section = new SectionBase();
 
-            List<IInstruction> instructions = section.Instructions;
+            IList<IInstruction> instructions = section.Instructions;
 
             Assert.IsNotNull(instructions);
             Assert.AreEqual(0, instructions.Count);
@@ -31,7 +31,7 @@ namespace SharpRISCV.Core.V2.Test.Program
         {
             var section = new SectionBase();
 
-            List<IData> data = section.Data;
+            IList<IData> data = section.Data;
 
             Assert.IsNotNull(data);
             Assert.AreEqual(0, data.Count);
@@ -49,7 +49,7 @@ namespace SharpRISCV.Core.V2.Test.Program
 
             section.Instructions = newInstructions;
 
-            CollectionAssert.AreEqual(newInstructions, section.Instructions);
+            CollectionAssert.AreEqual(newInstructions, section.Instructions.ToList());
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace SharpRISCV.Core.V2.Test.Program
 
             section.Data = newData;
 
-            CollectionAssert.AreEqual(newData, section.Data);
+            CollectionAssert.AreEqual(newData, section.Data.ToList());
         }
     }
 }
