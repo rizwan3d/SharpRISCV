@@ -66,3 +66,80 @@ DIVUW rd,rs1,rs2
 REMW rd,rs1,rs2
 REMUW rd,rs1,rs2
 ecall
+la rd, rs1
+la rd, rs1
+lla rd, rs1
+lga rd, rs1
+lb rd, 
+lh rd, rs1
+lw rd, rs1
+ld rd, rs1
+sb rd, rs1, rs2
+sh rd, rs1, rs2
+sw rd, rs1, rs2
+sd rd, rs1, rs2
+flw rd, rs1, rs2
+fld rd, rs1, rs2
+fsw rd, rs1, rs2
+fsd rd, rs1, rs2
+nop
+li rd, rs1
+mv rd, rs1
+not rd, rs1
+neg rd, rs1
+negw rd, rs1
+sext.b rd, rs1
+sext.h rd, rs1
+sext.w rd, rs1
+zext.b rd, rs1
+zext.h rd, rs1
+zext.w rd, rs1
+seqz rd, rs1
+snez rd, rs1
+sltz rd, rs1
+sgtz rd, rs1
+fmv.s rd, rs1
+fabs.s rd, rs1
+fneg.s rd, rs1
+fmv.d rd, rs1
+fabs.d rd, rs1
+fneg.d rd, rs1
+beqz rd, rs1
+bnez rd, rs1
+blez rd, rs1
+bgez rd, rs1
+bltz rd, rs1
+bgtz rd, rs1
+bgt rd, rs1, rs2
+ble rd, rs1, rs2
+bgtu rd, rs1, rs2
+bleu rd, rs1, rs2
+j rd
+jal rd
+jr rd
+jalr rd
+ret
+call rd
+tail rd
+fence
+pause
+csrr rd, rs1
+csrw rd, rs1
+csrs rd, rs1
+csrc rd, rs1
+csrwi rd, rs1
+csrsi rd, rs1
+csrci rd, rs1
+frcsr rd
+fscsr rd, rs1
+fscsr rd
+frrm rd
+fsrm rd, rs1
+fsrm rd
+fsrmi rd, rs1
+fsrmi rd
+frflags rd
+fsflags rd, rs1
+fsflags rd
+fsflagsi rd, rs1
+fsflagsi rd
