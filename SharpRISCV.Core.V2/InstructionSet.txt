@@ -1,15 +1,14 @@
 BEQ rd,rs1,imm
-JALR rd,rs1,imm
+JALR rd,rs1,imm|rd
 LUI rd,imm
 AUIPC rd,imm
-JAL rd,imm
-BEQ rd,rs1,imm
+JAL rd,imm|rd
 BNE rd,rs1,imm
 BLT rd,rs1,imm
 BGE rd,rs1,imm
 BLTU rd,rs1,imm
 BGEU rd,rs1,imm
-LB rd,imm
+LB rd,imm|rd, 
 LH rd,imm
 LW rd,imm
 LBU rd,imm
@@ -70,9 +69,6 @@ la rd, rs1
 la rd, rs1
 lla rd, rs1
 lga rd, rs1
-lb rd, 
-lh rd, rs1
-lw rd, rs1
 ld rd, rs1
 sb rd, rs1, rs2
 sh rd, rs1, rs2
@@ -115,9 +111,7 @@ ble rd, rs1, rs2
 bgtu rd, rs1, rs2
 bleu rd, rs1, rs2
 j rd
-jal rd
 jr rd
-jalr rd
 ret
 call rd
 tail rd
