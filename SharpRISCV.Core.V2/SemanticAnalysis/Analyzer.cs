@@ -1,6 +1,7 @@
 ﻿using SharpRISCV.Core.V2.FirstPass.Abstraction;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using SharpRISCV.Core.V2.Program;
+using SharpRISCV.Core.V2.Program.Instructions;
 using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
 using SharpRISCV.Core.V2.SemanticAnalysis.Abstraction;
 
@@ -42,6 +43,15 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
             if (Instruction.NumericVal is null)
                 throw new Exception($"invlid offset or number at Line Number: {Instruction.LineNumber}, Char: {Instruction.StartIndex}.");
             return true;
+        }
+
+        protected int OperandCount(IInstruction Instruction)
+        {
+            int count = 0;
+            if (!Instruction.IsRd()) count++;
+            if (!Instruction.IsRs1()) count++;
+            if (!Instruction.IsRs2()) count++;
+            return count;
         }
     }
 }
