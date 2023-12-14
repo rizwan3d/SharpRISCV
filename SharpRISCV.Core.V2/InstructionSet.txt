@@ -13,9 +13,9 @@ LH rd,imm
 LW rd,imm
 LBU rd,imm
 LHU rd,imm
-SB rd,imm
-SH rd,imm
-SW rd,imm
+SB rd,rs1,rs2|rd,imm
+SH rd,rs1,rs2|rd,imm
+SW rd,rs1,rs2|rd,imm
 ADDI rd,rs1,imm
 SLTI rd,rs1,imm
 SLTIU rd,rs1,imm
@@ -39,9 +39,6 @@ FENCE_I
 LWU rd,imm
 LD rd,imm
 SD rd,imm
-SLLI rd,rs1,imm
-SRLI rd,rs1,imm
-SRAI rd,rs1,imm
 ADDIW rd,rs1,imm
 SLLIW rd,rs1,imm
 SRLIW rd,rs1,imm
@@ -70,9 +67,6 @@ la rd, rs1
 lla rd, rs1
 lga rd, rs1
 ld rd, rs1
-sb rd, rs1, rs2
-sh rd, rs1, rs2
-sw rd, rs1, rs2
 sd rd, rs1, rs2
 flw rd, rs1, rs2
 fld rd, rs1, rs2
@@ -125,15 +119,10 @@ csrwi rd, rs1
 csrsi rd, rs1
 csrci rd, rs1
 frcsr rd
-fscsr rd, rs1
-fscsr rd
+fscsr rd|rd, rs1
 frrm rd
-fsrm rd, rs1
-fsrm rd
-fsrmi rd, rs1
-fsrmi rd
+fsrm rd|rd, rs1
+fsrmi rd|rd, rs1
 frflags rd
-fsflags rd, rs1
-fsflags rd
-fsflagsi rd, rs1
-fsflagsi rd
+fsflags rd|rd, rs1
+fsflagsi rd|rd, rs1
