@@ -57,5 +57,32 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
 
             labelProcessor.Process(sections, ref textSection, ref currentInstruction, ref data, token);
         }
+
+        [TestMethod]
+        public void Process_ShouldNotThrowException_WhenLableWithValidReloacationFuncation()
+        {
+            var labelProcessor = new LabelProcessor();
+            IInstruction currentInstruction = new Instruction(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0));
+            IData data = null;
+            ISection textSection = new TextSection();
+            var sections = new List<ISection> { textSection };
+            var token = new Token(TokenType.LABEL, "%hi(.LOC)", 0, 0, 0);
+
+            labelProcessor.Process(sections, ref textSection, ref currentInstruction, ref data, token);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Process_ShouldThrowException_WhenLableWithInValidReloacationFuncation()
+        {
+            var labelProcessor = new LabelProcessor();
+            IInstruction currentInstruction = new Instruction(new Token(TokenType.INSTRUCTION, "addi", 0, 0, 0));
+            IData data = null;
+            ISection textSection = new TextSection();
+            var sections = new List<ISection> { textSection };
+            var token = new Token(TokenType.LABEL, "%hi(.LOC", 0, 0, 0);
+
+            labelProcessor.Process(sections, ref textSection, ref currentInstruction, ref data, token);
+        }
     }
 }

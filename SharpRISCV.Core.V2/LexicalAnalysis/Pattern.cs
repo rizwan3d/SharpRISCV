@@ -15,5 +15,6 @@
         public static readonly string Label = $@"([%a-zA-Z._]+(?:\(\s*[.a-zA-Z_0-9]*\s*\)(?:\s*\(\s*[.a-zA-Z_0-9]*\s*\))?|[.a-zA-Z_0-9()]*))(?!({Register}))";
         public static readonly string LabeDefinition = @"[a-zA-Z._][.a-zA-Z_0-9]*:";
         public static readonly string WhiteSpace = @"\s+";
+        public static readonly string RelocationFunction = $"^\\s*%(hi|lo|pcrel_hi|pcrel_lo|tprel_hi|tprel_lo|tprel_add)\\s*\\(\\s*({Register}|{Label})\\s*\\)\\s*$";
     }
 }
