@@ -45,7 +45,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
             numberProcessor.Process(sections, ref dataSection, ref currentInstruction, ref currentData, token);
 
             // Assert
-            CollectionAssert.Contains(dataSection.Data, currentData);
+            CollectionAssert.Contains(dataSection.Data.ToList(), currentData);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
 
             numberProcessor.Process(sections, ref bssSection, ref currentInstruction, ref currentData, token);
 
-            CollectionAssert.Contains(bssSection.Data, currentData);
+            CollectionAssert.Contains(bssSection.Data.ToList(), currentData);
         }
 
         [TestMethod]

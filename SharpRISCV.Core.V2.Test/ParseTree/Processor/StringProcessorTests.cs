@@ -29,7 +29,7 @@ namespace SharpRISCV.Core.V2.Test.ParseTree.Processor
             stringProcessor.Process(sections, ref dataSection, ref currentInstruction,ref currentData, token);
 
             Assert.AreEqual("Hello", currentData.GetData());
-            CollectionAssert.Contains(dataSection.Data, currentData);
+            CollectionAssert.Contains(dataSection.Data.ToList(), currentData);
         }
 
         [TestMethod]
