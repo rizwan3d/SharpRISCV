@@ -24,16 +24,15 @@ namespace SharpRISCV.Core.V2.MachineCode.Generaters
         {
             uint machineCode = 0;
 
-            uint imm = GetIntValForImm(instruction.Rs2,symbolTable, address);
-
+            uint imm = (uint)instruction.Rs1.NumericVal.GetValueOrDefault();
             // Set simm12[11:5] (bits 31-25)
             machineCode |= (imm & 0xFE0) << 20;
 
             // Set rs2 (bits 24-20)
-            machineCode |= (uint)instruction.Rs2.Value.ToEnum<Register>() << 20;
+            machineCode |= (uint)instruction.Rd.Value.ToEnum<Register>() << 20;
 
             // Set rs1 (bits 19-15)
-            machineCode |= (uint)instruction.Rs1.Value.ToEnum<Register>() << 15;
+            machineCode |= (uint)instruction.Rs2.Value.ToEnum<Register>() << 15;
 
             // Set func3 (bits 14-12)
             machineCode |= (uint)instruction.Funct3 << 12;
