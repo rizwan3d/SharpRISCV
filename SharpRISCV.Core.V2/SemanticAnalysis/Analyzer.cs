@@ -32,7 +32,7 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
             try
             {
                 Regex regex = new(Pattern.ValuesInRelocationFunction);
-                var matchs = regex.Matches(Instruction.Value.ToString());
+                var matchs = regex.Matches(Instruction.Value);
                 if (matchs.Count > 0)
                 {
                     foreach (var match in matchs)
