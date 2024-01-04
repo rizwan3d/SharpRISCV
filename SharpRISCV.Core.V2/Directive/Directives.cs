@@ -6,7 +6,7 @@ namespace SharpRISCV.Core.V2.Directive
 {
     public static class Directives
     {
-        static List<string> DirectivesList = [".text", ".data", ".space", ".string", ".asciz", ".word", ".bss"];
+        static List<string> DirectivesList = [".text", ".data", ".space", ".string", ".asciz", ".word", ".bss", ".end"];
 
         public static bool IsValid(IToken token)
         {
@@ -45,6 +45,11 @@ namespace SharpRISCV.Core.V2.Directive
         public static bool IsWord(IToken token)
         {
             return token.Value.Equals(".word");
+        }
+
+        public static bool IsEnd(IToken token)
+        {
+            return token.Value.Equals(".end");
         }
     }
 }

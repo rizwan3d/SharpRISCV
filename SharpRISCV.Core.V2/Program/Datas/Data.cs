@@ -12,6 +12,7 @@ namespace SharpRISCV.Core.V2.Program.Datas
 
         public override bool IsComplete()
         {
+            if (Directives.IsEnd(Type)) return true;
             return !string.IsNullOrEmpty(StringData) || IntData is not null;
         }
 
