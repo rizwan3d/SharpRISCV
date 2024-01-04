@@ -46,6 +46,7 @@ namespace SharpRISCV.Core.V2.ParseTree
                 token = lexer.GetNextToken();
                 if (!IToken.IsLabel(token))
                 {
+                    if (token.TokenType is TokenType.LABELDEFINITION) continue;
                     ITokenProcessStrategy processStrategy = ProcessStrategys[token.TokenType];
                     tokenProcessContext.SetStrategy(processStrategy);
                     tokenProcessContext.ExecuteStrategy(Sections, ref CurrentSections, ref CurrentInstruction, ref CurrentData, token);
