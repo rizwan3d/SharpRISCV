@@ -26,7 +26,7 @@ namespace SharpRISCV.Core.V2.MachineCode.Generaters
         {
             uint machineCode = 0;
 
-            // Set rs2 (bits 24-20)
+            // Set simm12 (bits 31-20)
             machineCode |= (GetIntValForImm(instruction.Rs2, symbolTable, address) & 0xFFF) << 20;
 
             // Set rs1 (bits 19-15)
