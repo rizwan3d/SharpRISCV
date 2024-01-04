@@ -41,7 +41,7 @@ def generate_check_lines(values):
             check_lines.append("                    IsLabel(Instruction."+imm+", symbolTable);")
             check_lines.append("                else")
             check_lines.append("                    IsImm(Instruction."+imm+");")
-    check_lines.append("           }")
+    check_lines.append("           } else")
     check_lines.append("            __________________________")
     return check_lines
 
@@ -65,7 +65,7 @@ with open(file_path, 'r') as file:
                     check_lines = generate_check_lines(values)
                     new_class = new_class.replace("            __________________________","\n".join(check_lines));
             
-            new_class = new_class.replace("            __________________________","");
+            new_class = new_class.replace("            __________________________","                throw new Exception($\"Invalid Instruction Operand Count at Line Number: {Instruction.Token.LineNumber}, Char: {Instruction.Token.StartIndex}.\");");
             print("Analyzer created successfully for {}".format(line))
             
             with open(new_file_path, 'w') as new_file:

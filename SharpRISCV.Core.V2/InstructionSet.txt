@@ -10,7 +10,7 @@ BLTU rd,rs1,imm
 BGEU rd,rs1,imm
 LB rd,imm|rd,
 LH rd,imm
-LW rd,imm
+LW rd,imm|rd,rs1,rs2
 LBU rd,imm
 LHU rd,imm
 SB rd,rs1,rs2|rd,imm
@@ -62,8 +62,7 @@ DIVUW rd,rs1,rs2
 REMW rd,rs1,rs2
 REMUW rd,rs1,rs2
 ecall
-la rd,rs1
-la rd,rs1
+la rd,imm
 lla rd,rs1
 lga rd,rs1
 ld rd,rs1

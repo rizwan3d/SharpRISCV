@@ -6,29 +6,28 @@ using SharpRISCV.Core.V2.Program.Sections.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SharpRISCV.Core.V2.MachineCode.Generaters
 {
     /// <summary>
-    /// R type: .insn r opcode6, func3, func7, rd, rs1, rs2
-    /// +-------+-----+-----+-------+----+---------+
-    /// | func7 | rs2 | rs1 | func3 | rd | opcode6 |
-    /// +-------+-----+-----+-------+----+---------+
-    /// 31      25    20    15      12   7        0
+    /// I type: .insn i opcode6, func3, rd, rs1, simm12
+    //  I type: .insn i opcode6, func3, rd, simm12(rs1)
+    //  +--------------+-----+-------+----+---------+
+    //  | simm12[11:0] | rs1 | func3 | rd | opcode6 |
+    //  +--------------+-----+-------+----+---------+
+    //  31             20    15      12   7         0
     /// </summary>
-    public class RGenerater : Generater, IMachineCodeGenerateStrategy
+    public class IGenerater : Generater, IMachineCodeGenerateStrategy
     {
         public override uint Generate(IInstruction instruction, ISymbolTable symbolTable, uint address)
         {
             uint machineCode = 0;
 
-            // Set func7 (bits 31-25)
-            machineCode |= (uint)instruction.Funct7 << 25;
-
-            // Set rs2 (bits 24-20)
-            machineCode |= (uint)instruction.Rs2.Value.ToEnum<Register>() << 20;
+            // Set simm12 (bits 31-20)
+            machineCode |= (GetIntValForImm(instruction.Rs2, symbolTable, address) & 0xFFF) << 20;
 
             // Set rs1 (bits 19-15)
             machineCode |= (uint)instruction.Rs1.Value.ToEnum<Register>() << 15;

@@ -14,6 +14,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         public IToken Rs1 { get; set; }
         public IToken Rs2 { get; set; }
         public InstructionType InstructionType { get; protected set; }
+        public uint MachineCode { get ; set; }
 
         protected InstructionBase(IToken token)
         {

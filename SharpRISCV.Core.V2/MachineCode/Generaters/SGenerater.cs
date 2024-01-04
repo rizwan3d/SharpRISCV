@@ -12,32 +12,33 @@ using System.Threading.Tasks;
 namespace SharpRISCV.Core.V2.MachineCode.Generaters
 {
     /// <summary>
-    /// R type: .insn r opcode6, func3, func7, rd, rs1, rs2
-    /// +-------+-----+-----+-------+----+---------+
-    /// | func7 | rs2 | rs1 | func3 | rd | opcode6 |
-    /// +-------+-----+-----+-------+----+---------+
-    /// 31      25    20    15      12   7        0
+    /// S type: .insn s opcode6, func3, rs2, simm12(rs1)
+    //  +--------------+-----+-----+-------+-------------+---------+
+    //  | simm12[11:5] | rs2 | rs1 | func3 | simm12[4:0] | opcode6 |
+    //  +--------------+-----+-----+-------+-------------+---------+
+    //  31             25    20    15      12            7         0
     /// </summary>
-    public class RGenerater : Generater, IMachineCodeGenerateStrategy
+    public class SGenerater : Generater, IMachineCodeGenerateStrategy
     {
         public override uint Generate(IInstruction instruction, ISymbolTable symbolTable, uint address)
         {
             uint machineCode = 0;
 
-            // Set func7 (bits 31-25)
-            machineCode |= (uint)instruction.Funct7 << 25;
+            uint imm = (uint)instruction.Rs1.NumericVal.GetValueOrDefault();
+            // Set simm12[11:5] (bits 31-25)
+            machineCode |= (imm & 0xFE0) << 20;
 
             // Set rs2 (bits 24-20)
-            machineCode |= (uint)instruction.Rs2.Value.ToEnum<Register>() << 20;
+            machineCode |= (uint)instruction.Rd.Value.ToEnum<Register>() << 20;
 
             // Set rs1 (bits 19-15)
-            machineCode |= (uint)instruction.Rs1.Value.ToEnum<Register>() << 15;
+            machineCode |= (uint)instruction.Rs2.Value.ToEnum<Register>() << 15;
 
             // Set func3 (bits 14-12)
             machineCode |= (uint)instruction.Funct3 << 12;
 
-            // Set rd (bits 11-7)
-            machineCode |= (uint)instruction.Rd.Value.ToEnum<Register>() << 7;
+            // Set simm12[4:0] (bits 11-7)
+            machineCode |= (imm & 0x1F) << 7;
 
             // Set opcode6 (bits 6-0)
             machineCode |= (uint)instruction.Opcode;
