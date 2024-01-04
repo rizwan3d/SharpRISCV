@@ -13,6 +13,7 @@ namespace SharpRISCV.Core.V2.ParseTree
         protected RiscVTreeBase(ILexer lexer)
         {
             this.lexer = lexer;
+            this.lexer.Reset();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace SharpRISCV.Core.V2.FirstPass
         {
             this.lexer = lexer;
             this.symbolTable = symbolTable;
+
+            this.lexer.Reset();
         }
 
         public abstract void Start();
