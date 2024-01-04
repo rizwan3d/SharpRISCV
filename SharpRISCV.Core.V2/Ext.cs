@@ -128,4 +128,12 @@ public static class Ext
     {
         return BitConverter.GetBytes(value);
     }
+
+    public static string Between(this string value, string a, string b) 
+    {
+        int pFrom = value.IndexOf(a) + a.Length;
+        int pTo = value.LastIndexOf(b);
+
+       return value.Substring(pFrom, pTo - pFrom);
+    }
 }
