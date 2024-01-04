@@ -16,5 +16,6 @@
         public static readonly string LabeDefinition = @"[a-zA-Z._][.a-zA-Z_0-9]*:";
         public static readonly string WhiteSpace = @"\s+";
         public static readonly string RelocationFunction = $"^\\s*%(hi|lo|pcrel_hi|pcrel_lo|tprel_hi|tprel_lo|tprel_add)\\s*\\(\\s*({Register}|{Label})\\s*\\)\\s*$";
+        public static readonly string ValuesInRelocationFunction = $"\\(\\s*([a-zA-Z._][.a-zA-Z_0-9]*)|{Register}\\s*\\)" ;
     }
 }

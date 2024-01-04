@@ -1,9 +1,11 @@
 ﻿using SharpRISCV.Core.V2.FirstPass.Abstraction;
+using SharpRISCV.Core.V2.LexicalAnalysis;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using SharpRISCV.Core.V2.Program;
 using SharpRISCV.Core.V2.Program.Instructions;
 using SharpRISCV.Core.V2.Program.Instructions.Abstraction;
 using SharpRISCV.Core.V2.SemanticAnalysis.Abstraction;
+using System.Text.RegularExpressions;
 
 namespace SharpRISCV.Core.V2.SemanticAnalysis
 {
@@ -29,6 +31,32 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
         {
             try
             {
+                Regex regex = new(Pattern.ValuesInRelocationFunction);
+                var matchs = regex.Matches(Instruction.Value.ToString());
+                if (matchs.Count > 0)
+                {
+                    foreach (var match in matchs)
+                    {
+                        string matchVal = (match as Match)?.Groups[1].Value ?? string.Empty;
+                        try
+                        {
+                            matchVal?.ToEnum<Register>();
+                        }
+                        catch
+                        {
+                            try
+                            {
+                                var rempval = symbolTable[matchVal];
+                            }
+                            catch
+                            {
+                                throw new Exception($"invlid register at Line Number: {Instruction.LineNumber}, Char: {Instruction.StartIndex}.");
+                            }
+                        }
+                    }
+                    return true;
+                }
+                
                 var val = symbolTable[Instruction.Value];
                 return true;
             }
