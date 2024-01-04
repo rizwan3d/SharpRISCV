@@ -14,6 +14,8 @@ namespace SharpRISCV.Core.V2.MachineCode
         protected readonly IEnumerable<ISection> sections;
         protected readonly ISymbolTable symbolTable;
         protected Dictionary<InstructionType, IMachineCodeGenerateStrategy> GenerateStrategys { get; set; } = [];
+
+        protected uint ProcessedByte { get; private set; } = 0;
         protected RiscVCodeBase(IEnumerable<ISection> sections, ISymbolTable symbolTable)
         {
             this.symbolTable = symbolTable;
@@ -24,5 +26,9 @@ namespace SharpRISCV.Core.V2.MachineCode
 
         protected abstract void Init();
 
+        protected void ProcessedBytes(IEnumerable<Byte> bytes)
+        {
+            ProcessedByte += (uint)bytes.Count();
+        }
     }
 }

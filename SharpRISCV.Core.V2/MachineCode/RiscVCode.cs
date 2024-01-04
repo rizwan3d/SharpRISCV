@@ -42,7 +42,9 @@ namespace SharpRISCV.Core.V2.MachineCode
                         IMachineCodeGenerateStrategy generateStrategy = GenerateStrategys[ins.InstructionType];
                         machineCodeGenerateContext.SetStrategy(generateStrategy);
                         ins.MachineCode = machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable);
-                        section.Bytes.AddRange(ins.MachineCode.ToBytes());
+                        IEnumerable<Byte> bitending = ins.MachineCode.ToBytes()
+                        ProcessedBytes(bitending);
+                        section.Bytes.AddRange(bitending);
                     }
                 }
                 if (section is IDataSection || section is IBssSection)
