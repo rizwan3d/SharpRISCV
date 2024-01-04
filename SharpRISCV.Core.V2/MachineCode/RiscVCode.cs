@@ -28,6 +28,7 @@ namespace SharpRISCV.Core.V2.MachineCode
         {
             GenerateStrategys.Add(InstructionType.R, new RGenerater());
             GenerateStrategys.Add(InstructionType.I, new IGenerater());
+            GenerateStrategys.Add(InstructionType.S, new SGenerater());
         }
 
         public void Build()
@@ -39,10 +40,13 @@ namespace SharpRISCV.Core.V2.MachineCode
                 {
                     foreach (IInstruction ins in section.Instructions)
                     {
+#if DEBUG
                         if (!GenerateStrategys.ContainsKey(ins.InstructionType)) continue;
+#endif               
                         IMachineCodeGenerateStrategy generateStrategy = GenerateStrategys[ins.InstructionType];
                         machineCodeGenerateContext.SetStrategy(generateStrategy);
                         ins.MachineCode = machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable, ProcessedByte);
+                        
                         IEnumerable<Byte> bitending = ins.MachineCode.ToBytes();
                         ProcessedBytes(bitending);
                         section.Bytes.AddRange(bitending);
