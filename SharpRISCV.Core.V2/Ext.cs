@@ -113,4 +113,19 @@ public static class Ext
         // return the array made of the new char array
         return new string(letters);
     }
+
+    public static IEnumerable<Byte> ToBytes(this uint value)
+    {
+        return BitConverter.GetBytes(value);
+    }
+
+    public static IEnumerable<Byte> ToBytes(this ulong value)
+    {
+        return BitConverter.GetBytes(value);
+    }
+
+    public static IEnumerable<Byte> ToBytes(this ushort value)
+    {
+        return BitConverter.GetBytes(value);
+    }
 }

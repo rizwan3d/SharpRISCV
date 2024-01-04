@@ -12,16 +12,22 @@ using SharpRISCV.Core.V2.LexicalToken;
 using SharpRISCV.Core.V2.ParseTree.Abstraction;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using static System.Collections.Specialized.BitVector32;
+using System.Runtime.CompilerServices;
+using SharpRISCV.Core.V2.MachineCode.Generaters;
 
 namespace SharpRISCV.Core.V2.MachineCode
 {
     public interface IMachineCodeGenerateStrategy
     {
-        IEnumerable<Byte> Generate(IEnumerable<ISection> sections, ISymbolTable symbolTable);
+        uint Generate(IInstruction instruction, ISymbolTable symbolTable);
     }
-    public class RiscVCode(IEnumerable<ISection> sections, ISymbolTable symbolTable)
+
+    public class RiscVCode(IEnumerable<ISection> sections, ISymbolTable symbolTable) : RiscVCodeBase(sections, symbolTable)
     {
-        private Dictionary<InstructionType, IMachineCodeGenerateStrategy> GenerateStrategys { get; }
+        protected override void Init()
+        {
+            GenerateStrategys.Add(InstructionType.R, new RGenerater());
+        }
 
         public void Build()
         {
@@ -32,13 +38,15 @@ namespace SharpRISCV.Core.V2.MachineCode
                 {
                     foreach (IInstruction ins in section.Instructions)
                     {
+                        if (!GenerateStrategys.ContainsKey(ins.InstructionType)) continue;
                         IMachineCodeGenerateStrategy generateStrategy = GenerateStrategys[ins.InstructionType];
                         machineCodeGenerateContext.SetStrategy(generateStrategy);
-                        section.Bytes.AddRange(machineCodeGenerateContext.ExecuteStrategy(sections, symbolTable));
+                        ins.MachineCode = machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable);
+                        section.Bytes.AddRange(ins.MachineCode.ToBytes());
                     }
                 }
                 if (section is IDataSection || section is IBssSection)
-                { 
+                {
 
                 }
             }
