@@ -40,7 +40,7 @@ namespace SharpRISCV.Core.V2.SemanticAnalysis
 
         protected bool IsImm(IToken Instruction)
         {
-            if (Instruction.NumericVal is null)
+            if (Instruction.NumericVal is null && !Instruction.Value.Contains("%"))
                 throw new Exception($"invlid offset or number at Line Number: {Instruction.LineNumber}, Char: {Instruction.StartIndex}.");
             return true;
         }
