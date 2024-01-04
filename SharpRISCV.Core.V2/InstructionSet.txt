@@ -62,8 +62,7 @@ DIVUW rd,rs1,rs2
 REMW rd,rs1,rs2
 REMUW rd,rs1,rs2
 ecall
-la rd,rs1
-la rd,rs1
+la rd,imm
 lla rd,rs1
 lga rd,rs1
 ld rd,rs1
