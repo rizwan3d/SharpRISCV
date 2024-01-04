@@ -19,7 +19,7 @@ namespace SharpRISCV.Core.V2.MachineCode
 {
     public interface IMachineCodeGenerateStrategy
     {
-        uint Generate(IInstruction instruction, ISymbolTable symbolTable);
+        uint Generate(IInstruction instruction, ISymbolTable symbolTable, uint address);
     }
 
     public class RiscVCode(IEnumerable<ISection> sections, ISymbolTable symbolTable) : RiscVCodeBase(sections, symbolTable)
@@ -27,6 +27,7 @@ namespace SharpRISCV.Core.V2.MachineCode
         protected override void Init()
         {
             GenerateStrategys.Add(InstructionType.R, new RGenerater());
+            GenerateStrategys.Add(InstructionType.I, new IGenerater());
         }
 
         public void Build()
@@ -41,8 +42,8 @@ namespace SharpRISCV.Core.V2.MachineCode
                         if (!GenerateStrategys.ContainsKey(ins.InstructionType)) continue;
                         IMachineCodeGenerateStrategy generateStrategy = GenerateStrategys[ins.InstructionType];
                         machineCodeGenerateContext.SetStrategy(generateStrategy);
-                        ins.MachineCode = machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable);
-                        IEnumerable<Byte> bitending = ins.MachineCode.ToBytes()
+                        ins.MachineCode = machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable, ProcessedByte);
+                        IEnumerable<Byte> bitending = ins.MachineCode.ToBytes();
                         ProcessedBytes(bitending);
                         section.Bytes.AddRange(bitending);
                     }

@@ -16,12 +16,12 @@ namespace SharpRISCV.Core.V2.MachineCode
             this.strategy = strategy;
         }
 
-        public uint ExecuteStrategy(IInstruction instruction, ISymbolTable symbolTable)
+        public uint ExecuteStrategy(IInstruction instruction, ISymbolTable symbolTable, uint address)
         {
             if (strategy is null)
                 throw new Exception("Invalid Machine Code Generater Strategy");
 
-            return strategy.Generate(instruction, symbolTable);
+            return strategy.Generate(instruction, symbolTable, address);
         }
     }
 }

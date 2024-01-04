@@ -18,9 +18,9 @@ namespace SharpRISCV.Core.V2.MachineCode.Generaters
     /// +-------+-----+-----+-------+----+---------+
     /// 31      25    20    15      12   7        0
     /// </summary>
-    public class RGenerater : IMachineCodeGenerateStrategy
+    public class RGenerater : Generater, IMachineCodeGenerateStrategy
     {
-        public uint Generate(IInstruction instruction, ISymbolTable symbolTable)
+        public override uint Generate(IInstruction instruction, ISymbolTable symbolTable, uint address)
         {
             uint machineCode = 0;
 
