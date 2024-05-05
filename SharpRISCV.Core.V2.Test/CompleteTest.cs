@@ -26,7 +26,9 @@ namespace SharpRISCV.Core.V2.Test
         public void Sucess()
         {
             string assemblyCode = @".text                            # code segment
-                                        add  sp,  sp, x10           # reserve stack space
+                                        add  sp,  sp, x10            # for testing R type
+                                        addi  sp,  sp, -16           # reserve stack space
+
                                         sw    ra,  12(sp)            # save return address
                                     _start:                          # program entry
                                         lui   a0,  %hi(.LC0)         # load message address
@@ -57,7 +59,8 @@ namespace SharpRISCV.Core.V2.Test
             RiscVCode riscVCode = new RiscVCode(sections, symbolTable);
             riscVCode.Build();
 
-            Assert.AreEqual<uint>(0x00a10133, sections[0].Instructions[0].MachineCode);
+            Assert.AreEqual<uint>(0x00a10133, sections[0].Instructions[0].MachineCodes.First());
+            Assert.AreEqual<uint>(0xff010113, sections[0].Instructions[1].MachineCodes.First());
         }
     }
 }

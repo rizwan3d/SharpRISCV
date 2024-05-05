@@ -14,7 +14,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         public IToken Rs1 { get; set; }
         public IToken Rs2 { get; set; }
         public InstructionType InstructionType { get; protected set; }
-        public uint MachineCode { get ; set; }
+        public ICollection<uint> MachineCodes { get; set; } = [];
 
         protected InstructionBase(IToken token)
         {
@@ -41,5 +41,10 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         public abstract void ProcessOperand(IToken token);
 
         protected abstract void IdentifyInstructionType();
+
+        public bool isPseudoInstructions()
+        {
+            return PseudoInstructions.Is(Mnemonic);
+        }
     }
 }

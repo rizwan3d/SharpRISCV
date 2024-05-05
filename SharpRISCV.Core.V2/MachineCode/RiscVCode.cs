@@ -40,16 +40,30 @@ namespace SharpRISCV.Core.V2.MachineCode
                 {
                     foreach (IInstruction ins in section.Instructions)
                     {
-#if DEBUG
-                        if (!GenerateStrategys.ContainsKey(ins.InstructionType)) continue;
-#endif               
-                        IMachineCodeGenerateStrategy generateStrategy = GenerateStrategys[ins.InstructionType];
-                        machineCodeGenerateContext.SetStrategy(generateStrategy);
-                        ins.MachineCode = machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable, ProcessedByte);
-                        
-                        IEnumerable<Byte> bitending = ins.MachineCode.ToBytes();
-                        ProcessedBytes(bitending);
-                        section.Bytes.AddRange(bitending);
+                        if (!GenerateStrategys.ContainsKey(ins.InstructionType)) 
+                        {
+                            throw new NotImplementedException($"{ins.InstructionType} are not implemented yet");
+                        };
+
+                        if (ins.isPseudoInstructions())
+                        {
+                            throw new NotImplementedException("Pseudo Instructions are not implemented yet");
+                        }
+                        else
+                        {
+                            IMachineCodeGenerateStrategy generateStrategy = GenerateStrategys[ins.InstructionType];
+                            machineCodeGenerateContext.SetStrategy(generateStrategy);
+                            ins.MachineCodes.Add(machineCodeGenerateContext.ExecuteStrategy(ins, symbolTable, ProcessedByte));
+                        }
+
+                        foreach (uint code in ins.MachineCodes)
+                        {
+                            if(code == 0) continue;
+
+                            IEnumerable<Byte> bitending = code.ToBytes();
+                            ProcessedBytes(bitending);
+                            section.Bytes.AddRange(bitending);
+                        }
                     }
                 }
                 if (section is IDataSection || section is IBssSection)
