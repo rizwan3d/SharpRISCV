@@ -29,6 +29,9 @@ namespace SharpRISCV.Core.V2.MachineCode
             GenerateStrategys.Add(InstructionType.R, new RGenerater());
             GenerateStrategys.Add(InstructionType.I, new IGenerater());
             GenerateStrategys.Add(InstructionType.S, new SGenerater());
+            GenerateStrategys.Add(InstructionType.B, new BGenerater());
+            GenerateStrategys.Add(InstructionType.U, new UGenerater());
+            GenerateStrategys.Add(InstructionType.J, new JGenerater());
         }
 
         public void Build()
