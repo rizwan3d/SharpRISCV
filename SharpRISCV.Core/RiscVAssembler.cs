@@ -332,6 +332,7 @@ namespace SharpRISCV.Core
         public static InstructionType IdentifyInstructionType(string instruction)
         {
             instruction = instruction.Trim();
+            instruction = instruction.Replace("\t", " ");
             if (string.IsNullOrEmpty(instruction))
                 return InstructionType.EmptyLine;
 
