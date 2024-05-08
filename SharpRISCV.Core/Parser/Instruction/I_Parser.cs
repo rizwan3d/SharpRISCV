@@ -22,7 +22,7 @@ public class I_Parser : IParser
             };
         }
 
-        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*([\w.%()]*)$");
+        iTypeRegex = new Regex(@"^(\w+)\s+(\w+)\s*,\s*(-?[\w.%()]*)$");
         iTypeMatch = iTypeRegex.Match(instruction);
         if (iTypeMatch.Success)
         {
@@ -30,7 +30,7 @@ public class I_Parser : IParser
             var rs1 = iTypeMatch.Groups[2].Value;
             var immediate = iTypeMatch.Groups[3].Value;
 
-            var iSourceRegex = new Regex(@"^(([\w%]*\([^)]+\))|\d+)\(([^)]+)\)$");
+            var iSourceRegex = new Regex(@"^(([\w%]*\([^)]+\))|-?\d+)\(([^)]+)\)$");//这部分后来的解码还需要再看一下（怎么解出来的负数）
             var iSourceMatch = iSourceRegex.Match(immediate);
 
             int i = 1;
