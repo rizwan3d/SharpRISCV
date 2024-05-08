@@ -1,14 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using SharpRISCV.Core.V2.LexicalToken;
+﻿using SharpRISCV.Core.V2.LexicalToken;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
 using SharpRISCV.Core.V2.MachineCode.Generaters;
 using SharpRISCV.Core.V2.Program;
 using SharpRISCV.Core.V2.Program.Instructions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpRISCV.Core.V2.Test.MachineCode
 {

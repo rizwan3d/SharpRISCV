@@ -85,6 +85,7 @@ namespace SharpRISCV.Core.V2.Test.SemanticAnalysis
         {
             var analyzer = new Mock<PublicAnalyzer>().Object;
             var mockToken = new Mock<IToken>();
+            mockToken.Setup(t => t.Value).Returns("");
             mockToken.Setup(t => t.NumericVal).Returns((int?)null);
 
             var result = analyzer.IsImm(mockToken.Object);
