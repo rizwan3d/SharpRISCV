@@ -249,6 +249,45 @@ namespace SharpRISCV.Core
                     else
                         throw new ("Invaild use of .string");
                 };
+                if (line.StartsWith(".half"))
+                {
+                    string pattern = @"\.half\s+([\w,\s]+)";
+                    Match match = Regex.Match(line, pattern);
+                    if (match.Success)
+                    {
+                        string extractedString = match.Groups[1].Value;
+
+                        foreach (var item in extractedString.Split(','))
+                        {
+                            short inval = 0;
+                            if (item.StartsWith("0x"))
+                            {
+                                inval = Convert.ToInt16(item, 16);
+                            }
+                            else if (item.StartsWith("0b"))
+                            {
+                                inval = Convert.ToInt16(item, 2);
+                            }
+                            else if (int.TryParse(item.Trim(), out int val))
+                            {
+                                inval = Convert.ToInt16(val);
+                            }
+
+                            byte[] byteArray = BitConverter.GetBytes(inval);
+                            if (byteArray.Length < 2)
+                            {
+                                byte[] paddedArray = new byte[2];
+                                Array.Copy(byteArray, paddedArray, byteArray.Length); // Copy the original bytes
+                                byteArray = paddedArray; // Replace byteArray with the padded array
+                            }
+                            DataSection.Add(byteArray);
+                            Address.GetAndIncreseAddress(byteArray.Length + 1);
+                        }
+                        continue;
+                    }
+                    else
+                        throw new("Invaild use of .string");
+                };
                 if (line.EndsWith(":"))
                 {
                     string label = line.Substring(0, line.Length - 1);
