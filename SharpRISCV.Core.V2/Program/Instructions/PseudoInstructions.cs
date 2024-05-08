@@ -82,7 +82,7 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         }
 
         public static uint Count(string mnemonic) => Count(mnemonic.ToEnum<Mnemonic>());
-        public static uint Count(IToken token) => Count(token.Value.ToEnum<Mnemonic>());
+        public static uint Count(IToken token) => Count(token.Value.ToUpper());
         public static uint Count(Mnemonic mnemonic)
         {
             return pseudoInstructions.ContainsKey(mnemonic) ? pseudoInstructions[mnemonic] : 1;
