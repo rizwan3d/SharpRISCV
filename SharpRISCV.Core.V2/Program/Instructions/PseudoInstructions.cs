@@ -7,24 +7,24 @@ namespace SharpRISCV.Core.V2.Program.Instructions
 {
     public static class PseudoInstructions
     {
-        private static Dictionary<Mnemonic, int> pseudoInstructions;
+        private static Dictionary<Mnemonic, uint> pseudoInstructions;
 
         static PseudoInstructions()
         {
-            pseudoInstructions = new Dictionary<Mnemonic, int>();
-            pseudoInstructions.Add(Mnemonic.LA, 1);
-            pseudoInstructions.Add(Mnemonic.LB, 1);
-            pseudoInstructions.Add(Mnemonic.LH, 1);
-            pseudoInstructions.Add(Mnemonic.LW, 1);
-            pseudoInstructions.Add(Mnemonic.LD, 1);
-            pseudoInstructions.Add(Mnemonic.SB, 1);
-            pseudoInstructions.Add(Mnemonic.SH, 1);
-            pseudoInstructions.Add(Mnemonic.SW, 1);
-            pseudoInstructions.Add(Mnemonic.SD, 1);
-            pseudoInstructions.Add(Mnemonic.FLW, 1);
-            pseudoInstructions.Add(Mnemonic.FLD, 1);
-            pseudoInstructions.Add(Mnemonic.FSW, 1);
-            pseudoInstructions.Add(Mnemonic.FSD, 1);
+            pseudoInstructions = new Dictionary<Mnemonic, uint>();
+            pseudoInstructions.Add(Mnemonic.LA, 2);
+            pseudoInstructions.Add(Mnemonic.LB, 2);
+            pseudoInstructions.Add(Mnemonic.LH, 2);
+            pseudoInstructions.Add(Mnemonic.LW, 2);
+            pseudoInstructions.Add(Mnemonic.LD, 2);
+            pseudoInstructions.Add(Mnemonic.SB, 2);
+            pseudoInstructions.Add(Mnemonic.SH, 2);
+            pseudoInstructions.Add(Mnemonic.SW, 2);
+            pseudoInstructions.Add(Mnemonic.SD, 2);
+            pseudoInstructions.Add(Mnemonic.FLW, 2);
+            pseudoInstructions.Add(Mnemonic.FLD, 2);
+            pseudoInstructions.Add(Mnemonic.FSW, 2);
+            pseudoInstructions.Add(Mnemonic.FSD, 2);
             pseudoInstructions.Add(Mnemonic.NOP, 1);
             pseudoInstructions.Add(Mnemonic.LI, 1);
             pseudoInstructions.Add(Mnemonic.MV, 1);
@@ -56,8 +56,8 @@ namespace SharpRISCV.Core.V2.Program.Instructions
             pseudoInstructions.Add(Mnemonic.JR, 1);
             pseudoInstructions.Add(Mnemonic.JALR, 1);
             pseudoInstructions.Add(Mnemonic.RET, 1);
-            pseudoInstructions.Add(Mnemonic.CALL, 1);
-            pseudoInstructions.Add(Mnemonic.TAIL, 1);
+            pseudoInstructions.Add(Mnemonic.CALL, 2);
+            pseudoInstructions.Add(Mnemonic.TAIL, 2);
             pseudoInstructions.Add(Mnemonic.FENCE, 1);
             pseudoInstructions.Add(Mnemonic.CSRR, 1);
             pseudoInstructions.Add(Mnemonic.CSRW, 1);
@@ -80,5 +80,13 @@ namespace SharpRISCV.Core.V2.Program.Instructions
         {
             return pseudoInstructions.ContainsKey(mnemonic);
         }
+
+        public static uint Count(string mnemonic) => Count(mnemonic.ToEnum<Mnemonic>());
+        public static uint Count(IToken token) => Count(token.Value.ToEnum<Mnemonic>());
+        public static uint Count(Mnemonic mnemonic)
+        {
+            return pseudoInstructions.ContainsKey(mnemonic) ? pseudoInstructions[mnemonic] : 1;
+        }
+
     }
 }

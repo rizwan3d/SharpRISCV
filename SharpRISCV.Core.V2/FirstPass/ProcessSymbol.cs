@@ -3,8 +3,7 @@ using SharpRISCV.Core.V2.FirstPass.Abstraction;
 using SharpRISCV.Core.V2.LexicalAnalysis.Abstraction;
 using SharpRISCV.Core.V2.LexicalToken;
 using SharpRISCV.Core.V2.LexicalToken.Abstraction;
-using System;
-using System.Linq;
+using SharpRISCV.Core.V2.Program.Instructions;
 using System.Text;
 
 namespace SharpRISCV.Core.V2.FirstPass
@@ -27,10 +26,7 @@ namespace SharpRISCV.Core.V2.FirstPass
                     CurrentDirective = token;
 
                 else if (IToken.IsInstruction(token))
-                    if (Setting.HasTwoBaseInstruction(token))
-                        CurrentAddress += Setting.InstructionSize * 2;
-                    else
-                        CurrentAddress += Setting.InstructionSize;
+                       CurrentAddress += Setting.InstructionSize * PseudoInstructions.Count(token);
 
                 else if (IToken.IsLabelDefinition(token) && Directives.IsText(CurrentDirective))
                 {
