@@ -73,5 +73,11 @@ namespace SharpRISCV.Core.V2.MachineCode.Generaters
                     throw new Exception($"invlid relocation function {functionName} at Line Number: {token.LineNumber}, Char: {token.StartIndex}.");
             }
         }
+
+        protected uint EffectiveAddress (int offset,int baseRegister) 
+        {
+            return (uint)(baseRegister + offset);
+        }
+
     }
 }

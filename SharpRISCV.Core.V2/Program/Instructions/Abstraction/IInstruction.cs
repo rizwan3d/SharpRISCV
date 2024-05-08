@@ -8,8 +8,8 @@ namespace SharpRISCV.Core.V2.Program.Instructions.Abstraction
         bool IsRd();
         bool IsRs1();
         bool IsRs2();
-
-        uint MachineCode { get; set; }
+        bool isPseudoInstructions();
+        ICollection<uint> MachineCodes { get; set; }
 
         InstructionType InstructionType { get; }
         IToken Token { get; }

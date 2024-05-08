@@ -100,6 +100,10 @@ namespace SharpRISCV.Core.MachineCode
             {
                 // Operand is a numeric value
             }
+            else if (Immediate.StartsWith("0x"))
+            {
+                value = Convert.ToInt32(Immediate, 16);
+            }
             else
                 throw new("Invalid Lable");
 
