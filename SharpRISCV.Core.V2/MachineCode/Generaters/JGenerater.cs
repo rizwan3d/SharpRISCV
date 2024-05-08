@@ -15,11 +15,8 @@ namespace SharpRISCV.Core.V2.MachineCode.Generaters
         {
             uint machineCode = 0;
 
-            // Calculate simm20 from the instruction's symbol and the current address
-            // simm20 is the offset from the current instruction address to the target address.
             uint targetAddress = GetIntValForImm(instruction.Rs1, symbolTable, address);
-            int offset = (int)(targetAddress - (address + Setting.InstructionSize)); // because of PC increment after execution
-            uint simm20 = (uint)offset;
+            uint simm20 = (uint)targetAddress;
 
             // Set simm20 parts in machine code:
             // - simm20[20] goes to bit 31
